@@ -33,10 +33,17 @@ RSpec.describe SessionsController, :type => :controller do
 	end
 
 	describe 'DELETE #destroy' do
-		it 'sets session[user_id] to nil' do
+		before :each do
 			post :create, email: @user.email, password: @user.password
-			delete :destroy
+			delete :destroy, id: @user.id
+		end
+
+		it 'sets session[user_id] to nil' do
 			expect(session[:user_id]).to eq nil
+		end
+
+		it 'redirects to homepage' do
+			expect(response).to redirect_to root_path
 		end
 	end
 end
