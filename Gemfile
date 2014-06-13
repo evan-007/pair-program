@@ -30,6 +30,9 @@ gem 'spring',        group: :development
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 
+#make forms easier
+gem 'simple_form'
+
 group :development, :test do
   gem 'spring-commands-rspec'
   gem 'rspec-rails'
