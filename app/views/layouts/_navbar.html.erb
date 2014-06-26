@@ -16,6 +16,7 @@
       <ul class="nav navbar-nav navbar-right">
         <% if signed_in? %>
           <li><%= link_to 'Sign out', session_path('current'), method: :delete %></li>
+          <li><%= link_to 'Profile', edit_user_path(current_user) %></li>
         <% else %>
           <li><%= link_to 'Sign up', new_user_path %></li>
           <li><%= link_to 'Sign in', new_session_path %></li>

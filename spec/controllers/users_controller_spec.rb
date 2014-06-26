@@ -33,4 +33,21 @@ RSpec.describe UsersController, :type => :controller do
 			end
 		end
 	end
+
+	describe 'GET #edit' do
+		context 'when current_user' do
+			it 'assigns current_user to User' do
+				
+			end
+
+			it 'renders the edit template' do
+			end
+		end
+
+		context 'without current_user' do
+			it 'redirect_to root' do
+				visit fail_path
+			end
+		end
+	end
 end
