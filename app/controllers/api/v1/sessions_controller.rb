@@ -8,18 +8,15 @@ module Api
 	    	@user = User.find_by(email: params[:email])
 		    if @user && @user.authenticate(params[:password])
 			    session[:user_id] = @user.id
-			    flash[:notice] = "You're logged in!"
-			    redirect_to root_path
+          render nothing: true, status: 200
 		    else
-			    flash[:notice] = "Opps, is your password correct?"
-			    render :new
+          render nothing: true, status: 401
 		    end
 	    end
 
     	def destroy
 		    session[:user_id] = nil
-		    flash[:notice] = "Signed out!"
-		    redirect_to root_path
+        render nothing: true, status: 200
 	    end
     end
   end

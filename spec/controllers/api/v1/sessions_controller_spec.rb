@@ -6,28 +6,19 @@ RSpec.describe Api::V1::SessionsController, :type => :controller do
 	end
 
 	describe 'POST #create' do
-		context 'with valid credentials' do
-			before :each do 
-				post :create, email: @user.email, password: @user.password
-			end
+		context 'with valid credentials' do 
 			it 'creates a session' do
-				expect(session[:user_id]).to eq @user.id
-			end
-			it 'redirects to the homepage' do
-				expect(response).to redirect_to root_path
+        post :create, email: @user.email, password: @user.password
+        expect(response.status).to eq 200
+        expect(session[:user_id]).to eq @user.id
 			end
 		end
 
 		context 'with invalid credentials' do
-			before do 
-				post :create, email: @user.email, password: 'notvalid'
-			end
-
 			it 'does not create a session' do
+        post :create, email: @user.email, password: 'notvalid'
 				expect(session[:user_id]).to eq nil
-			end
-			it 'renders #new' do
-				expect(response).to render_template :new
+        expect(response.status).to eq 401
 			end
 		end
 	end
@@ -35,15 +26,12 @@ RSpec.describe Api::V1::SessionsController, :type => :controller do
 	describe 'DELETE #destroy' do
 		before :each do
 			post :create, email: @user.email, password: @user.password
-			delete :destroy, id: @user.id
 		end
 
 		it 'sets session[user_id] to nil' do
+      delete :destroy, id: @user.id
+      expect(response.status).to eq 200
 			expect(session[:user_id]).to eq nil
-		end
-
-		it 'redirects to homepage' do
-			expect(response).to redirect_to root_path
 		end
 	end
 end
