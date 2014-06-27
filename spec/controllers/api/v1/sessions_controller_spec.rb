@@ -34,4 +34,18 @@ RSpec.describe Api::V1::SessionsController, :type => :controller do
 			expect(session[:user_id]).to eq nil
 		end
 	end
+  
+  describe 'GET #show' do
+    context 'with an logged-in user' do
+      before do 
+        session[:user_id] = @user.id
+      end
+      it 'returns information about current_user' do
+        get :show
+        data = JSON.parse(response.data)
+        expect(response.status).to be 200
+        expect(data["user"]).to be @user
+      end
+    end
+  end
 end
