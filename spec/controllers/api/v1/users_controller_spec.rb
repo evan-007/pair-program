@@ -54,6 +54,13 @@ RSpec.describe Api::V1::UsersController, :type => :controller do
           expect(data["user"]["username"]).to eq 'santa'
         end
       end
+      context 'with invalid params' do
+        it 'does not update the user' do
+          post :update, id: @user.id, user: attributes_for(:user, username: '')
+          expect(response.status).to be 406
+          expect(@user.username).to_not be nil
+        end
+      end
     end
 	end
 end

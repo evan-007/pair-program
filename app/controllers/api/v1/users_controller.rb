@@ -17,7 +17,7 @@ module Api
         if @user.update(user_params)
           render json: @user, status: 200
         else
-          render nothing: true, status: 400
+          render nothing: true, status: 406
         end
 	    end
 
