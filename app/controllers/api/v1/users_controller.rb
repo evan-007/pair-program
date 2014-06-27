@@ -2,9 +2,6 @@ module Api
   module V1
     class UsersController < ApplicationController
       before_action :signed_in?, only: [:edit]
-	    def new
-	  	  @user = User.new
-	    end
 
     	def create
 		    @user = User.new(user_params)
@@ -17,7 +14,7 @@ module Api
 		    end
 	    end
 
-    	def edit
+      def update
 	    end
 
     	private
