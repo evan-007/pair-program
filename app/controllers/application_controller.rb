@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
 
     def signed_in?
      unless session[:user_id]
-       redirect_to root_path
+       render nothing: true, status: 401
      end
     end
     helper_method :signed_in?

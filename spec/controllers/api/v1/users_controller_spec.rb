@@ -9,9 +9,11 @@ RSpec.describe Api::V1::UsersController, :type => :controller do
 				.to change(User, :count).by(1)
 			end
 
-			it 'redirects to root' do
+      it 'renders user' do
 				post :create, user: attributes_for(:user)
-				expect(response).to redirect_to root_path
+        data = JSON.parse(response.body)
+        expect(response.status).to eq 200
+        expect(data).to include 'user' 
 			end
 		end
 
@@ -21,31 +23,37 @@ RSpec.describe Api::V1::UsersController, :type => :controller do
 				.to_not change(User, :count)
 			end
 
-			it 'renders :new' do
+      it 'returns status 406' do
 				post :create, user: attributes_for(:user, password: '')
-				expect(response).to render_template :new
+        expect(response.status).to eq 406
 			end
 		end
 	end
 
-	describe 'GET #edit' do
+  describe 'POST #update' do
     before do
       @user = create(:user)
     end
-		context 'when current_user' do
-			it 'assigns current_user to User' do
-				
-			end
-
-			it 'renders the edit template' do
-			end
-		end
 
 		context 'without current_user' do
-			it 'redirect_to root' do
-        get :edit, id: @user.id
-        expect(response).to redirect_to root_path
+      it 'is unauthorized' do
+        post :update, id: @user.id
+        expect(response.status).to be 401
 			end
 		end
+    
+    context 'with current_user' do
+      before do
+        session[:user_id] = @user.id
+      end
+      context 'with valid params' do
+        it 'updates the user' do
+          post :update, id: @user.id, user: attributes_for(:user, username: 'santa')
+          data = JSON.parse(response.body)
+          expect(response.status).to be 200
+          expect(data["user"]["username"]).to eq 'santa'
+        end
+      end
+    end
 	end
 end
