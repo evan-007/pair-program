@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_action :signed_in?, only: [:edit]
 	def new
 		@user = User.new
 	end
@@ -15,7 +16,6 @@ class UsersController < ApplicationController
 	end
 
 	def edit
-		
 	end
 
 	private

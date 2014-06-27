@@ -35,6 +35,9 @@ RSpec.describe UsersController, :type => :controller do
 	end
 
 	describe 'GET #edit' do
+    before do
+      @user = create(:user)
+    end
 		context 'when current_user' do
 			it 'assigns current_user to User' do
 				
@@ -46,7 +49,8 @@ RSpec.describe UsersController, :type => :controller do
 
 		context 'without current_user' do
 			it 'redirect_to root' do
-				visit fail_path
+        get :edit, id: @user.id
+        expect(response).to redirect_to root_path
 			end
 		end
 	end

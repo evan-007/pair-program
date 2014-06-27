@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app=''>
+<html ng-app='PairProgram'>
 <head>
   <title>PairProgram</title>
   <%= csrf_meta_tags %>
@@ -9,6 +9,7 @@
 <div class='container'>
 	<%= render 'layouts/flash' %>
 	<%= yield %>
+  <div ng-route></div>
   <input ng-model='name'>
   <p>hello {{name}}</p>
 </div>
