@@ -20,6 +20,7 @@
     "proxy-middleware": "^0.5.0",
     "url": "^0.10.1",
     "gulp-ondemand-server": "^0.2.0",
-    "connect-modrewrite": "^0.7.6"
+    "connect-modrewrite": "^0.7.6",
+    "run-sequence": "^0.3.6"
   }
 }
