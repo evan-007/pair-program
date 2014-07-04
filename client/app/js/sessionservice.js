@@ -6,5 +6,5 @@ angular.module('ppApp')
       console.log(data);
       TokenHandler.set(data.user.token);
     });
-  }
-})
+  };
+});
