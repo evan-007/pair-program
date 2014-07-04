@@ -1,14 +1,6 @@
 module Api
   module V1
     class SessionsController < ApplicationController
-      def current
-        if session[:user_id]
-          @user = User.find(session[:user_id])
-          render json: @user, status: 200
-        else
-          render nothing: true, status: 401
-        end
-	    end
 
     	def create
 	    	@user = User.find_by(email: params[:email])
@@ -19,6 +11,7 @@ module Api
 		    end
 	    end
 
+      #api is stateless, TODO remove + spec
     	def destroy
 		    session[:user_id] = nil
         render nothing: true, status: 200

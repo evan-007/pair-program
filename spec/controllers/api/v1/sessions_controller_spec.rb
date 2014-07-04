@@ -7,10 +7,12 @@ RSpec.describe Api::V1::SessionsController, :type => :controller do
 
 	describe 'POST #create' do
 		context 'with valid credentials' do 
-			it 'creates a session' do
+			it 'returns user information' do
         post :create, email: @user.email, password: @user.password
+        data = JSON.parse(response.body)
         expect(response.status).to eq 200
-        expect(session[:user_id]).to eq @user.id
+        expect(data["user"]["username"]).to eq @user.username
+        expect(data["user"]["token"]).to eq @user.token
 			end
 		end
 
@@ -34,18 +36,4 @@ RSpec.describe Api::V1::SessionsController, :type => :controller do
 			expect(session[:user_id]).to eq nil
 		end
 	end
-  
-  describe 'GET #current' do
-    context 'with an logged-in user' do
-      before do 
-        session[:user_id] = @user.id
-      end
-      it 'returns information about current_user' do
-        get :current
-        data = JSON.parse(response.data)
-        expect(response.status).to be 200
-        expect(data["user"]).to be @user
-      end
-    end
-  end
 end

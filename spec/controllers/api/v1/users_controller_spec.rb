@@ -16,11 +16,10 @@ RSpec.describe Api::V1::UsersController, :type => :controller do
         expect(data).to include 'user' 
 			end
       
-      it 'renders username, email and token' do
+      it 'renders username and token' do
         post :create, user: attributes_for(:user, username: 'justATest', email: 'me@gmail.com', password: 'password', password_confirmation: 'password')
         data = JSON.parse(response.body)
         expect(data["user"]["username"]).to_not eq nil
-        expect(data["user"]["email"]).to_not eq nil
         expect(data["user"]["token"]).to_not eq nil
       end
 		end
