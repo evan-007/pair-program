@@ -9,12 +9,20 @@ RSpec.describe Api::V1::UsersController, :type => :controller do
 				.to change(User, :count).by(1)
 			end
 
-      it 'renders user' do
+      it 'renders the user' do
 				post :create, user: attributes_for(:user)
         data = JSON.parse(response.body)
         expect(response.status).to eq 200
         expect(data).to include 'user' 
 			end
+      
+      it 'renders username, email and token' do
+        post :create, user: attributes_for(:user, username: 'justATest', email: 'me@gmail.com', password: 'password', password_confirmation: 'password')
+        data = JSON.parse(response.body)
+        expect(data["user"]["username"]).to_not eq nil
+        expect(data["user"]["email"]).to_not eq nil
+        expect(data["user"]["token"]).to_not eq nil
+      end
 		end
 
 		context 'with invalid params' do
