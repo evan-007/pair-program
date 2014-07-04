@@ -1,9 +1,9 @@
 angular.module('ppApp')
-.factory('SessionService', function($http, TokenHandler, $rootScope){
+.factory('SessionService', function($http, CookieHandler, $rootScope){
   return function(authInfo){
     $http.post('api/v1/sessions', authInfo)
     .success(function(data){
-      TokenHandler.set(data.user.token);
+      CookieHandler.set(data.user);
       $rootScope.$broadcast('authorized', data.user.username);
     })
 		.error(function(){

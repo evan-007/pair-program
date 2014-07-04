@@ -4,15 +4,15 @@ angular.module('ppApp')
 
 	var CookieHandler = {
 		set: function(userToken){
-			$cookieStore.put('token', userToken);
+			$cookieStore.put('currentUser', userToken);
 		},
 
 		get: function(){
-			return $cookieStore.get('token');
+			return $cookieStore.get('currentUser');
 		},
 
 		delete: function(){
-			$cookieStore.remove('token');
+			$cookieStore.remove('currentUser');
 		}
 	};
 
