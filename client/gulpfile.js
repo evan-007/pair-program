@@ -18,7 +18,7 @@ gulp.task('connect', function(){
 		middleware: function() {
 			return [
 				modRewrite([
-					'^/api/(.*)$ http://localhost:3000/api/v1/$1 [P]'
+					'^/api/v1/(.*)$ http://localhost:3000/api/v1/$1 [P]'
 				])
 			];
 		}
