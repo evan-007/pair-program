@@ -1,6 +1,6 @@
 angular.module('ppApp')
 .controller('alertsCtrl', function($scope){
-	
+
 	this.alerts = [];
 	var alerts = this.alerts;
 
@@ -15,4 +15,4 @@ angular.module('ppApp')
 	$scope.closeAlert = function(index) {
 		alerts.splice(index, 1);
 	};
-})
+});

@@ -10,10 +10,11 @@
 </head>
 <body>
   <div class='container'>
-    <p>hi</p>
+
     <div ng-controller='alertsCtrl as alertCtrl'>
       <alert ng-repeat="alert in alertCtrl.alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
     </div>
+    
     <div ng-view></div>
   </div>
 	<!-- build:js ./assets/combined.js -->
