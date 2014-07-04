@@ -6,9 +6,9 @@ angular.module('ppApp')
     }
     $http.post('/api/v1/users', user).success(function(data){
       console.log(data)
-      .failure(function(data){
-        console.log(data);
-      });
+    })
+    .failure(function(data){
+      console.log(data);
     });
   }
 })

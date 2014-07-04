@@ -5,6 +5,7 @@ module Api
 
     	def create
 		    @user = User.new(user_params)
+        @user.token = SecureRandom.uuid
 		    if @user.save
           render json: @user, status: 200
 		    else
