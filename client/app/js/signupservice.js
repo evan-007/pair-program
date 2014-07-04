@@ -1,14 +1,14 @@
 angular.module('ppApp')
 .factory('SignUpService', function($http, $location){
   return function(userData){
-    var user = {
+    var newUser = {
       user : userData
     }
-    $http.post('/api/v1/users', user).success(function(data){
+    $http.post('/api/v1/users', newUser).success(function(data){
       console.log(data);
       $location.path('/');
     })
-    .failure(function(data){
+    .error(function(data){
       console.log(data);
     });
   }
