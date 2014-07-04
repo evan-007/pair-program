@@ -11,17 +11,22 @@
 <body>
   <div class='container'>
     <p>hi</p>
+    <div ng-controller='alertsCtrl as alertCtrl'>
+      <alert ng-repeat="alert in alertCtrl.alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+    </div>
     <div ng-view></div>
   </div>
 	<!-- build:js ./assets/combined.js -->
 	<script src="./bower_components/angular/angular.js"></script>
   <script src='./bower_components/angular-route/angular-route.js'></script>
+  <script src="./bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
   <script src="./js/app.js"></script>
   <script src="./signup/signup.js"></script>
   <script src="./js/signupservice.js"></script>
   <script src="./signin/signin.js"></script>
   <script src="./js/sessionservice.js"></script>
   <script src="./js/tokenhandler.js"></script>
+  <script src="./alerts/alerts.js"></script>
 	<!-- endbuild -->
 </body>
 </html>
