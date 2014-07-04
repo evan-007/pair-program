@@ -5,8 +5,8 @@ angular.module('ppApp')
   var TokenHandler = {
     set: function(v) { token = v; },
     get: function() {
-      return token
+      return token;
     }
-  }
+  };
   return TokenHandler;
-})
+});
