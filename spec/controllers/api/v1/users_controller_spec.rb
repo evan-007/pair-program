@@ -8,11 +8,6 @@ RSpec.describe Api::V1::UsersController, :type => :controller do
 				expect { post :create, user: attributes_for(:user)}
 				.to change(User, :count).by(1)
 			end
-      
-      it 'generates a token for each user' do
-        post :create, user: attributes_for(:user)
-        expect(User.last.token).to_not eq nil
-      end
 
       it 'renders user' do
 				post :create, user: attributes_for(:user)

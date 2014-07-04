@@ -9,4 +9,9 @@ class User < ActiveRecord::Base
   has_many :languages, through: :user_languages, inverse_of: :users
   
   after_validation :geocode
+  after_validation :generate_token
+  
+  def generate_token
+    self.token = SecureRandom.uuid
+  end
 end

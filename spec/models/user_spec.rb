@@ -15,4 +15,9 @@ RSpec.describe User, type: :model do
     expect(@user.latitude).to_not eq nil
     expect(@user.longitude).to_not eq nil
   end
+  
+  it 'should have a token' do
+    @user = create(:user)
+    expect(@user.token).to_not eq nil
+  end
 end
