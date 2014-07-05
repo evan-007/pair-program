@@ -3,6 +3,15 @@ module Api
     class UsersController < ApplicationController
       before_action :signed_in?, only: [:update]
 
+      def auth_test
+        @user = User.find_by(token: request.headers["token"])
+        if @user
+          render json: @user, status: 200
+        else
+          render nothing: true, status: 400
+        end
+      end
+
     	def create
 		    @user = User.new(user_params)
 		    if @user.save
