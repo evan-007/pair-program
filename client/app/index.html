@@ -11,9 +11,9 @@
 <body>
   <div class='container'>
     <div ng-controller='currentUserCtrl as currentCtrl'>
-      <div ng-if='currentCtrl.user'>
+      <div class='userInfo' ng-if='currentCtrl.user'>
         <p>Logged in as: {{currentCtrl.user.username}}</p>
-        <p ng-click="logout()">Logout</p>  
+        <p ng-click="logout()">Logout</p>
       </div>
     </div>
 

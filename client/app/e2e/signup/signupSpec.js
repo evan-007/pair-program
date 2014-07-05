@@ -1,20 +1,17 @@
-describe('Sign up page', function(){
-	it('should allow users to register a new account', function(){
-		nameInput = element(by.model('signup.username'));
-		emailInput = element(by.model('signup.email'));
-		passwordInput = element(by.model('signup.password'));
-		passwordConInput = element(by.model('signup.password_confirmation'));
-		locationInput = element(by.model('signup.location'));
-		submitButton = element(by.name('SubmitButton'));
+describe('Sign in page', function(){
+	it('should allow users to signin', function(){
+		emailInput = element(by.model('signin.email'));
+		passwordInput = element(by.model('signin.password'));
+		submitButton = element(by.name('SigninButton'));
+		alert = element(by.css('.container .userInfo p'));
 
 
-		browser.get('/#/signup');
-		nameInput.sendKeys('asdfasdf');
-		emailInput.sendKeys('asdfasdf@gmail.com');
+		browser.get('/#signin');
+		emailInput.sendKeys('test@test.com');
 		passwordInput.sendKeys('password');
-		passwordConInput.sendKeys('password');
-		locationInput.sendKeys('boston');
 		submitButton.click();
-		expect(browser.getCurrentUrl()).toMatch('/#/');
-	});
-});
+		browser.get('/');
+
+		expect(alert.getText()).toMatch(/Logged in as/);
+	})
+})
