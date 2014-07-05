@@ -4,8 +4,8 @@ module Api
       before_action :signed_in?, only: [:update]
 
       def auth_test
-        @user = User.find_by(token: request.headers["token"])
-        if @user
+        @user = User.find_by(username: request.headers["username"])
+        if @user && @user.token = request.headers["token"]
           render json: @user, status: 200
         else
           render nothing: true, status: 400
