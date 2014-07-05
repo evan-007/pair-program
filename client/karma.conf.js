@@ -24,6 +24,7 @@ module.exports = function(config) {
       './app/js/*.js',
       './app/signin/*.js',
       './app/signup/*.js',
+      './app/currentuser/*.js',
     ],
 
 

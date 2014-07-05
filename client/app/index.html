@@ -10,6 +10,12 @@
 </head>
 <body>
   <div class='container'>
+    <div ng-controller='currentUserCtrl as currentCtrl'>
+      <div ng-if='currentCtrl.user'>
+        <p>Logged in as: {{currentCtrl.user.username}}</p>
+        <p ng-click="logout()">Logout</p>  
+      </div>
+    </div>
 
     <div ng-controller='alertsCtrl as alertCtrl'>
       <alert ng-repeat="alert in alertCtrl.alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
@@ -30,6 +36,7 @@
   <script src="./js/tokenhandler.js"></script>
   <script src="./alerts/alerts.js"></script>
   <script src="./js/cookiehandler.js"></script>
+  <script src="./currentuser/currentuser.js"></script>
 	<!-- endbuild -->
 </body>
 </html>

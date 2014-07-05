@@ -1,10 +1,10 @@
 angular.module('ppApp')
 .factory('CookieHandler', function($cookieStore){
-	var cookie = null;
+	var user = null;
 
 	var CookieHandler = {
-		set: function(userToken){
-			$cookieStore.put('currentUser', userToken);
+		set: function(user){
+			$cookieStore.put('currentUser', user);
 		},
 
 		get: function(){
