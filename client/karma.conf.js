@@ -22,22 +22,23 @@ module.exports = function(config) {
       './app/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
       './app/bower_components/angular-cookies/angular-cookies.js',
       './app/js/*.js',
-      './app/signin/*.js',
-      './app/signup/*.js',
-      './app/currentuser/*.js',
+      './app/**/*.js'
     ],
 
 
     // list of files to exclude
     exclude: [
-      
+      './app/e2e/**/**',
+      './app/bower_components/jquery/**',
+      './app/bower_components/bootstrap/**'
+
     ],
 
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-    
+
     },
 
 
