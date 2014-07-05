@@ -5,8 +5,12 @@ angular.module('ppApp')
     controller: 'signinCtrl as signin'
   });
 })
-.controller('signinCtrl', function($scope, SessionService){
+.controller('signinCtrl', function($scope, SessionService, $http){
   $scope.newSession = function(authInfo){
     SessionService(authInfo);
+  };
+
+  $scope.auth_test = function(){
+    $http.get('/api/v1/users/auth_test');
   };
 });
