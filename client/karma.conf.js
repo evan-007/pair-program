@@ -30,8 +30,8 @@ module.exports = function(config) {
     exclude: [
       './app/e2e/**/**',
       './app/bower_components/jquery/**',
-      './app/bower_components/bootstrap/**'
-
+      './app/bower_components/bootstrap/**',
+      './app/bower_components/angular/angular.min.js',
     ],
 
 
