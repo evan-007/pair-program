@@ -39,6 +39,9 @@ gem "active_model_serializers"
 #make forms easier
 #gem 'simple_form'
 
+#seed data
+gem 'faker'
+
 group :development, :test do
   gem 'spring-commands-rspec'
   gem 'rspec-rails'
@@ -57,4 +60,3 @@ end
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
-
