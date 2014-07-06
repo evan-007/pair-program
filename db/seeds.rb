@@ -14,10 +14,16 @@ end
 User.create(username: 'test', email: 'test@test.com', password: 'password',
   password_confirmation: 'password', location: 'Paris France')
 
+#depends on active network for geocoding
 50.times do |n|
   username = Faker::Internet.user_name
   email = Faker::Internet.email
   pass = Faker::Internet.password
   User.create(username: "#{username}#{n}", email: "#{username}#{n}@faker.com",
   password: pass, password_confirmation: pass, location: Faker::Address.country)
+end
+
+User.all.each do |user|
+  user_languages = Language.all.shuffle.take(rand(3))
+  user.update(languages: user_languages)
 end
