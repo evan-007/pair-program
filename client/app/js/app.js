@@ -1,4 +1,10 @@
-angular.module('ppApp', ['ngRoute', 'ui.bootstrap', 'ngCookies'])
+//ui maps needs this
+function onGoogleReady() {
+  angular.bootstrap(document.getElementById("map"), ['ppApp']);
+}
+
+
+angular.module('ppApp', ['ngRoute', 'ui.bootstrap', 'ngCookies', 'ui.map'])
 .config(function($httpProvider){
   $httpProvider.interceptors.push('SessionInjector');
 })
