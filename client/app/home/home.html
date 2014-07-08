@@ -6,3 +6,13 @@
   <a href="#/signin">Signin</a>
 </p>
 <p>this is the home view</p>
+
+<google-map center="map.center" zoom="map.zoom">
+  <markers>
+
+  </markers>
+</google-map>
+
+<p ng-repeat="user in users">
+  {{user.username}}
+</p>
