@@ -1,6 +1,3 @@
-<p ng-model="users">
-  {{users}}
-</p>
 <p>
   <a href="#/signup">Signup</a>
 </p>
@@ -9,8 +6,7 @@
 </p>
 <p>this is the home view</p>
 
-<google-map center="map.center" zoom="map.zoom">
-  <markers>
-
-  </markers>
+<google-map center="map.center" zoom="map.zoom" draggable='true'>
+  <marker ng-repeat="user in users" coords='user' click='sayHi(user.username)'>
+  </marker>
 </google-map>

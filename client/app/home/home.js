@@ -11,9 +11,12 @@ angular.module('ppApp').config(function($routeProvider){
   $scope.users = MapUsers;
   $scope.map = {
       center: {
-          latitude: 45,
-          longitude: -73
+          latitude: 50,
+          longitude: 0
       },
-      zoom: 8
+      zoom: 2
   };
+  $scope.sayHi = function(name){
+    console.log("Hi "+name);
+  }
 })
