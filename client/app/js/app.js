@@ -1,9 +1,4 @@
 angular.module('ppApp', ['ngRoute', 'ui.bootstrap', 'ngCookies'])
-.config(function($routeProvider){
-  $routeProvider.when('/', {
-    templateUrl: 'home/home.html'
-  });
-})
 .config(function($httpProvider){
   $httpProvider.interceptors.push('SessionInjector');
 })
@@ -12,4 +7,5 @@ angular.module('ppApp', ['ngRoute', 'ui.bootstrap', 'ngCookies'])
 		//setCurrent user
 		console.log(CookieHandler.get());
 	}
-});
+})
+.constant('MAPUSERS', '/api/v1/users')
