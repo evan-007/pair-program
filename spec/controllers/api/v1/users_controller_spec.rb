@@ -44,14 +44,15 @@ RSpec.describe Api::V1::UsersController, :type => :controller do
 
 		context 'without current_user' do
       it 'is unauthorized' do
-        post :update, id: @user.id
-        expect(response.status).to be 401
+        post :update, id: @user.id, user: attributes_for(:user, username: 'update')
+        expect(response.status).to be 406
 			end
 		end
     
     context 'with current_user' do
-      before do
-        session[:user_id] = @user.id
+      before do 
+        request.headers["username"] = @user.username
+        request.headers["token"] = @user.token
       end
       context 'with valid params' do
         it 'updates the user' do
@@ -70,4 +71,21 @@ RSpec.describe Api::V1::UsersController, :type => :controller do
       end
     end
 	end
+  
+  describe 'GET #index' do
+    before do
+      @user1 = create(:user)
+      @user2 = create(:user)
+      @user3 = create(:user)
+      @users = (MapUserSerializer.new(User.all))
+    end
+    
+    it 'renders an array of all users' do
+      #this is a terrible test
+      get :index
+      data = JSON.parse(response.body)
+      expect(response.status).to be 200
+      expect(data["users"][0]["latitude"]).to eq @user1.latitude
+    end
+  end
 end

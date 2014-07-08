@@ -32,6 +32,8 @@ class ApplicationController < ActionController::Base
      @user = User.find_by(username: request.headers["username"])
      if @user && @user.token = request.headers["token"]
        true
+     else
+       render nothing: true, status: 406
      end
     end
     helper_method :signed_in?

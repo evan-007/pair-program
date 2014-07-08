@@ -29,6 +29,11 @@ module Api
           render nothing: true, status: 406
         end
 	    end
+      
+      def index
+        @users = User.all
+        render json: @users, each_serializer: MapUserSerializer, status: 200
+      end
 
     	private
 	      def user_params
