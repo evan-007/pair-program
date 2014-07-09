@@ -21,6 +21,8 @@ User.create(username: 'test', email: 'test@test.com', password: 'password',
   pass = Faker::Internet.password
   User.create(username: "#{username}#{n}", email: "#{username}#{n}@faker.com",
   password: pass, password_confirmation: pass, location: Faker::Address.country)
+  #sleep to prevent API rate limit
+  sleep(rand(2))
 end
 
 User.all.each do |user|

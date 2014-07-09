@@ -7,6 +7,5 @@
 <p>this is the home view</p>
 
 <google-map center="map.center" zoom="map.zoom" draggable='true'>
-  <marker ng-repeat="user in users" coords='user' click='sayHi(user.username)'>
-  </marker>
+  <markers models='users' coords="'self'"></markers>
 </google-map>
