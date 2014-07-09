@@ -1,4 +1,4 @@
-= README
+#README
 
 `clone` and `bundle install && rake db:create db:migrate db:seed`
 
