@@ -1,5 +1,5 @@
 angular.module('ppApp')
-.factory('CookieHandler', function($cookieStore){
+.factory('CookieHandler', function($cookieStore, $rootScope){
 	var user = null;
 
 	var CookieHandler = {
@@ -11,8 +11,9 @@ angular.module('ppApp')
 			return $cookieStore.get('currentUser');
 		},
 
-		delete: function(){
+		delete: function(user){
 			$cookieStore.remove('currentUser');
+			$rootScope.$broadcast('logout');
 		}
 	};
 

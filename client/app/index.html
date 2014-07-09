@@ -9,15 +9,9 @@
 	<!-- endbuild -->
 </head>
 <body>
-  
+
   <navbar></navbar>
 	<div class='container'>
-    <div ng-controller='currentUserCtrl as currentCtrl'>
-      <div class='userInfo' ng-if='currentCtrl.user'>
-        <p>Logged in as: {{currentCtrl.user.username}}</p>
-        <p ng-click="logout()">Logout</p>
-      </div>
-    </div>
 
     <div ng-controller='alertsCtrl as alertCtrl'>
       <alert ng-repeat="alert in alertCtrl.alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>

@@ -9,7 +9,11 @@ angular.module('ppApp')
 	});
 
 	$scope.$on('authorized', function(event, data){
-		alerts.push({type: 'success', msg: 'Logged in as '+data});
+		alerts.push({type: 'success', msg: 'What\'s up '+data});
+	});
+
+	$scope.$on('logout', function(event, data){
+		alerts.push({type: 'success', msg: 'Later!'});
 	});
 
 	$scope.closeAlert = function(index) {
