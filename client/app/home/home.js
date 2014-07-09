@@ -16,7 +16,4 @@ angular.module('ppApp').config(function($routeProvider){
       },
       zoom: 2
   };
-  $scope.sayHi = function(name){
-    console.log("Hi "+name);
-  }
 })
