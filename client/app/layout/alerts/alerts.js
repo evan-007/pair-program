@@ -19,4 +19,10 @@ angular.module('ppApp')
 	$scope.closeAlert = function(index) {
 		alerts.splice(index, 1);
 	};
-});
+})
+.directive('alerts', function(){
+  return {
+    restrict: 'E',
+    templateUrl: './layout/alerts/alerts.html'
+  }
+})

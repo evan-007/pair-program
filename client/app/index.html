@@ -12,10 +12,14 @@
 
   <navbar></navbar>
 	<div class='container'>
-
-    <div ng-controller='alertsCtrl as alertCtrl'>
-      <alert ng-repeat="alert in alertCtrl.alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+    <div ng-controller='currentUserCtrl as currentCtrl'>
+      <div class='userInfo' ng-if='currentCtrl.user'>
+        <p>Logged in as: {{currentCtrl.user.username}}</p>
+        <p ng-click="logout()">Logout</p>
+      </div>
     </div>
+    
+    <alerts></alerts>
 
     <div ng-view></div>
 
@@ -38,10 +42,10 @@
 	<script src="./home/home.js"></script>
   <script src="./js/sessionservice.js"></script>
   <script src="./js/tokenhandler.js"></script>
-  <script src="./alerts/alerts.js"></script>
   <script src="./js/cookiehandler.js"></script>
   <script src="./currentuser/currentuser.js"></script>
-  <script src="./layout/navbar.js"></script>
+  <script src="./layout/navbar/navbar.js"></script>
+  <script src="./layout/alerts/alerts.js"></script>
 	<!-- endbuild -->
 </body>
 </html>

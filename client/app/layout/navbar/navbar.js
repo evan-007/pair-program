@@ -2,7 +2,7 @@ angular.module('ppApp')
 .directive('navbar', function(){
   return {
     restrict: 'E',
-    templateUrl: 'layout/navbar.html',
+    templateUrl: './layout/navbar/navbar.html',
     controller: 'navCtrl'
   }
 })
