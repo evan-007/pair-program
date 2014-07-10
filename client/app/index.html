@@ -12,13 +12,7 @@
 
   <navbar></navbar>
 	<div class='container'>
-    <div ng-controller='currentUserCtrl as currentCtrl'>
-      <div class='userInfo' ng-if='currentCtrl.user'>
-        <p>Logged in as: {{currentCtrl.user.username}}</p>
-        <p ng-click="logout()">Logout</p>
-      </div>
-    </div>
-    
+        
     <alerts></alerts>
 
     <div ng-view></div>

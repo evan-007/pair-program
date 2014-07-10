@@ -3,7 +3,7 @@ angular.module('ppApp')
   return function(userId){
     var defer = $q.defer();
     $http.get('/api/v1/users/profile/'+userId).success(function(data){
-      defer.resolve(data);
+      defer.resolve(data.user_profile);
     });
     return defer.promise;
   }

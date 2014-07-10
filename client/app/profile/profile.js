@@ -2,17 +2,16 @@ angular.module('ppApp')
 .config(function($routeProvider){
   $routeProvider.when('/profile', {
     templateUrl: 'profile/profile.html',
-    controller: 'profileCtrl',
+    controller: 'profileCtrl as profile',
     resolve: {
-      User: function(ProfileService, CookieHandler){
+      ProfileData: function(ProfileService, CookieHandler){
         var id = CookieHandler.get().id;
-        ProfileService(id).then(function(data){
-          return data
-        });
+        return ProfileService(id);
       }
     }
   });
 })
-.controller('profileCtrl', function(User){
-  this.user = User;
+.controller('profileCtrl', function(ProfileData){
+  this.user = ProfileData;
+  console.log(ProfileData);
 })
