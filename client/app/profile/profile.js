@@ -5,8 +5,7 @@ angular.module('ppApp')
     controller: 'profileCtrl as profile',
     resolve: {
       ProfileData: function(ProfileService, CookieHandler){
-        var id = CookieHandler.get().id;
-        return ProfileService(id);
+        return ProfileService();
       }
     }
   });
