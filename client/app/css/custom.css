@@ -1,1 +1,10 @@
+.animate-view {
+  width: auto;
+}
+
+.animate-view.ng-enter {
+  -webkit-animation: fadeInLeft 0.5s;
+  animation: fadeInLeft 0.5s;
+}
+
 .angular-google-map-container { height: 400px; }
