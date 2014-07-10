@@ -7,7 +7,7 @@ angular.module('ppApp').config(function($routeProvider){
       }
     }
   })
-}).controller('homeCtrl', function($scope, MapUsers){
+}).controller('homeCtrl', function($scope, $filter, MapUsers){
   $scope.users = MapUsers;
   $scope.map = {
       center: {
@@ -16,4 +16,10 @@ angular.module('ppApp').config(function($routeProvider){
       },
       zoom: 2
   };
+  $scope.$watch('language', function(language){
+    $scope.filteredUsers = $filter("filter")($scope.users, language);
+    if (!$scope.filteredUsers){
+      return;
+    }
+  });
 })
