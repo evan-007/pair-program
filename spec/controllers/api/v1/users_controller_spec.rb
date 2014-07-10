@@ -95,12 +95,16 @@ RSpec.describe Api::V1::UsersController, :type => :controller do
     end
     
     context 'as an authorized user' do
+      before do
+        request.headers["username"] = @user.username
+        request.headers["token"] = @user.token
+      end
       it 'returns user information' do
         get :profile, id: @user.id
         data = JSON.parse(response.body)
         expect(response.status).to be 200
-        expect(data["user"]["username"]).to eq @user.username
-        expect(data["user"]["token"]).to eq nil
+        expect(data["user_profile"]["username"]).to eq @user.username
+        expect(data["user_profile"]["token"]).to eq nil
       end
     end
     

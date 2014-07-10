@@ -36,7 +36,8 @@ module Api
       end
       
       def profile
-        @user = User
+        @user = current_user
+        render json: @user, serializer: UserProfileSerializer, status: 200
       end
 
     	private
