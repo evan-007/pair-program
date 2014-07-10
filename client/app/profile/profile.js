@@ -12,5 +12,4 @@ angular.module('ppApp')
 })
 .controller('profileCtrl', function(ProfileData){
   this.user = ProfileData;
-  console.log(ProfileData);
 })

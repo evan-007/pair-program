@@ -6,7 +6,7 @@ angular.module('ppApp')
     controller: 'navCtrl'
   }
 })
-.controller('navCtrl', function(CookieHandler, $scope){
+.controller('navCtrl', function(CookieHandler, $location, $scope){
   // this works, but doesn't update when CookieHandler.get() changes
   // $scope.user = CookieHandler.get();
   $scope.user = CookieHandler.get();
@@ -23,9 +23,8 @@ angular.module('ppApp')
     }
   );
 
-
-  console.log(CookieHandler.get());
   $scope.logout = function(){
     CookieHandler.delete();
+    $location.path('/')
   }
 })
