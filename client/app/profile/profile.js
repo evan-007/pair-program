@@ -4,14 +4,15 @@ angular.module('ppApp')
     templateUrl: 'profile/profile.html',
     controller: 'profileCtrl',
     resolve: {
-      user: function(ProfileService){
-        ProfileService.then(function(data){
+      User: function(ProfileService, CookieHandler){
+        var id = CookieHandler.get().id;
+        ProfileService(id).then(function(data){
           return data
         });
       }
     }
   });
 })
-.controller('profileCtrl', function(user){
-  this.user = user;
+.controller('profileCtrl', function(User){
+  this.user = User;
 })
