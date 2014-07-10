@@ -1,8 +1,7 @@
 <div class='row'>
   <div class='col-md-12'>
-    <h2>Make Friends</h2>
-    <h3>Build Stuff</h3>
-    <h4>Learn</h4>
+    <h2 ng-if="q === undefined">Make Friends & Program Together</h2>
+    <h2 ng-if="q === 'Ruby'">programming_buddies ? (build_stuff && learn) : make_friends</h2>
     <p>
       Pair program in:<select ng-model="q">
       <option value="Ruby">Ruby</option>
