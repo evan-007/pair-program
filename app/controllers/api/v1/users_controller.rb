@@ -1,7 +1,7 @@
 module Api
   module V1
     class UsersController < ApplicationController
-      before_action :signed_in?, only: [:update]
+      before_action :signed_in?, only: [:update, :profile]
 
       def auth_test
         @user = User.find_by(username: request.headers["username"])
@@ -33,6 +33,10 @@ module Api
       def index
         @users = User.all
         render json: @users, each_serializer: MapUserSerializer, status: 200
+      end
+      
+      def profile
+        @user = User
       end
 
     	private

@@ -94,12 +94,21 @@ RSpec.describe Api::V1::UsersController, :type => :controller do
       @user = create(:user)
     end
     
-    it 'returns user information' do
-      get :profile, id: @user.id
-      data = JSON.parse(response.body)
-      expect(response.status).to be 200
-      expect(data["user"]["username"]).to eq @user.username
-      expect(data["user"]["token"]).to eq nil
+    context 'as an authorized user' do
+      it 'returns user information' do
+        get :profile, id: @user.id
+        data = JSON.parse(response.body)
+        expect(response.status).to be 200
+        expect(data["user"]["username"]).to eq @user.username
+        expect(data["user"]["token"]).to eq nil
+      end
+    end
+    
+    context 'as an unauthorized user' do
+      it 'returns status unauthorized' do
+        get :profile, id: @user.id
+        expect(response.status).to be 406
+      end
     end
   end
 end
