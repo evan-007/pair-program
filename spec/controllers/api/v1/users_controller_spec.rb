@@ -88,4 +88,18 @@ RSpec.describe Api::V1::UsersController, :type => :controller do
       expect(data["users"][0]["latitude"]).to eq @user1.latitude
     end
   end
+  
+  describe 'GET #profile' do
+    before do
+      @user = create(:user)
+    end
+    
+    it 'returns user information' do
+      get :profile, id: @user.id
+      data = JSON.parse(response.body)
+      expect(response.status).to be 200
+      expect(data["user"]["username"]).to eq @user.username
+      expect(data["user"]["token"]).to eq nil
+    end
+  end
 end
