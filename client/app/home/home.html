@@ -1,13 +1,11 @@
 <div class='row'>
   <div class='col-md-12'>
+    <h2>Make Friends</h2>
+    <h3>Build Stuff</h3>
+    <h4>Learn</h4>
     <p>
-      <a href="#/signup">Signup</a>
-    </p>
+      Pair program with:<select ng-model="q"></select>
     <p>
-      <a href="#/signin">Signin</a>
-    </p>
-    <p>this is the home view</p>
-
     <google-map center="map.center" zoom="map.zoom" draggable='true'>
       <markers models='users' coords="'self'"></markers>
     </google-map>
