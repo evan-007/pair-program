@@ -4,10 +4,14 @@
     <h3>Build Stuff</h3>
     <h4>Learn</h4>
     <p>
-      Pair program with:<select ng-model="q"></select>
+      Pair program in:<select ng-model="q">
+      <option value="Ruby">Ruby</option>
+      <option value="Python">Python</option>
+      <option value="Javascript">Javascript</option>
+      </select>
     <p>
     <google-map center="map.center" zoom="map.zoom" draggable='true'>
-      <markers models='users' coords="'self'"></markers>
+      <markers models="users" coords="'self'"></markers>
     </google-map>
   </div>
 </div>
