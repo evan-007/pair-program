@@ -45,7 +45,7 @@ RSpec.describe Api::V1::UsersController, :type => :controller do
 		context 'without current_user' do
       it 'is unauthorized' do
         post :update, id: @user.id, user: attributes_for(:user, username: 'update')
-        expect(response.status).to be 406
+        expect(response.status).to be 401
 			end
 		end
     
@@ -100,7 +100,7 @@ RSpec.describe Api::V1::UsersController, :type => :controller do
         request.headers["token"] = @user.token
       end
       it 'returns user information' do
-        get :profile, id: @user.id
+        get :profile
         data = JSON.parse(response.body)
         expect(response.status).to be 200
         expect(data["user_profile"]["username"]).to eq @user.username
@@ -111,7 +111,7 @@ RSpec.describe Api::V1::UsersController, :type => :controller do
     context 'as an unauthorized user' do
       it 'returns status unauthorized' do
         get :profile, id: @user.id
-        expect(response.status).to be 406
+        expect(response.status).to be 401
       end
     end
   end

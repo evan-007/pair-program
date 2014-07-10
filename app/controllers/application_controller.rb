@@ -33,7 +33,7 @@ class ApplicationController < ActionController::Base
      if @user && @user.token = request.headers["token"]
        true
      else
-       render nothing: true, status: 406
+       render nothing: true, status: 401
      end
     end
     helper_method :signed_in?
