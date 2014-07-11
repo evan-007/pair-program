@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       get '/users/profile', to: 'users#profile'
       
       resources :sessions, only: [:create, :destroy]
+      resources :languages, only: [:index]
     end
   end
 end

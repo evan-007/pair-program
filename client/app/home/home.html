@@ -1,7 +1,9 @@
 <div class='row'>
   <div class='col-md-12'>
-    <h2 ng-if="q === undefined">Make Friends & Program Together</h2>
-    <h2 ng-if="q === 'Ruby'">programming_buddies ? (build_stuff && learn) : make_friends</h2>
+    <h2 ng-if="language === undefined">Make Friends & Program Together</h2>
+    <h2 ng-if="language === 'Python">Make Friends & Program Together</h2>
+    <h2 ng-if="language === 'Ruby'">programming_buddies ? (build_stuff && learn) : make_friends</h2>
+    <h2 ng-if="language === 'Javascript'">programmingBuddies() ? (buildStuff() && learn()) : makeFriends()</h2>
     <p>
       Pair program in:<select ng-model="language">
       <option value="Ruby">Ruby</option>
