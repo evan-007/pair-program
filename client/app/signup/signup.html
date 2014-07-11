@@ -21,9 +21,7 @@
     <input type="text" ng-model="signup.location">
   </p>
   <p>
-    <label>Languages</label>
-    <multi-select input-model='languages' button-label='name' item-label='name' 
-                  tick-property='selected' output-model='signup.language_ids' ></multi-select>
+    <label>Languages</label><select multiple ng-model='signup.language_ids' ng-options='l.id as l.name for l in languages'></select>
   </p>
   <p>
     <input type="submit" value="Sign up" name="SubmitButton">

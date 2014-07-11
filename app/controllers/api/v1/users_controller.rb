@@ -31,7 +31,7 @@ module Api
 	    end
       
       def index
-        @users = User.all
+        @users = User.includes(:languages)
         render json: @users, each_serializer: MapUserSerializer, status: 200
       end
       
@@ -43,7 +43,7 @@ module Api
     	private
 	      def user_params
 	  	    params.require(:user).permit(:email, :password, :password_confirmation,
-	  		    :username, :location)
+            :username, :location, language_ids: [])
 	      end
     end
   end
