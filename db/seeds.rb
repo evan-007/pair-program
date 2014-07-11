@@ -12,7 +12,7 @@ languages.each do |l|
 end
 
 User.create(username: 'test', email: 'test@test.com', password: 'password',
-  password_confirmation: 'password', location: 'Paris France')
+  password_confirmation: 'password', location: 'Paris France', languages: [Language.first, Language.last])
 
 #depends on active network for geocoding
 50.times do |n|
