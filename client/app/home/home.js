@@ -12,6 +12,7 @@ angular.module('ppApp').config(function($routeProvider){
 }).controller('homeCtrl', function($scope, $filter, MapUsers, Languages){
   $scope.users = MapUsers;
   $scope.languages = Languages;
+  $scope.language = $scope.languages[0];
   console.log(Languages);
   $scope.map = {
       center: {
