@@ -46,7 +46,9 @@ gulp.task('usemin', function() {
 });
 
 gulp.task('copy-html-files', function() {
-  gulp.src(['./app/**/*.html', '!./app/index.html'], {base: './app'})
+  gulp.src(['./app/**/*.html', '!./app/index.html',
+	'!./app/bower_components/angular-google-maps/example/*.html'],
+	 {base: './app'})
     .pipe(gulp.dest('../public/'));
 });
 
