@@ -13,7 +13,6 @@ angular.module('ppApp').config(function($routeProvider){
   $scope.users = MapUsers;
   $scope.languages = Languages;
   $scope.language = $scope.languages[0];
-  console.log(Languages);
   $scope.map = {
       center: {
           latitude: 50,
