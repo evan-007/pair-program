@@ -1,0 +1,12 @@
+<div class='row'>
+  <div class='col-md-12'>
+    <h2>Make Friends & Program Together</h2>
+    <p>
+      Pair program in:<select ng-model="language" ng-options="l.name for l in languages">
+      </select>
+    </p>
+    <google-map center="map.center" zoom="map.zoom" draggable='true'>
+      <markers models="filteredUsers" coords="'self'"></markers>
+    </google-map>
+  </div>
+</div>

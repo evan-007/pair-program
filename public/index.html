@@ -1,12 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app='ppApp'>
 <head>
 	<meta charset="UTF-8">
 	<title>Angular Rails</title>
-	<link rel="stylesheet" href="./assets/combined-d41d8cd9.css"/>
+	<link rel="stylesheet" href="./assets/combined-a4ca2e7c.css"/>
+  <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
-	hihi
-	<script src="./assets/combined-2721d5f9.js"></script>
+
+  <navbar></navbar>
+	<div class='container'>
+
+    <alerts></alerts>
+
+    <div ng-view class='animate-view'></div>
+
+  </div><!--container-->
+	<script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+
+	<script src="./assets/combined-1c481645.js"></script>
 </body>
 </html>

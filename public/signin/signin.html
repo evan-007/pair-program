@@ -1,0 +1,15 @@
+<p><button ng-click='useTest()'>Use test account</button></p>
+<form nonvalidate ng-submit="newSession(signin)">
+  <p>
+    <label>Email</label>
+    <input type="email" ng-model="signin.email">
+  </p>
+  <p>
+    <label>Password</label>
+    <input type="password" ng-model="signin.password">
+  </p>
+  <p>
+    <input type="submit" name='SigninButton' value="Sign in">
+  </p>
+</form>
+<button ng-click='auth_test()'>Test token</button>

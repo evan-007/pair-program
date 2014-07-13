@@ -1,0 +1,32 @@
+<p>this is the signup view</p>
+<form nonvalidate ng-submit="submit(signup)">
+  <p>
+    <label>Username</label>
+    <input type="text" ng-model="signup.username">
+  </p>
+  <p>
+    <label>Email</label>
+    <input type="email" ng-model="signup.email">
+  </p>
+  <p>
+    <label>Password</label>
+    <input type="password" ng-model="signup.password">
+  </p>
+  <p>
+    <label>Password Confirmation</label>
+    <input type="password" ng-model="signup.password_confirmation">
+  </p>
+  <p>
+    <label>Location</label>
+    <input type="text" ng-model="signup.location">
+  </p>
+  <p>
+    <label>Languages</label><select multiple ng-model='signup.language_ids' ng-options='l.id as l.name for l in languages'></select>
+  </p>
+  <p>
+    <input type="submit" value="Sign up" name="SubmitButton">
+  </p>
+</form>
+
+<p ng-model='signup'>{{signup}}</p>
+
