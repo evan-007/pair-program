@@ -4,7 +4,7 @@ Rails.application.routes.draw do
       resources :users, only: [:index, :create, :update]
       get '/users/auth_test', to: 'users#auth_test'
       get '/users/profile', to: 'users#profile'
-      
+
       resources :sessions, only: [:create, :destroy]
       resources :languages, only: [:index]
     end
