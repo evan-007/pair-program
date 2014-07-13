@@ -2,9 +2,10 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
 
-  #very dangerous
+  #very dangerous, remove in production
   skip_before_filter :verify_authenticity_token
-
+  
+  #uncomment this and change app_config.yml in production
   #protect_from_forgery with: :null_session
 
   before_filter :set_cors_headers
