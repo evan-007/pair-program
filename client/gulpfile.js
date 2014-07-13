@@ -54,3 +54,5 @@ gulp.task('build', function() {
   runSequence('clean',
     ['copy-html-files', 'usemin']);
 });
+
+gulp.task('default', ['connect']);
