@@ -37,10 +37,10 @@ gulp.task('format-js', function(){
 });
 
 gulp.task('usemin', function() {
-	return gulp.src('./app/index.html')
+	gulp.src('./app/index.html')
 	.pipe(usemin({
 		css: [minifyCss(), 'concat', rev()],
-		js: [uglify(), rev()]
+		js: [rev()]
 	}))
 	.pipe(gulp.dest('../public/'));
 });
