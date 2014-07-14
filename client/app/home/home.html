@@ -6,7 +6,11 @@
       </select>
     </p>
     <google-map center="map.center" zoom="map.zoom" draggable='true'>
-      <markers models="filteredUsers" coords="'self'"></markers>
+      <markers models="filteredUsers" coords="'self'">
+        <windows>
+          <p  ng-non-bindable>{{username}}</p>
+        </windows>
+      </markers>
     </google-map>
   </div>
 </div>
