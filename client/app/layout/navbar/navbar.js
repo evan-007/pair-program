@@ -7,8 +7,6 @@ angular.module('ppApp')
   }
 })
 .controller('navCtrl', function(CookieHandler, $location, $scope){
-  // this works, but doesn't update when CookieHandler.get() changes
-  // $scope.user = CookieHandler.get();
   $scope.user = CookieHandler.get();
 
   $scope.$watch(
