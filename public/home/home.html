@@ -5,7 +5,7 @@
       Pair program in:<select ng-model="language" ng-options="l.name for l in languages">
       </select>
     </p>
-    <google-map center="map.center" zoom="map.zoom" draggable='true'>
+    <google-map center="map.center" zoom="map.zoom" draggable='true' options='map.options'>
       <markers models="filteredUsers" coords="'self'">
         <windows>
           <p  ng-non-bindable>{{username}}</p>
