@@ -11,7 +11,6 @@ angular.module('ppApp').config(function($routeProvider){
   })
 }).controller('homeCtrl', function($scope, $filter, MapUsers, Languages){
   $scope.users = MapUsers;
-  console.log(MapUsers);
   $scope.languages = Languages;
   $scope.language = $scope.languages[0];
   $scope.map = {
