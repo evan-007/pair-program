@@ -10,10 +10,6 @@ angular.module('ppApp')
     SessionService(authInfo);
   };
 
-  $scope.auth_test = function(){
-    $http.get('/api/v1/users/auth_test');
-  };
-  
   $scope.useTest = function(){
     $scope.signin.email = 'test@test.com';
     $scope.signin.password = 'password';
