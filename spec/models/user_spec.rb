@@ -16,6 +16,11 @@ RSpec.describe User, type: :model do
     expect(@user.longitude).to_not eq nil
   end
   
+  it 'should hash email after validation' do
+    @user = create(:user)
+    expect(@user.gravatar_hash).to_not eq nil
+  end
+  
   it 'should have a token' do
     @user = create(:user)
     expect(@user.token).to_not eq nil

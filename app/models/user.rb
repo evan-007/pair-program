@@ -10,9 +10,19 @@ class User < ActiveRecord::Base
 
   after_validation :geocode
   after_validation :ensure_token
+  after_validation :generate_gravatar
 
   def ensure_token
     self.token = generate_token
+  end
+  
+  #store hashed email in db so don't have to send all user emails
+  #to angular for privacy protection
+  def generate_gravatar
+    #unless is to make shoulda validations pass
+    unless self.email == nil
+      self.gravatar_hash = Digest::MD5.hexdigest(self.email)
+    end
   end
 
   private

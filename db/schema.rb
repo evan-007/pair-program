@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140704055844) do
+ActiveRecord::Schema.define(version: 20140715071235) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(version: 20140704055844) do
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
     t.string   "token"
+    t.string   "gravatar_hash"
   end
 
 end
