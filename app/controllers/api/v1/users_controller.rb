@@ -23,7 +23,7 @@ module Api
 
       def index
         @users = User.includes(:languages)
-        render json: @users, each_serializer: MapUserSerializer, status: 200
+        render json: @users, each_serializer: PublicUserSerializer, status: 200
       end
 
       def profile
