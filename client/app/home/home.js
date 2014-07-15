@@ -22,8 +22,5 @@ angular.module('ppApp').config(function($routeProvider){
   };
   $scope.$watch('language', function(language){
     $scope.filteredUsers = $filter("filter")($scope.users, language.name);
-    if (!$scope.filteredUsers){
-      return;
-    }
   });
 })
