@@ -1,1 +1,10 @@
 This is the dashboard.
+
+<!-- read this: http://stackoverflow.com/questions/10816073/how-to-do-paging-in-angularjs -->
+<div>
+  <p>There are {{totalUsers}} users total.</p>
+  <ul>
+    <li ng-repeat='user in users'>{{user.username}}</li>
+  </ul>
+  <pagination ng-model='currentPage' total-items='totalUsers'></pagination>
+</div>
