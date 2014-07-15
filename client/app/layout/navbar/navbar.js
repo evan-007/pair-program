@@ -14,7 +14,7 @@ angular.module('ppApp')
   $scope.$watch(
     function(){
       var user = CookieHandler.get();
-      return (typeof user === 'undefined') ? 0 : user.id;
+      return (user == null) ? 0 : user.id;
     },
     function(newValue, oldValue) {
       if( newValue !== oldValue) {
