@@ -2,8 +2,8 @@ angular.module('ppApp').config(function($routeProvider){
   $routeProvider.when('/', {
     templateUrl: 'home/home.html',
     controller: 'homeCtrl',
-    resolve: { MapUsers: function(MapData){
-        return MapData();
+    resolve: { MapUsers: function(PublicUserData){
+        return PublicUserData();
     }, Languages: function(LanguageService){
       return LanguageService.set();
     }
