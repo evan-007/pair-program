@@ -56,5 +56,12 @@ RSpec.describe Api::V1::FriendshipsController, type: :controller do
         expect(data["friendships"][0]["friend_id"]).to eq @user2.id
       end
     end
+    context 'without a current user' do
+      it 'returns status 401' do
+        get :index
+        expect(response.status).to eq 401
+      end
+    end
+
   end
 end
