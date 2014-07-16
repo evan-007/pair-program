@@ -17,6 +17,7 @@ RSpec.describe Api::V1::FriendshipsController, type: :controller do
           expect(@user1.friends).to eq []  
           post :create, friendship: attributes_for(:friendship, friend_id: @user2.id)
           data = JSON.parse(response.body)
+          expect(data["friend"]["friend_name"]).to eq @user2.username
           expect(response.status).to eq 200
         end
       end
