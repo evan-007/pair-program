@@ -29,3 +29,7 @@ User.all.each do |user|
   user_languages = Language.all.shuffle.take(rand(3))
   user.update(languages: user_languages)
 end
+
+for n in 3..10
+  User.first.friendships.create(friend_id: User.find(n).id)
+end

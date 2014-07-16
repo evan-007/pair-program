@@ -4,13 +4,16 @@ angular.module('ppApp')
     templateUrl: 'profile/profile.html',
     controller: 'profileCtrl as profile',
     resolve: {
-      ProfileData: function(ProfileService, CookieHandler){
+      ProfileData: function(ProfileService){
         return ProfileService();
+      },
+      FriendsData: function(FriendshipService){
+        return FriendshipService();
       }
     }
   });
 })
-.controller('profileCtrl', function(ProfileData){
+.controller('profileCtrl', function(ProfileData, FriendsData){
   this.user = ProfileData;
-  console.log(ProfileData);
+  console.log(FriendsData);
 })
