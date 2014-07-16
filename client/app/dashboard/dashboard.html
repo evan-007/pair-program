@@ -1,10 +1,18 @@
-This is the dashboard.
-
 <!-- read this: http://stackoverflow.com/questions/10816073/how-to-do-paging-in-angularjs -->
-<div>
-  <p>There are {{totalUsers}} users total.</p>
-  <ul>
-    <li ng-repeat='user in users'>{{user.username}}</li>
-  </ul>
-  <pagination ng-model='currentPage' total-items='totalUsers'></pagination>
+<div class='row'>
+  <div class='col-md-8'>
+    <p>{{totalUsers}} users</p>
+  </div>
 </div>
+
+<div class='row'>
+  <div class='col-sm-3 user-box' ng-repeat='user in activeUsers'>
+    <p>{{user.username}}</p>
+    <img ng-src='https://secure.gravatar.com/avatar/{{user.gravatar_hash}}' />
+    <ul class="list-inline">
+      <li>Languages:</li>
+      <li  ng-repeat='language in user.languages'>{{language.name}}</li>
+    </ul>
+  </div>
+</div>
+    <pagination ng-model='currentPage' total-items='totalUsers' items-per-page='itemsPerPage'></pagination>
