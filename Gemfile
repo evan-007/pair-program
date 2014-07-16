@@ -42,6 +42,9 @@ gem "active_model_serializers"
 #seed data
 gem 'faker'
 
+#state
+gem 'workflow'
+
 group :development, :test do
   gem 'spring-commands-rspec'
   gem 'rspec-rails'
