@@ -2,6 +2,12 @@ module Api
   module V1
     class FriendshipsController < ApplicationController
       before_action :signed_in?
+      
+      def index
+        @friends = current_user.friendships
+        render json: @friends, status: 200, each_serializer: FriendSerializer
+      end
+      
       def create
         @friendship = current_user.friendships.build(friendship_params)
         if @friendship.save

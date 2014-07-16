@@ -1,7 +1,7 @@
 class FriendSerializer < ActiveModel::Serializer
-  attributes :friend_name, :friend_id
+  attributes :username, :friend_id
   
-  def friend_name
+  def username
     User.find(object.friend_id).username
   end
 end

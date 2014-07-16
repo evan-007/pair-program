@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 
       resources :sessions, only: [:create, :destroy]
       resources :languages, only: [:index]
-      resources :friendships, only: [:create]
+      resources :friendships, only: [:index, :create]
     end
   end
 end
