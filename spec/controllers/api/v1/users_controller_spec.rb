@@ -77,7 +77,7 @@ RSpec.describe Api::V1::UsersController, :type => :controller do
       @user1 = create(:user)
       @user2 = create(:user)
       @user3 = create(:user)
-      @users = (MapUserSerializer.new(User.all))
+      @users = (PublicUserSerializer.new(User.all))
     end
     
     it 'renders an array of all users' do

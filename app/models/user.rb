@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
 
   has_many :user_languages, dependent: :destroy, inverse_of: :user
   has_many :languages, through: :user_languages, inverse_of: :users
+  has_many :friendships, dependent: :destroy
+  has_many :friends, through: :friendships
 
   after_validation :geocode
   after_validation :ensure_token
