@@ -6,14 +6,10 @@ angular.module('ppApp')
     resolve: {
       ProfileData: function(ProfileService){
         return ProfileService();
-      },
-      FriendsData: function(FriendshipService){
-        return FriendshipService();
       }
     }
   });
 })
-.controller('profileCtrl', function(ProfileData, FriendsData){
+.controller('profileCtrl', function(ProfileData){
   this.user = ProfileData;
-  console.log(FriendsData);
 })
