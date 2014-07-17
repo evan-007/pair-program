@@ -1,5 +1,6 @@
 <div class='row'>
-  <div class='col-sm-3 user-box' ng-repeat='friend in friends'>
+  <p>Friend requests you rejected</p>
+  <div class='col-sm-3 user-box' ng-repeat='friend in rejectedRequests'>
     <h5>{{friend.username}}</h5>
     <img ng-src='https://secure.gravatar.com/avatar/{{friend.gravatar_hash}}' />
     <ul class='list-inline'>

@@ -1,0 +1,10 @@
+<p>these people wanna be your friend</p>
+<div class='row'>
+  <div class='col-sm-3 user-box' ng-repeat='friend in allFriends'>
+    <h5>{{friend.user.public_user.username}}</h5>
+    <img ng-src='https://secure.gravatar.com/avatar/{{friend.user.public_user.gravatar_hash}}' />
+    <ul class='list-inline'>
+      <li ng-repeat='language in friend.user.public_user.languages'>{{language.name}}</li>
+    </ul>
+  </div>
+</div>
