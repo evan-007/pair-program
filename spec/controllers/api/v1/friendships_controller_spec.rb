@@ -112,5 +112,11 @@ RSpec.describe Api::V1::FriendshipsController, type: :controller do
         expect(@friendship.workflow_state).to eq 'approved'
       end
     end
+    context 'without a current_user' do
+      it 'returns status 401' do
+        post :approve, id: @friendship.id
+        expect(response.status).to eq 401
+      end
+    end
   end
 end
