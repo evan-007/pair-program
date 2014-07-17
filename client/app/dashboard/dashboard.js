@@ -1,6 +1,6 @@
 angular.module('ppApp')
-.config(function($routeProvider){
-  $routeProvider.when('/dashboard', {
+.config(function($stateProvider){
+  $stateProvider.state('dashboard', {
     templateUrl: 'dashboard/dashboard.html',
     controller: 'dashboardCtrl',
     resolve: { UserList: function(PublicUserData){

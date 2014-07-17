@@ -1,6 +1,6 @@
 angular.module('ppApp')
-.config(function($routeProvider){
-  $routeProvider.when('/profile', {
+.config(function($stateProvider){
+  $stateProvider.state('profile', {
     templateUrl: 'profile/profile.html',
     controller: 'profileCtrl as profile',
     resolve: {

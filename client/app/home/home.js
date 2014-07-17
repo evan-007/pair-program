@@ -1,5 +1,6 @@
-angular.module('ppApp').config(function($routeProvider){
-  $routeProvider.when('/', {
+angular.module('ppApp').config(function($stateProvider){
+  $stateProvider.state('home', {
+    url: '/',
     templateUrl: 'home/home.html',
     controller: 'homeCtrl',
     resolve: { MapUsers: function(PublicUserData){

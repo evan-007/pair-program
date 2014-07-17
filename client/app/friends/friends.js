@@ -1,25 +1,25 @@
 angular.module('ppApp')
-.config(function($routeProvider){
-  $routeProvider.when('/friends', {
+.config(function($stateProvider){
+  $stateProvider.state('friends', {
     templateUrl: 'friends/friends.html',
     controller: 'friendsCtrl',
     resolve: { FriendsData: function(FriendshipService){
       return FriendshipService.getAll();
     }}
   })
-  .when('/friends/pending', {
+  .state('friends.pending', {
     templateUrl: 'friends/pending.html',
     controller: 'friendsCtrl',
    
   })
-  .when('/friends/requests', {
+  .state('friends.requests', {
     templateUrl: 'friends/requests.html',
     controller: 'friendsCtrl',
     resolve: { FriendsData: function(FriendRequestService){
       return FriendRequestService();
     }}
   })
-  .when('/friends/rejected', {
+  .state('friends.rejected', {
     templateUrl: 'friends/rejected.html',
     controller: 'friendsCtrl',
     resolve: { FriendsData: function(FriendshipService){

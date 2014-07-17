@@ -1,6 +1,6 @@
 angular.module('ppApp')
-.config(function($routeProvider){
-  $routeProvider.when('/signup', {
+.config(function($stateProvider){
+  $stateProvider.state('signup', {
     templateUrl: 'signup/signup.html',
     controller: 'signupCtrl as signup',
     resolve: {Languages: function(LanguageService){

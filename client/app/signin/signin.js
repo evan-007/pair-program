@@ -1,6 +1,6 @@
 angular.module('ppApp')
-.config(function($routeProvider){
-  $routeProvider.when('/signin', {
+.config(function($stateProvider){
+  $stateProvider.state('signin', {
     templateUrl: 'signin/signin.html',
     controller: 'signinCtrl as signin'
   });
