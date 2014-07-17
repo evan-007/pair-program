@@ -8,12 +8,16 @@ angular.module('ppApp')
     }}
   });
 })
-.controller('dashboardCtrl', function(UserList, $scope){
+.controller('dashboardCtrl', function(UserList, $scope, FriendshipService){
   $scope.totalUsers = UserList.length;
   $scope.users = UserList;
   $scope.currentPage = 1;
   $scope.itemsPerPage = 12;
   $scope.activeUsers = [];
+  
+  $scope.add = function(id){
+    return FriendshipService.request(id);
+  }
   
   $scope.$watch('currentPage', function(newValue, oldValue){
     //calculates range of active users based on currentPage

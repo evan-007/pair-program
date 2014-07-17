@@ -4,7 +4,7 @@ angular.module('ppApp')
     templateUrl: 'friends/friends.html',
     controller: 'friendsCtrl',
     resolve: { FriendsData: function(FriendshipService){
-      return FriendshipService();
+      return FriendshipService.getAll();
     }}
   })
   .when('/friends/pending', {

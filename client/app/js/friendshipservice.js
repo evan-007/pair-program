@@ -1,10 +1,17 @@
 angular.module('ppApp')
 .factory('FriendshipService', function($http, $q){
-  return function(){
-    var defer = $q.defer();
-    $http.get('api/v1/friendships').success(function(data){
-      defer.resolve(data);
-    });
-    return defer.promise;
+  var FriendshipService = {
+    getAll: function(){
+      var defer = $q.defer();
+      $http.get('api/v1/friendships').success(function(data){
+        defer.resolve(data);
+      });
+      return defer.promise;
+    },
+    request: function(id){
+      var data = { friendship: {friend_id: id} }
+      $http.post('api/v1/friendships', data)
+    }
   }
+ return FriendshipService;
 });
