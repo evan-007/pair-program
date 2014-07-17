@@ -2,10 +2,11 @@ angular.module('ppApp')
 .config(function($stateProvider){
   $stateProvider.state('friends', {
     url: '/friends',
+    abstract: true,
     templateUrl: 'friends/index.html'
   })
   .state('friends.all', {
-    url: '/all',
+    url: '',
     templateUrl: 'friends/friends.html',
     controller: 'friendsCtrl',
     resolve: { FriendsData: function(FriendshipService){
