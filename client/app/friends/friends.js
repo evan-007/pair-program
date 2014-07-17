@@ -10,13 +10,14 @@ angular.module('ppApp')
   .when('/friends/pending', {
     templateUrl: 'friends/pending.html',
     controller: 'friendsCtrl',
-    resolve: { FriendsData: function(FriendshipService){
-      return FriendshipService();
-    }}
+   
   })
   .when('/friends/requests', {
     templateUrl: 'friends/requests.html',
     controller: 'friendsCtrl',
+    resolve: { FriendsData: function(FriendRequestService){
+      return FriendRequestService();
+    }}
   })
   .when('/friends/rejected', {
     templateUrl: 'friends/rejected.html',
