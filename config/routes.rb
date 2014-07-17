@@ -6,7 +6,9 @@ Rails.application.routes.draw do
 
       resources :sessions, only: [:create, :destroy]
       resources :languages, only: [:index]
+      
       resources :friendships, only: [:index, :create]
+      get 'friendships/requests', to: 'friendships#requests'
     end
   end
 end

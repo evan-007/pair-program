@@ -6,10 +6,11 @@ RSpec.describe User, type: :model do
   it { should validate_presence_of :email }
   it { should validate_uniqueness_of :email }
   it { should have_many :languages }
-  it { should have_many(:user_languages).dependent(:destroy)}
-  it { should have_many(:friendships).dependent(:destroy)}
+  it { should have_many(:user_languages).dependent(:destroy) }
+  it { should have_many(:friendships).dependent(:destroy) }
   it { should have_many :friends}
-  
+  it { should have_many(:inverse_friendships).dependent(:destroy) }
+  it { should have_many :inverse_friends }
   it 'should be geocoded after validation' do
     @user = create(:user)
     

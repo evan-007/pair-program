@@ -17,7 +17,10 @@ module Api
         end
       end
       
+      def requests
+      end
       
+   
       private
         def friendship_params
           params.require(:friendship).permit(:friend_id)

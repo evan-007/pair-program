@@ -62,6 +62,24 @@ RSpec.describe Api::V1::FriendshipsController, type: :controller do
         expect(response.status).to eq 401
       end
     end
-
+  end
+  
+  describe 'get #requests' do
+    before do
+      @user2 = create(:user)
+      @friendship = create(:friendship, user_id: @user2.id, friend_id: @user1.id)
+    end
+    context 'with a current user' do
+      before do
+        request.headers["token"] = @user1.token
+        request.headers["username"] = @user1.username
+      end
+      it 'returns all friend requests' do
+        get :requests
+        data = JSON.parse(response.body)
+        expect(reponse.status).to eq 200
+        expect(data).to eq 'lol'
+      end
+    end
   end
 end

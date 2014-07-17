@@ -9,6 +9,8 @@ class User < ActiveRecord::Base
   has_many :languages, through: :user_languages, inverse_of: :users
   has_many :friendships, dependent: :destroy
   has_many :friends, through: :friendships
+  has_many :inverse_friendships, dependent: :destroy, class_name: 'Friendship', foreign_key: 'friend_id'
+  has_many :inverse_friends, through: :inverse_friendships, source: :user
 
   after_validation :geocode
   after_validation :ensure_token
