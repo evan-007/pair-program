@@ -29,6 +29,17 @@ class User < ActiveRecord::Base
     end
   end
 
+  def friend_ids
+    friends = []
+    self.friendships.each do |f|
+      friends.push(f.friend_id)
+    end
+    self.inverse_friendships.each do |f|
+      friends.push(f.user_id)
+    end
+    friends
+  end
+
   private
 
     def generate_token
