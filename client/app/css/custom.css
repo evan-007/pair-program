@@ -20,3 +20,8 @@ body {
 .user-box {
   border: 1px solid #000000;
 }
+
+.friends-animate.ng-enter {
+  -webkit-animation: lightSpeedIn 0.5s;
+  animation: lightSpeedIn 0.5s;
+}

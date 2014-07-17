@@ -1,6 +1,11 @@
 angular.module('ppApp')
 .config(function($stateProvider){
   $stateProvider.state('friends', {
+    url: '/friends',
+    templateUrl: 'friends/index.html'
+  })
+  .state('friends.all', {
+    url: '/all',
     templateUrl: 'friends/friends.html',
     controller: 'friendsCtrl',
     resolve: { FriendsData: function(FriendshipService){
@@ -8,11 +13,13 @@ angular.module('ppApp')
     }}
   })
   .state('friends.pending', {
+    url: '/pending',
     templateUrl: 'friends/pending.html',
     controller: 'friendsCtrl',
    
   })
   .state('friends.requests', {
+    url: '/requests',
     templateUrl: 'friends/requests.html',
     controller: 'friendsCtrl',
     resolve: { FriendsData: function(FriendRequestService){
@@ -20,11 +27,10 @@ angular.module('ppApp')
     }}
   })
   .state('friends.rejected', {
+    url: '/rejected',
     templateUrl: 'friends/rejected.html',
     controller: 'friendsCtrl',
-    resolve: { FriendsData: function(FriendshipService){
-      return FriendshipService();
-    }}
+    resolve: { }
   })
 })
 .directive('friendNavbar', function(){
