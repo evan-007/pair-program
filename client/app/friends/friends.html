@@ -1,5 +1,7 @@
+<friend-navbar></friend-navbar>
+
 <div class='row'>
-  <div class='col-sm-3 user-box' ng-repeat='friend in friends.friendships'>
+  <div class='col-sm-3 user-box' ng-repeat='friend in friends'>
     <h5>{{friend.username}}</h5>
     <img ng-src='https://secure.gravatar.com/avatar/{{friend.gravatar_hash}}' />
     <ul class='list-inline'>
@@ -7,3 +9,5 @@
     </ul>
   </div>
 </div>
+
+<p ng-repeat='friend in friends.friendships | filter:{workflow_state:"approved"}:true'>{{friend.workflow_state}}</p>

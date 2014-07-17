@@ -1,5 +1,5 @@
 class FriendSerializer < ActiveModel::Serializer
-  attributes :username, :friend_id, :gravatar_hash, :languages
+  attributes :username, :friend_id, :gravatar_hash, :languages, :workflow_state
   
   
   def user
@@ -17,5 +17,9 @@ class FriendSerializer < ActiveModel::Serializer
   def languages
     #bad, this includes metadata that shouldn't show to users
     user.languages
+  end
+  
+  def workflow_state
+    object.workflow_state
   end
 end
