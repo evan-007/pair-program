@@ -31,10 +31,10 @@ class User < ActiveRecord::Base
 
   def friend_ids
     friends = []
-    self.friendships.each do |f|
+    self.friendships.where(workflow_state: 'approved').each do |f|
       friends.push(f.friend_id)
     end
-    self.inverse_friendships.each do |f|
+    self.inverse_friendships.where(workflow_state: 'approved').each do |f|
       friends.push(f.user_id)
     end
     friends
