@@ -38,7 +38,7 @@ RSpec.describe Api::V1::FriendshipsController, type: :controller do
     end
   end
   
-  describe 'get #index' do
+  describe 'GET #index' do
     before do 
       @user3 = create(:user)
       @friendship = create(:friendship, user_id: @user1.id, friend_id: @user2.id)
@@ -64,7 +64,7 @@ RSpec.describe Api::V1::FriendshipsController, type: :controller do
     end
   end
   
-  describe 'get #requests' do
+  describe 'GET #requests' do
     before do
       @user2 = create(:user)
       @friendship = create(:friendship, user_id: @user2.id, friend_id: @user1.id)
@@ -78,7 +78,38 @@ RSpec.describe Api::V1::FriendshipsController, type: :controller do
         get :requests
         data = JSON.parse(response.body)
         expect(response.status).to eq 200
-        expect(data).to eq 'lol'
+        #so bad, refactor serializer
+        expect(data["friendships"][0]["user"]["public_user"]["username"]).to eq @user2.username
+      end
+    end
+    
+    context 'without a current user' do
+      it 'returns status 401' do
+        get :requests
+        expect(response.status).to eq 401
+      end
+    end
+  end
+  
+  describe 'POST #approve' do
+    before do
+      @user2 = create(:user)
+      @friendship = create(:friendship, user_id: @user2.id, friend_id: @user1.id)
+    end
+    context 'with a current user' do
+      before do
+        request.headers["token"] = @user1.token
+        request.headers["username"] = @user1.username
+      end
+      it 'approves the friendship request' do
+        expect(@friendship.workflow_state).to eq 'unapproved'
+        post :approve, id: @friendship.id
+        data = JSON.parse(response.body)
+        expect(response.status).to eq 200
+        expect(data["workflow_state"]).to eq 'approved'
+        #reload to get new state
+        @friendship.reload
+        expect(@friendship.workflow_state).to eq 'approved'
       end
     end
   end

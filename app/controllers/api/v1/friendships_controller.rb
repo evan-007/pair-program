@@ -22,7 +22,15 @@ module Api
         render json: @requests, status: 200, each_serializer: UnapprovedFriendshipSerializer
       end
       
-   
+      def approve
+        @request = current_user.inverse_friendships.find(params[:id])
+        if @request.approve!
+          render json: @request, status: 200
+        else
+          render nothing: true, status: 400
+        end
+      end
+      
       private
         def friendship_params
           params.require(:friendship).permit(:friend_id)
