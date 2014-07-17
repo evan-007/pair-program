@@ -33,3 +33,9 @@ end
 for n in 3..10
   User.first.friendships.create(friend_id: User.find(n).id)
 end
+
+User.first.friendships.take(4).each do |f|
+  f.approve!
+end
+
+User.first.friendships.last.reject!
