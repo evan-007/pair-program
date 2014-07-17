@@ -39,3 +39,5 @@ User.first.friendships.take(4).each do |f|
 end
 
 User.first.friendships.last.reject!
+
+User.last.friendships.create(friend_id: User.first.id)
