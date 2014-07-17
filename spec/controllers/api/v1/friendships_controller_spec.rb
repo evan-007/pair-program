@@ -77,7 +77,7 @@ RSpec.describe Api::V1::FriendshipsController, type: :controller do
       it 'returns all friend requests' do
         get :requests
         data = JSON.parse(response.body)
-        expect(reponse.status).to eq 200
+        expect(response.status).to eq 200
         expect(data).to eq 'lol'
       end
     end

@@ -18,6 +18,8 @@ module Api
       end
       
       def requests
+        @requests = current_user.inverse_friendships.where(workflow_state: 'unapproved')
+        render json: @requests, status: 200, each_serializer: UnapprovedFriendshipSerializer
       end
       
    
