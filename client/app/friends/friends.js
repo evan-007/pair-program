@@ -7,17 +7,23 @@ angular.module('ppApp')
       return FriendshipService();
     }}
   })
-  .when('friends/pending', {
+  .when('/friends/pending', {
     templateUrl: 'friends/pending.html',
-    controller: 'friendsCtrl'
+    controller: 'friendsCtrl',
+    resolve: { FriendsData: function(FriendshipService){
+      return FriendshipService();
+    }}
   })
-  .when('friends/requests', {
+  .when('/friends/requests', {
     templateUrl: 'friends/requests.html',
-    controller: 'friendsCtrl'
+    controller: 'friendsCtrl',
   })
-  .when('friends/rejected', {
+  .when('/friends/rejected', {
     templateUrl: 'friends/rejected.html',
-    controller: 'friendsCtrl'
+    controller: 'friendsCtrl',
+    resolve: { FriendsData: function(FriendshipService){
+      return FriendshipService();
+    }}
   })
 })
 .directive('friendNavbar', function(){
@@ -30,7 +36,7 @@ angular.module('ppApp')
   //must define filtered array before calling filter!!!
   $scope.allFriends = FriendsData.friendships;
   $scope.friends = $filter('filter')($scope.allFriends, {workflow_state:'approved'}, true);
-  $scope.requests = $filter('filter')($scope.allFriends, {workflow_state:'unapproved'}, true);
+  $scope.pending = $filter('filter')($scope.allFriends, {workflow_state:'unapproved'}, true);
   $scope.rejectedRequests = $filter('filter')($scope.allFriends, {workflow_state:'rejected'}, true);
   console.log($scope.friends)
   console.log($scope.requests)

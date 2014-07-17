@@ -1,0 +1,12 @@
+<friend-navbar></friend-navbar>
+
+<div class='row'>
+  <p>People who wanna be your friend. Approve or reject</p>
+  <div class='col-sm-3 user-box' ng-repeat='friend in pending'>
+    <h5>{{friend.username}}</h5>
+    <img ng-src='https://secure.gravatar.com/avatar/{{friend.gravatar_hash}}' />
+    <ul class='list-inline'>
+      <li ng-repeat='language in friend.languages'>{{language.name}}</li>
+    </ul>
+  </div>
+</div>

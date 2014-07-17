@@ -1,0 +1,12 @@
+<friend-navbar></friend-navbar>
+
+<div class='row'>
+  <p>Friend requests you rejected</p>
+  <div class='col-sm-3 user-box' ng-repeat='friend in rejectedRequests'>
+    <h5>{{friend.username}}</h5>
+    <img ng-src='https://secure.gravatar.com/avatar/{{friend.gravatar_hash}}' />
+    <ul class='list-inline'>
+      <li ng-repeat='language in friend.languages'>{{language.name}}</li>
+    </ul>
+  </div>
+</div>
