@@ -17,7 +17,8 @@ angular.module('ppApp')
   $scope.activeUsers = [];
   
   $scope.add = function(id){
-    return FriendshipService.request(id);
+    FriendshipService.request(id);
+    $scope.$apply()
   }
   
   $scope.$watch('currentPage', function(newValue, oldValue){
@@ -29,7 +30,6 @@ angular.module('ppApp')
   })
   
   $scope.$watch(
-    //watch the length of friendships array
   function(){
    PublicUserData().then(function(data){
      return data.length;
