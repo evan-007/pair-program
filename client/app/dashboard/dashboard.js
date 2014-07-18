@@ -18,7 +18,6 @@ angular.module('ppApp')
   
   $scope.add = function(id){
     FriendshipService.request(id);
-    $scope.$apply()
   }
   
   $scope.$watch('currentPage', function(newValue, oldValue){
@@ -28,18 +27,4 @@ angular.module('ppApp')
     
     $scope.activeUsers = $scope.users.slice(start, end);
   })
-  
-  $scope.$watch(
-  function(){
-   PublicUserData().then(function(data){
-     return data.length;
-   });
-  },
-    function(newValue, oldValue) {
-    if ( newValue !== oldValue ) {
-      PublicUserData().then(function(data){
-        return $scope.users = data;
-      });
-    }
-  });
 });
