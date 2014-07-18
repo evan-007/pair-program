@@ -47,4 +47,36 @@ RSpec.describe User, type: :model do
       expect(result).to eq [@user2.id, @user4.id]
     end
   end
+  
+  describe ':all_friendship_ids' do
+    it 'returns all friendships and inverse_friendships, approved or not' do
+      @user2 = create(:user)
+      @user3 = create(:user)
+      @user4 = create(:user)
+      @user5 = create(:user)
+      @friendship1 = create(:friendship, user_id: @user.id, friend_id: @user2.id)
+      @friendship2 = create(:friendship, user_id: @user.id, friend_id: @user3.id)
+      @friendship3 = create(:friendship, user_id: @user4.id, friend_id: @user.id)
+      @friendship4 = create(:friendship, user_id: @user5.id, friend_id: @user.id)
+      @friendship1.approve!
+      
+      expect(@user.all_friendship_ids.length).to eq 4
+    end
+  end
+  
+  describe ':not_friends' do
+    before do 
+      @user2 = create(:user)
+      @user3 = create(:user)
+      @user4 = create(:user)
+      @user5 = create(:user)
+      @friendship = create(:friendship, user_id: @user.id, friend_id: @user2.id)
+      @friendship2 = create(:friendship, user_id: @user5.id, friend_id: @user.id)
+      
+    end
+    
+    it 'returns all users who do not have a friendship with current user' do
+      expect(@user.not_friends.sort).to eq [@user3.id, @user4.id]
+    end
+  end
 end

@@ -30,14 +30,30 @@ class User < ActiveRecord::Base
   end
 
   def friend_ids
-    friends = []
+    ids = []
     self.friendships.where(workflow_state: 'approved').each do |f|
-      friends.push(f.friend_id)
+      ids.push(f.friend_id)
     end
     self.inverse_friendships.where(workflow_state: 'approved').each do |f|
-      friends.push(f.user_id)
+      ids.push(f.user_id)
     end
-    friends
+    ids
+  end
+  
+  def all_friendship_ids
+    ids = []
+    self.friendships.each do |f|
+      ids.push(f.friend_id)
+    end
+    self.inverse_friendships.each do |f|
+      ids.push(f.user_id)
+    end
+    ids
+  end
+  
+  def not_friends
+    ids = User.all.map {|u| u.id}.sort
+    return ids - self.all_friendship_ids.push(self.id).sort
   end
 
   private

@@ -77,15 +77,17 @@ RSpec.describe Api::V1::UsersController, :type => :controller do
       @user1 = create(:user)
       @user2 = create(:user)
       @user3 = create(:user)
-      @users = (PublicUserSerializer.new(User.all))
+      @friendship = create(:friendship, user_id: @user1.id, friend_id: @user2.id)
+      request.headers["token"] = @user1.token
+      request.headers["username"] = @user1.username
     end
     
-    it 'renders an array of all users' do
+    it 'renders an array of all non-friends' do
       #this is a terrible test
       get :index
       data = JSON.parse(response.body)
       expect(response.status).to be 200
-      expect(data["users"][0]["latitude"]).to eq @user1.latitude
+      expect(data["users"].length).to eq 1
     end
   end
   
