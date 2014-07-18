@@ -18,13 +18,17 @@ angular.module('ppApp')
   
   $scope.add = function(id){
     FriendshipService.request(id);
+    PublicUserData().then(function(data){
+      $scope.users = data;
+    });
   }
+
   
-  $scope.$watch('currentPage', function(newValue, oldValue){
+  $scope.$watchGroup(['currentPage', 'users'], function(newValue, oldValue){
     //calculates range of active users based on currentPage
     var start = (($scope.currentPage -1)) * $scope.itemsPerPage;
     var end = start + $scope.itemsPerPage;
     
     $scope.activeUsers = $scope.users.slice(start, end);
-  })
+  });
 });
