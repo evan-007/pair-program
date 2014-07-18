@@ -8,6 +8,7 @@ var minifyCss = require('gulp-minify-css');
 var rev = require('gulp-rev');
 var modRewrite = require('connect-modrewrite');
 var runSequence = require('run-sequence');
+var concat = require('gulp-concat');
 
 
 //proxy all requests to /api to localhost:3000 for rails api
@@ -34,6 +35,12 @@ gulp.task('format-js', function(){
 	return gulp.src(['app/*.js', 'app/**/*.js'])
 	.pipe(ngmin())
 	.pipe(gulp.dest('app'));
+});
+
+gulp.task('concat-js', function(){
+  return gulp.src(['!./app/bower_components/**/*', '!./app/scripts/*', '!./app/**/*Spec.js', './app/**/*.js'])
+  .pipe(concat('main.js'))
+  .pipe(gulp.dest('./app/scripts/'))
 });
 
 gulp.task('usemin', function() {
