@@ -5,7 +5,7 @@ angular.module('ppApp')
     .success(function(data){
       CookieHandler.set(data.user);
       $rootScope.$broadcast('authorized', data.user.username);
-      $location.path('/')
+      $location.path('/friends')
     })
 		.error(function(){
 			$rootScope.$broadcast('unauthorized');
