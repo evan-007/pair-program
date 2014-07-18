@@ -28,7 +28,7 @@ angular.module('ppApp')
     //calculates range of active users based on currentPage
     var start = (($scope.currentPage -1)) * $scope.itemsPerPage;
     var end = start + $scope.itemsPerPage;
-    
+    $scope.totalUsers = $scope.users.length;
     $scope.activeUsers = $scope.users.slice(start, end);
   });
 });
