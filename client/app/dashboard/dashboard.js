@@ -31,7 +31,9 @@ angular.module('ppApp')
   $scope.$watch(
     //watch the length of friendships array
   function(){
-   PublicUserData();
+   PublicUserData().then(function(data){
+     return data.length;
+   });
   },
     function(newValue, oldValue) {
     if ( newValue !== oldValue ) {
