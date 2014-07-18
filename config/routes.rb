@@ -10,6 +10,8 @@ Rails.application.routes.draw do
       resources :friendships, only: [:index, :create]
       get 'friendships/requests', to: 'friendships#requests'
       post 'friendships/approve/:id', to: 'friendships#approve'
+      
+      resources :friends, only: [:index]
     end
   end
 end
