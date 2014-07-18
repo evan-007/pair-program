@@ -10,6 +10,9 @@ var modRewrite = require('connect-modrewrite');
 var runSequence = require('run-sequence');
 var concat = require('gulp-concat');
 
+var paths ={
+  
+}
 
 //proxy all requests to /api to localhost:3000 for rails api
 gulp.task('connect', function(){
