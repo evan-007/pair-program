@@ -9,7 +9,7 @@ angular.module('ppApp')
     }}
   });
 })
-.controller('dashboardCtrl', function(UserList, $scope, FriendshipService){
+.controller('dashboardCtrl', function(UserList, $scope, FriendshipService, PublicUserData){
   $scope.totalUsers = UserList.length;
   $scope.users = UserList;
   $scope.currentPage = 1;
@@ -27,4 +27,17 @@ angular.module('ppApp')
     
     $scope.activeUsers = $scope.users.slice(start, end);
   })
+  
+  $scope.$watch(
+    //watch the length of friendships array
+  function(){
+   PublicUserData();
+  },
+    function(newValue, oldValue) {
+    if ( newValue !== oldValue ) {
+      PublicUserData().then(function(data){
+        return $scope.users = data;
+      });
+    }
+  });
 });

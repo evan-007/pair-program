@@ -43,7 +43,7 @@ angular.module('ppApp')
 .controller('friendsCtrl', function(FriendsData, $scope, $filter){
   //must define filtered array before calling filter!!!
   // oh god refactor this mess, multiple ctrls
-  $scope.allFriends = FriendsData.friendships;
+  $scope.allFriends = FriendsData.friendships;  
   $scope.friends = $filter('filter')($scope.allFriends, {workflow_state:'approved'}, true);
   $scope.pending = $filter('filter')($scope.allFriends, {workflow_state:'unapproved'}, true);
   $scope.rejectedRequests = $filter('filter')($scope.allFriends, {workflow_state:'rejected'}, true);
