@@ -22,7 +22,7 @@ module Api
 	    end
 
       def index
-        @users = User.includes(:languages)
+        @users = User.find(current_user.not_friends)
         render json: @users, each_serializer: PublicUserSerializer, status: 200
       end
 

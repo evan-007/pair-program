@@ -77,6 +77,7 @@ RSpec.describe Api::V1::UsersController, :type => :controller do
       @user1 = create(:user)
       @user2 = create(:user)
       @user3 = create(:user)
+      @user4 = create(:user)
       @friendship = create(:friendship, user_id: @user1.id, friend_id: @user2.id)
       request.headers["token"] = @user1.token
       request.headers["username"] = @user1.username
@@ -87,7 +88,7 @@ RSpec.describe Api::V1::UsersController, :type => :controller do
       get :index
       data = JSON.parse(response.body)
       expect(response.status).to be 200
-      expect(data["users"].length).to eq 1
+      expect(data["users"].length).to eq 2
     end
   end
   
