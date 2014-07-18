@@ -3,6 +3,11 @@ module Api
     class UsersController < ApplicationController
       before_action :signed_in?, only: [:update, :profile, :index]
 
+      def map
+        @users = User.includes(:languages)
+        render json: @users, status: 200, each_serializer: PublicUserSerializer
+      end
+
     	def create
 		    @user = User.new(user_params)
 		    if @user.save

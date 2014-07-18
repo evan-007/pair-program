@@ -3,8 +3,8 @@ angular.module('ppApp').config(function($stateProvider){
     url: '/',
     templateUrl: 'home/home.html',
     controller: 'homeCtrl',
-    resolve: { MapUsers: function(PublicUserData){
-        return PublicUserData();
+    resolve: { MapUsers: function(MapUserData){
+        return MapUserData();
     }, Languages: function(LanguageService){
       return LanguageService.set();
     }
