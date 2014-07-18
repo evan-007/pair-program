@@ -22,7 +22,8 @@ RSpec.describe Api::V1::FriendsController, type: :controller do
       get :index
       data = JSON.parse(response.body)
       expect(response.status).to eq 200
-      expect(data).to eq [@user2.id, @user4.id]
+      #bad, not testing format of response or its contents
+      expect(data["friends"].length).to eq 2
     end
   end
   

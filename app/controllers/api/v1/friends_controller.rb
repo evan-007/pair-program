@@ -4,7 +4,7 @@ module Api
       before_action :signed_in?
       def index
         @users = User.find(current_user.friend_ids)
-        render json: @users, status: 200
+        render json: @users, status: 200, each_serializer: PublicUserSerializer
       end
     end
   end
