@@ -23,6 +23,6 @@ angular.module('ppApp')
 .directive('alerts', function(){
   return {
     restrict: 'E',
-    templateUrl: './layout/alerts/alerts.html'
+    templateUrl: './ui/shared/alerts/alerts.html'
   }
 })

@@ -10,14 +10,6 @@ angular.module('ppApp', ['ngAnimate', 'ui.bootstrap', 'ngCookies', 'google-maps'
 
 
 angular.module('ppApp')
-.controller('currentUserCtrl', function(CookieHandler, $scope){
-	this.user = CookieHandler.get();
-	$scope.logout = function(){
-		//works, but does not update dom elements, digest?
-		CookieHandler.delete();
-	};
-});
-angular.module('ppApp')
 .config(function($stateProvider){
   $stateProvider.state('dashboard', {
     url: '/dashboard',
@@ -284,64 +276,6 @@ angular.module('ppApp')
   };
   $scope.languages = Languages;
 });
-angular.module('ppApp')
-.controller('alertsCtrl', function($scope){
-
-	this.alerts = [];
-	var alerts = this.alerts;
-
-	$scope.$on('unauthorized', function(event, data){
-		alerts.push({type: 'danger', msg: 'Check your credentials'});
-	});
-
-	$scope.$on('authorized', function(event, data){
-		alerts.push({type: 'success', msg: 'What\'s up '+data});
-	});
-
-	$scope.$on('logout', function(event, data){
-		alerts.push({type: 'success', msg: 'Later!'});
-	});
-
-	$scope.closeAlert = function(index) {
-		alerts.splice(index, 1);
-	};
-})
-.directive('alerts', function(){
-  return {
-    restrict: 'E',
-    templateUrl: './layout/alerts/alerts.html'
-  }
-})
-
-angular.module('ppApp')
-.directive('navbar', function(){
-  return {
-    restrict: 'E',
-    templateUrl: './layout/navbar/navbar.html',
-    controller: 'navCtrl'
-  }
-})
-.controller('navCtrl', function(CookieHandler, $location, $scope){
-  $scope.user = CookieHandler.get();
-
-  $scope.$watch(
-    function(){
-      var user = CookieHandler.get();
-      return (user == null) ? 0 : user.id;
-    },
-    function(newValue, oldValue) {
-      if( newValue !== oldValue) {
-        $scope.user = CookieHandler.get();
-      }
-    }
-  );
-
-  $scope.logout = function(){
-    CookieHandler.delete();
-    $location.path('/')
-  }
-})
-
 angular.module('ppApp').config(function($stateProvider){
   $stateProvider.state('home', {
     url: '/',
@@ -407,5 +341,62 @@ angular.module('ppApp')
       defer.resolve(data.user_profile);
     });
     return defer.promise;
+  }
+})
+angular.module('ppApp')
+.controller('alertsCtrl', function($scope){
+
+	this.alerts = [];
+	var alerts = this.alerts;
+
+	$scope.$on('unauthorized', function(event, data){
+		alerts.push({type: 'danger', msg: 'Check your credentials'});
+	});
+
+	$scope.$on('authorized', function(event, data){
+		alerts.push({type: 'success', msg: 'What\'s up '+data});
+	});
+
+	$scope.$on('logout', function(event, data){
+		alerts.push({type: 'success', msg: 'Later!'});
+	});
+
+	$scope.closeAlert = function(index) {
+		alerts.splice(index, 1);
+	};
+})
+.directive('alerts', function(){
+  return {
+    restrict: 'E',
+    templateUrl: './ui/shared/alerts/alerts.html'
+  }
+})
+
+angular.module('ppApp')
+.directive('navbar', function(){
+  return {
+    restrict: 'E',
+    templateUrl: './ui/shared/navbar/navbar.html',
+    controller: 'navCtrl'
+  }
+})
+.controller('navCtrl', function(CookieHandler, $location, $scope){
+  $scope.user = CookieHandler.get();
+
+  $scope.$watch(
+    function(){
+      var user = CookieHandler.get();
+      return (user == null) ? 0 : user.id;
+    },
+    function(newValue, oldValue) {
+      if( newValue !== oldValue) {
+        $scope.user = CookieHandler.get();
+      }
+    }
+  );
+
+  $scope.logout = function(){
+    CookieHandler.delete();
+    $location.path('/')
   }
 })
