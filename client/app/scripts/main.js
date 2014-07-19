@@ -1,3 +1,14 @@
+angular.module('ppApp', ['ngAnimate', 'ui.bootstrap', 'ngCookies', 'google-maps', 'ui.router'])
+.config(function($httpProvider){
+  $httpProvider.interceptors.push('SessionInjector');
+  $httpProvider.interceptors.push('AuthInterceptor');
+})
+.config(function($urlRouterProvider){
+  $urlRouterProvider.otherwise('/');
+})
+
+
+
 angular.module('ppApp')
 .controller('currentUserCtrl', function(CookieHandler, $scope){
 	this.user = CookieHandler.get();
@@ -130,15 +141,6 @@ angular.module('ppApp')
     return defer.promise;
   }
 })
-angular.module('ppApp', ['ngAnimate', 'ui.bootstrap', 'ngCookies', 'google-maps', 'ui.router'])
-.config(function($httpProvider){
-  $httpProvider.interceptors.push('SessionInjector');
-  $httpProvider.interceptors.push('AuthInterceptor');
-})
-.config(function($urlRouterProvider){
-  $urlRouterProvider.otherwise('/');
-})
-
 angular.module('ppApp')
 .factory('AuthInterceptor', function($location, $q){
   //breaks on google map calls without $q conditions!

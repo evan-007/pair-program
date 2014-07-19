@@ -42,7 +42,7 @@ gulp.task('format-js', function(){
 });
 
 gulp.task('js', function(){
-  return gulp.src(['!./app/bower_components/**/*', '!./app/scripts/*', '!./app/**/*Spec.js', './app/**/*.js'])
+  return gulp.src(['!./app/bower_components/**/*', '!./app/scripts/*', '!./app/**/*Spec.js', './app/js/app.js', './app/**/*.js'])
   .pipe(concat('main.js'))
   .pipe(gulp.dest('./app/scripts/'));
 });
