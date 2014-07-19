@@ -181,7 +181,7 @@ angular.module('ppApp')
   $stateProvider.state('friends', {
     url: '/friends',
     abstract: true,
-    templateUrl: 'ui/friends/index.html'
+    templateUrl: 'ui/friends/layout.html'
   })
   .state('friends.all', {
     url: '',
@@ -190,12 +190,6 @@ angular.module('ppApp')
     resolve: { FriendsData: function(FriendshipService){
       return FriendshipService.getAll();
     }}
-  })
-  .state('friends.pending', {
-    url: '/pending',
-    templateUrl: 'ui/friends/pending.html',
-    controller: 'friendsCtrl',
-
   })
   .state('friends.requests', {
     url: '/requests',
@@ -345,6 +339,17 @@ angular.module('ppApp')
     });
   }
 })
+angular.module('ppApp').config(function($stateProvider){
+  $stateProvider.state('friends.pending', {
+    url: '/pending',
+    templateUrl: 'ui/friends/pending/pending.html',
+    controller: 'pendingCtrl',
+  })
+})
+.controller('pendingCtrl', function(){
+
+})
+
 angular.module('ppApp')
 .controller('alertsCtrl', function($scope){
 
