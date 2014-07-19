@@ -8,6 +8,26 @@ angular.module('ppApp', ['ngAnimate', 'ui.bootstrap', 'ngCookies', 'google-maps'
 })
 
 angular.module('ppApp')
+.factory('AuthInterceptor', function($location, $q){
+  //breaks on google map calls without $q conditions!
+  //blog.thesparktree.com/post/75952317665/angularjs-interceptors-globally-handle-401-and-other
+  return {
+    response: function(response){
+      if (response.status === 401) {
+        console.log("Response 401");
+      }
+      return response || $q.when(response);
+      },
+    responseError: function(rejection) {
+      if (rejection.status === 401) {
+        console.log("Response Error 401",rejection);
+        $location.path('/');
+      }
+      return $q.reject(rejection);
+      }
+    }
+})
+angular.module('ppApp')
 .factory('CookieHandler', function($cookieStore, $rootScope){
 	var user = null;
 
@@ -140,26 +160,6 @@ angular.module('ppApp')
   $scope.friends = $filter('filter')($scope.allFriends, {workflow_state:'approved'}, true);
   $scope.pending = $filter('filter')($scope.allFriends, {workflow_state:'unapproved'}, true);
   $scope.rejectedRequests = $filter('filter')($scope.allFriends, {workflow_state:'rejected'}, true);
-})
-angular.module('ppApp')
-.factory('AuthInterceptor', function($location, $q){
-  //breaks on google map calls without $q conditions!
-  //blog.thesparktree.com/post/75952317665/angularjs-interceptors-globally-handle-401-and-other
-  return {
-    response: function(response){
-      if (response.status === 401) {
-        console.log("Response 401");
-      }
-      return response || $q.when(response);
-      },
-    responseError: function(rejection) {
-      if (rejection.status === 401) {
-        console.log("Response Error 401",rejection);
-        $location.path('/');
-      }
-      return $q.reject(rejection);
-      }
-    }
 })
 angular.module('ppApp')
 .factory('FriendRequestService', function($http, $q){
