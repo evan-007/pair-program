@@ -353,13 +353,14 @@ angular.module('ppApp').config(function($stateProvider){
     url: '/requests',
     templateUrl: 'ui/friends/requests/requests.html',
     controller: 'requestsCtrl',
-    resolve: { FriendsData: function(FriendRequestService){
+    resolve: { RequestData: function(FriendRequestService){
       return FriendRequestService();
     }}
   })
 })
-.controller('requestsCtrl', function(FriendsData){
-  console.log(FriendsData);
+.controller('requestsCtrl', function(RequestData, $scope){
+  console.log(RequestData);
+  $scope.requests = RequestData;
   //todo make the view work
 })
 
