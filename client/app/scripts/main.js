@@ -8,6 +8,55 @@ angular.module('ppApp', ['ngAnimate', 'ui.bootstrap', 'ngCookies', 'google-maps'
 })
 
 angular.module('ppApp')
+.factory('CookieHandler', function($cookieStore, $rootScope){
+	var user = null;
+
+	var CookieHandler = {
+		set: function(user){
+			$cookieStore.put('currentUser', user);
+		},
+
+		get: function(){
+			return $cookieStore.get('currentUser');
+		},
+
+		delete: function(user){
+			$cookieStore.remove('currentUser');
+			$rootScope.$broadcast('logout');
+		}
+	};
+
+	return CookieHandler;
+});
+
+angular.module('ppApp').factory('SessionInjector', function(CookieHandler){
+  return {
+    request: function(config) {
+      if (CookieHandler.get() !== undefined) {
+        config.headers['token'] = CookieHandler.get().token;
+        config.headers['username'] = CookieHandler.get().username;
+      }
+      return config;
+    }
+  }
+})
+
+angular.module('ppApp')
+.factory('SessionService', function(CookieHandler, $http, $location, $rootScope){
+  return function(authInfo){
+    $http.post('api/v1/sessions', authInfo)
+    .success(function(data){
+      CookieHandler.set(data.user);
+      $rootScope.$broadcast('authorized', data.user.username);
+      $location.path('/friends')
+    })
+		.error(function(){
+			$rootScope.$broadcast('unauthorized');
+    });
+  };
+});
+
+angular.module('ppApp')
 .config(function($stateProvider){
   $stateProvider.state('dashboard', {
     url: '/dashboard',
@@ -113,28 +162,6 @@ angular.module('ppApp')
     }
 })
 angular.module('ppApp')
-.factory('CookieHandler', function($cookieStore, $rootScope){
-	var user = null;
-
-	var CookieHandler = {
-		set: function(user){
-			$cookieStore.put('currentUser', user);
-		},
-
-		get: function(){
-			return $cookieStore.get('currentUser');
-		},
-
-		delete: function(user){
-			$cookieStore.remove('currentUser');
-			$rootScope.$broadcast('logout');
-		}
-	};
-
-	return CookieHandler;
-});
-
-angular.module('ppApp')
 .factory('FriendRequestService', function($http, $q){
   return function(){
     var defer = $q.defer();
@@ -185,33 +212,6 @@ angular.module('ppApp')
   }
 })
 
-angular.module('ppApp').factory('SessionInjector', function(CookieHandler){
-  return {
-    request: function(config) {
-      if (CookieHandler.get() !== undefined) {
-        config.headers['token'] = CookieHandler.get().token;
-        config.headers['username'] = CookieHandler.get().username;
-      }
-      return config;
-    }
-  }
-})
-
-angular.module('ppApp')
-.factory('SessionService', function(CookieHandler, $http, $location, $rootScope){
-  return function(authInfo){
-    $http.post('api/v1/sessions', authInfo)
-    .success(function(data){
-      CookieHandler.set(data.user);
-      $rootScope.$broadcast('authorized', data.user.username);
-      $location.path('/friends')
-    })
-		.error(function(){
-			$rootScope.$broadcast('unauthorized');
-    });
-  };
-});
-
 angular.module('ppApp')
 .factory('SignUpService', function($http, $location){
   return function(userData){
@@ -227,10 +227,12 @@ angular.module('ppApp')
     });
   }
 })
+//not used anymore? double check and remove!
+//replace by cookieHandler
 angular.module('ppApp')
 .factory('TokenHandler', function(){
   var token = null;
-  
+
   var TokenHandler = {
     set: function(v) { token = v; },
     get: function() {
@@ -239,6 +241,7 @@ angular.module('ppApp')
   };
   return TokenHandler;
 });
+
 angular.module('ppApp').config(function($stateProvider){
   $stateProvider.state('about', {
     url: '/about',
