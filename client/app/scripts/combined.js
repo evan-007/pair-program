@@ -181,12 +181,6 @@ angular.module('ppApp')
       return FriendshipService.getAll();
     }}
   })
-  .state('friends.rejected', {
-    url: '/rejected',
-    templateUrl: 'ui/friends/rejected.html',
-    controller: 'friendsCtrl',
-    resolve: { }
-  })
 })
 .directive('friendNavbar', function(){
   return {
@@ -332,6 +326,18 @@ angular.module('ppApp').config(function($stateProvider){
 
 })
 
+angular.module('ppApp').config(function($stateProvider){
+  $stateProvider.state('friends.rejected', {
+    url: '/rejected',
+    templateUrl: 'ui/friends/rejected/rejected.html',
+    controller: 'rejectedCtrl',
+    resolve: { } //todo
+  })
+})
+.controller('rejectedCtrl', function(){
+
+})
+
 angular.module('ppApp')
 .factory('FriendRequestService', function($http, $q){
   return function(){
@@ -354,6 +360,7 @@ angular.module('ppApp').config(function($stateProvider){
 })
 .controller('requestsCtrl', function(FriendsData){
   console.log(FriendsData);
+  //todo make the view work
 })
 
 angular.module('ppApp')

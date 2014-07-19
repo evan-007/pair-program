@@ -13,12 +13,6 @@ angular.module('ppApp')
       return FriendshipService.getAll();
     }}
   })
-  .state('friends.rejected', {
-    url: '/rejected',
-    templateUrl: 'ui/friends/rejected.html',
-    controller: 'friendsCtrl',
-    resolve: { }
-  })
 })
 .directive('friendNavbar', function(){
   return {
