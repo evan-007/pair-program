@@ -7,8 +7,6 @@ angular.module('ppApp', ['ngAnimate', 'ui.bootstrap', 'ngCookies', 'google-maps'
   $urlRouterProvider.otherwise('/');
 })
 
-
-
 angular.module('ppApp')
 .config(function($stateProvider){
   $stateProvider.state('dashboard', {
@@ -276,6 +274,14 @@ angular.module('ppApp')
   };
   $scope.languages = Languages;
 });
+angular.module('ppApp').config(function($stateProvider){
+  $stateProvider.state('about', {
+    url: '/about',
+    templateUrl: 'ui/about/about.html'
+  });
+})
+
+
 angular.module('ppApp').config(function($stateProvider){
   $stateProvider.state('home', {
     url: '/',
