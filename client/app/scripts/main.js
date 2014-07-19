@@ -137,23 +137,6 @@ angular.module('ppApp')
   }
 })
 angular.module('ppApp')
-.factory('FriendshipService', function($http, $q){
-  var FriendshipService = {
-    getAll: function(){
-      var defer = $q.defer();
-      $http.get('api/v1/friendships').success(function(data){
-        defer.resolve(data);
-      });
-      return defer.promise;
-    },
-    request: function(id){
-      var data = { friendship: {friend_id: id} }
-      $http.post('api/v1/friendships', data)
-    }
-  }
- return FriendshipService;
-});
-angular.module('ppApp')
 .factory('LanguageService', function($http, $q){
   var LanguageService = {
     set: function(){
@@ -166,17 +149,6 @@ angular.module('ppApp')
   }
   return LanguageService;
 })
-angular.module('ppApp')
-.factory('PublicUserData', function($http, $q){
-  return function(){
-    var defer = $q.defer();
-    $http.get('/api/v1/users/').then(function(data){
-      defer.resolve(data.data.users);
-    })
-    return defer.promise;
-  }
-})
-
 //not used anymore? double check and remove!
 //replace by cookieHandler
 angular.module('ppApp')
@@ -240,6 +212,34 @@ angular.module('ppApp')
     $scope.activeUsers = $scope.users.slice(start, end);
   });
 });
+
+angular.module('ppApp')
+.factory('FriendshipService', function($http, $q){
+  var FriendshipService = {
+    getAll: function(){
+      var defer = $q.defer();
+      $http.get('api/v1/friendships').success(function(data){
+        defer.resolve(data);
+      });
+      return defer.promise;
+    },
+    request: function(id){
+      var data = { friendship: {friend_id: id} }
+      $http.post('api/v1/friendships', data)
+    }
+  }
+ return FriendshipService;
+});
+angular.module('ppApp')
+.factory('PublicUserData', function($http, $q){
+  return function(){
+    var defer = $q.defer();
+    $http.get('/api/v1/users/').then(function(data){
+      defer.resolve(data.data.users);
+    })
+    return defer.promise;
+  }
+})
 
 angular.module('ppApp').config(function($stateProvider){
   $stateProvider.state('home', {
