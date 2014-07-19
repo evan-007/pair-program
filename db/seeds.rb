@@ -43,3 +43,5 @@ User.first.friendships.last.reject!
 User.last.friendships.create(friend_id: User.first.id)
 
 User.last.friendships.first.approve!
+
+User.find(15).friendships.create(friend_id: User.first.id)
