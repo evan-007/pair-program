@@ -251,34 +251,6 @@ angular.module('ppApp')
 });
 angular.module('ppApp')
 .config(function($stateProvider){
-  $stateProvider.state('profile', {
-    url: '/profile',
-    templateUrl: 'profile/profile.html',
-    controller: 'profileCtrl as profile',
-    resolve: {
-      ProfileData: function(ProfileService){
-        return ProfileService();
-      }
-    }
-  });
-})
-.controller('profileCtrl', function(ProfileData){
-  this.user = ProfileData;
-})
-
-angular.module('ppApp')
-.factory('ProfileService', function($http, $q, $location){
-  return function(){
-
-    var defer = $q.defer();
-    $http.get('/api/v1/users/profile/').success(function(data){
-      defer.resolve(data.user_profile);
-    });
-    return defer.promise;
-  }
-})
-angular.module('ppApp')
-.config(function($stateProvider){
   $stateProvider.state('signin', {
     url: '/signin',
     templateUrl: 'signin/signin.html',
@@ -406,6 +378,34 @@ angular.module('ppApp')
     $http.get('/api/v1/users/map').then(function(data){
       defer.resolve(data.data.users);
     })
+    return defer.promise;
+  }
+})
+angular.module('ppApp')
+.config(function($stateProvider){
+  $stateProvider.state('profile', {
+    url: '/profile',
+    templateUrl: 'ui/profile/profile.html',
+    controller: 'profileCtrl as profile',
+    resolve: {
+      ProfileData: function(ProfileService){
+        return ProfileService();
+      }
+    }
+  });
+})
+.controller('profileCtrl', function(ProfileData){
+  this.user = ProfileData;
+})
+
+angular.module('ppApp')
+.factory('ProfileService', function($http, $q, $location){
+  return function(){
+
+    var defer = $q.defer();
+    $http.get('/api/v1/users/profile/').success(function(data){
+      defer.resolve(data.user_profile);
+    });
     return defer.promise;
   }
 })
