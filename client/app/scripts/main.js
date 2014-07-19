@@ -258,22 +258,6 @@ angular.module('ppApp')
   }
 });
 
-angular.module('ppApp')
-.config(function($stateProvider){
-  $stateProvider.state('signup', {
-    url: '/signup',
-    templateUrl: 'signup/signup.html',
-    controller: 'signupCtrl as signup',
-    resolve: {Languages: function(LanguageService){
-      return LanguageService.set();
-    }}
-  });
-}).controller('signupCtrl', function($scope, $http, SignUpService, Languages){
-  $scope.submit = function(signup){
-    SignUpService(signup);
-  };
-  $scope.languages = Languages;
-});
 angular.module('ppApp').config(function($stateProvider){
   $stateProvider.state('about', {
     url: '/about',
@@ -355,6 +339,23 @@ angular.module('ppApp')
     return defer.promise;
   }
 })
+angular.module('ppApp')
+.config(function($stateProvider){
+  $stateProvider.state('signup', {
+    url: '/signup',
+    templateUrl: 'ui/signup/signup.html',
+    controller: 'signupCtrl as signup',
+    resolve: {Languages: function(LanguageService){
+      return LanguageService.set();
+    }}
+  });
+}).controller('signupCtrl', function($scope, $http, SignUpService, Languages){
+  $scope.submit = function(signup){
+    SignUpService(signup);
+  };
+  $scope.languages = Languages;
+});
+
 angular.module('ppApp')
 .controller('alertsCtrl', function($scope){
 
