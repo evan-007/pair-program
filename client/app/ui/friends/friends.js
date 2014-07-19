@@ -13,14 +13,6 @@ angular.module('ppApp')
       return FriendshipService.getAll();
     }}
   })
-  .state('friends.requests', {
-    url: '/requests',
-    templateUrl: 'ui/friends/requests.html',
-    controller: 'friendsCtrl',
-    resolve: { FriendsData: function(FriendRequestService){
-      return FriendRequestService();
-    }}
-  })
   .state('friends.rejected', {
     url: '/rejected',
     templateUrl: 'ui/friends/rejected.html',

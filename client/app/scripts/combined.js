@@ -77,16 +77,6 @@ angular.module('ppApp')
 });
 
 angular.module('ppApp')
-.factory('FriendRequestService', function($http, $q){
-  return function(){
-    var defer = $q.defer();
-    $http.get('/api/v1/friendships/requests').success(function(data){
-      defer.resolve(data);
-    });
-    return defer.promise;
-  }
-})
-angular.module('ppApp')
 .factory('LanguageService', function($http, $q){
   var LanguageService = {
     set: function(){
@@ -189,14 +179,6 @@ angular.module('ppApp')
     controller: 'friendsCtrl',
     resolve: { FriendsData: function(FriendshipService){
       return FriendshipService.getAll();
-    }}
-  })
-  .state('friends.requests', {
-    url: '/requests',
-    templateUrl: 'ui/friends/requests.html',
-    controller: 'friendsCtrl',
-    resolve: { FriendsData: function(FriendRequestService){
-      return FriendRequestService();
     }}
   })
   .state('friends.rejected', {
@@ -348,6 +330,30 @@ angular.module('ppApp').config(function($stateProvider){
 })
 .controller('pendingCtrl', function(){
 
+})
+
+angular.module('ppApp')
+.factory('FriendRequestService', function($http, $q){
+  return function(){
+    var defer = $q.defer();
+    $http.get('/api/v1/friendships/requests').success(function(data){
+      defer.resolve(data);
+    });
+    return defer.promise;
+  }
+})
+angular.module('ppApp').config(function($stateProvider){
+  $stateProvider.state('friends.requests', {
+    url: '/requests',
+    templateUrl: 'ui/friends/requests/requests.html',
+    controller: 'requestsCtrl',
+    resolve: { FriendsData: function(FriendRequestService){
+      return FriendRequestService();
+    }}
+  })
+})
+.controller('requestsCtrl', function(FriendsData){
+  console.log(FriendsData);
 })
 
 angular.module('ppApp')
