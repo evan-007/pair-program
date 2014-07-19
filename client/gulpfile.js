@@ -9,6 +9,7 @@ var rev = require('gulp-rev');
 var modRewrite = require('connect-modrewrite');
 var runSequence = require('run-sequence');
 var concat = require('gulp-concat');
+var watch = require('gulp-watch');
 
 var paths ={
   
@@ -40,10 +41,10 @@ gulp.task('format-js', function(){
 	.pipe(gulp.dest('app'));
 });
 
-gulp.task('concat-js', function(){
+gulp.task('js', function(){
   return gulp.src(['!./app/bower_components/**/*', '!./app/scripts/*', '!./app/**/*Spec.js', './app/**/*.js'])
   .pipe(concat('main.js'))
-  .pipe(gulp.dest('./app/scripts/'))
+  .pipe(gulp.dest('./app/scripts/'));
 });
 
 gulp.task('usemin', function() {
@@ -67,4 +68,10 @@ gulp.task('build', function() {
     ['copy-html-files', 'usemin']);
 });
 
-gulp.task('default', ['connect']);
+gulp.task('watch', function(){
+	gulp.watch('./app/**/.js', function() {
+		gulp.run('js');
+	});
+});
+
+gulp.task('default', ['connect', 'js', 'watch']);

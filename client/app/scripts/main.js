@@ -17,7 +17,7 @@ angular.module('ppApp')
     }}
   });
 })
-.controller('dashboardCtrl', function(UserList, $scope, FriendshipService){
+.controller('dashboardCtrl', function(UserList, $scope, FriendshipService, PublicUserData){
   $scope.totalUsers = UserList.length;
   $scope.users = UserList;
   $scope.currentPage = 1;
@@ -25,16 +25,20 @@ angular.module('ppApp')
   $scope.activeUsers = [];
   
   $scope.add = function(id){
-    return FriendshipService.request(id);
+    FriendshipService.request(id);
+    PublicUserData().then(function(data){
+      $scope.users = data;
+    });
   }
+
   
-  $scope.$watch('currentPage', function(newValue, oldValue){
+  $scope.$watchGroup(['currentPage', 'users'], function(newValue, oldValue){
     //calculates range of active users based on currentPage
     var start = (($scope.currentPage -1)) * $scope.itemsPerPage;
     var end = start + $scope.itemsPerPage;
-    
+    $scope.totalUsers = $scope.users.length;
     $scope.activeUsers = $scope.users.slice(start, end);
-  })
+  });
 });
 
 angular.module('ppApp')
@@ -82,7 +86,7 @@ angular.module('ppApp')
 .controller('friendsCtrl', function(FriendsData, $scope, $filter){
   //must define filtered array before calling filter!!!
   // oh god refactor this mess, multiple ctrls
-  $scope.allFriends = FriendsData.friendships;
+  $scope.allFriends = FriendsData.friendships;  
   $scope.friends = $filter('filter')($scope.allFriends, {workflow_state:'approved'}, true);
   $scope.pending = $filter('filter')($scope.allFriends, {workflow_state:'unapproved'}, true);
   $scope.rejectedRequests = $filter('filter')($scope.allFriends, {workflow_state:'rejected'}, true);
@@ -92,8 +96,8 @@ angular.module('ppApp').config(function($stateProvider){
     url: '/',
     templateUrl: 'home/home.html',
     controller: 'homeCtrl',
-    resolve: { MapUsers: function(PublicUserData){
-        return PublicUserData();
+    resolve: { MapUsers: function(MapUserData){
+        return MapUserData();
     }, Languages: function(LanguageService){
       return LanguageService.set();
     }
@@ -116,6 +120,16 @@ angular.module('ppApp').config(function($stateProvider){
   });
 })
 
+angular.module('ppApp')
+.factory('MapUserData', function($http, $q){
+  return function(){
+    var defer = $q.defer();
+    $http.get('/api/v1/users/map').then(function(data){
+      defer.resolve(data.data.users);
+    })
+    return defer.promise;
+  }
+})
 angular.module('ppApp', ['ngAnimate', 'ui.bootstrap', 'ngCookies', 'google-maps', 'ui.router'])
 .config(function($httpProvider){
   $httpProvider.interceptors.push('SessionInjector');
@@ -237,7 +251,7 @@ angular.module('ppApp')
     .success(function(data){
       CookieHandler.set(data.user);
       $rootScope.$broadcast('authorized', data.user.username);
-      $location.path('/')
+      $location.path('/friends')
     })
 		.error(function(){
 			$rootScope.$broadcast('unauthorized');
