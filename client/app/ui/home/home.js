@@ -1,7 +1,7 @@
 angular.module('ppApp').config(function($stateProvider){
   $stateProvider.state('home', {
     url: '/',
-    templateUrl: 'home/home.html',
+    templateUrl: 'ui/home/home.html',
     controller: 'homeCtrl',
     resolve: { MapUsers: function(MapUserData){
         return MapUserData();

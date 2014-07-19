@@ -102,45 +102,6 @@ angular.module('ppApp')
   $scope.pending = $filter('filter')($scope.allFriends, {workflow_state:'unapproved'}, true);
   $scope.rejectedRequests = $filter('filter')($scope.allFriends, {workflow_state:'rejected'}, true);
 })
-angular.module('ppApp').config(function($stateProvider){
-  $stateProvider.state('home', {
-    url: '/',
-    templateUrl: 'home/home.html',
-    controller: 'homeCtrl',
-    resolve: { MapUsers: function(MapUserData){
-        return MapUserData();
-    }, Languages: function(LanguageService){
-      return LanguageService.set();
-    }
-    }
-  })
-}).controller('homeCtrl', function($scope, $filter, MapUsers, Languages){
-  $scope.users = MapUsers;
-  $scope.languages = Languages;
-  $scope.language = $scope.languages[0];
-  $scope.map = {
-      center: {
-          latitude: 50,
-          longitude: 0
-      },
-      zoom: 2,
-      options: {mapTypeId: google.maps.MapTypeId.SATELLITE }
-  };
-  $scope.$watch('language', function(language){
-    $scope.filteredUsers = $filter("filter")($scope.users, language.name);
-  });
-})
-
-angular.module('ppApp')
-.factory('MapUserData', function($http, $q){
-  return function(){
-    var defer = $q.defer();
-    $http.get('/api/v1/users/map').then(function(data){
-      defer.resolve(data.data.users);
-    })
-    return defer.promise;
-  }
-})
 angular.module('ppApp')
 .factory('AuthInterceptor', function($location, $q){
   //breaks on google map calls without $q conditions!
@@ -406,5 +367,45 @@ angular.module('ppApp')
   $scope.logout = function(){
     CookieHandler.delete();
     $location.path('/')
+  }
+})
+
+angular.module('ppApp').config(function($stateProvider){
+  $stateProvider.state('home', {
+    url: '/',
+    templateUrl: 'ui/home/home.html',
+    controller: 'homeCtrl',
+    resolve: { MapUsers: function(MapUserData){
+        return MapUserData();
+    }, Languages: function(LanguageService){
+      return LanguageService.set();
+    }
+    }
+  })
+}).controller('homeCtrl', function($scope, $filter, MapUsers, Languages){
+  $scope.users = MapUsers;
+  $scope.languages = Languages;
+  $scope.language = $scope.languages[0];
+  $scope.map = {
+      center: {
+          latitude: 50,
+          longitude: 0
+      },
+      zoom: 2,
+      options: {mapTypeId: google.maps.MapTypeId.SATELLITE }
+  };
+  $scope.$watch('language', function(language){
+    $scope.filteredUsers = $filter("filter")($scope.users, language.name);
+  });
+})
+
+angular.module('ppApp')
+.factory('MapUserData', function($http, $q){
+  return function(){
+    var defer = $q.defer();
+    $http.get('/api/v1/users/map').then(function(data){
+      defer.resolve(data.data.users);
+    })
+    return defer.promise;
   }
 })
