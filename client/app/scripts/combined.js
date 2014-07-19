@@ -339,6 +339,25 @@ angular.module('ppApp').config(function($stateProvider){
 })
 
 angular.module('ppApp')
+.factory('FriendApproveService', function($http, $q){
+  return function(friendId){
+    var defer = $q.defer();
+
+    var data = {
+      id: friendId
+    }
+
+    $http.post('/api/v1/friendships/approve/'+friendId, data).then(
+      function(data){
+        console.log(data);
+        defer.resolve(data);
+      }
+    );
+    return defer.promise;
+  }
+})
+
+angular.module('ppApp')
 .factory('FriendRequestService', function($http, $q){
   return function(){
     var defer = $q.defer();
@@ -358,9 +377,12 @@ angular.module('ppApp').config(function($stateProvider){
     }}
   })
 })
-.controller('requestsCtrl', function(RequestData, $scope){
+.controller('requestsCtrl', function(RequestData, $scope, FriendApproveService){
   console.log(RequestData);
   $scope.requests = RequestData;
+  $scope.approve = function(userId){
+    FriendApproveService(userId);
+  }
   //todo make the view work
 })
 

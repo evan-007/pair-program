@@ -8,8 +8,11 @@ angular.module('ppApp').config(function($stateProvider){
     }}
   })
 })
-.controller('requestsCtrl', function(RequestData, $scope){
+.controller('requestsCtrl', function(RequestData, $scope, FriendApproveService){
   console.log(RequestData);
   $scope.requests = RequestData;
+  $scope.approve = function(userId){
+    FriendApproveService(userId);
+  }
   //todo make the view work
 })

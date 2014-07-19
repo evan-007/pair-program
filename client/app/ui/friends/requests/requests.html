@@ -6,6 +6,7 @@
     <ul class='list-inline'>
       <li ng-repeat='language in friend.user.public_user.languages'>{{language.name}}</li>
     </ul>
-    <button class='btn btn-primary' ng-click='approve(friend.user.public_user.id)'>Approve</button><button class='btn btn-danger'>Reject</button>
+    <button class='btn btn-primary' ng-click='approve(friend.id)'>Approve</button>
+    <button class='btn btn-danger'>Reject</button>
   </div>
 </div>

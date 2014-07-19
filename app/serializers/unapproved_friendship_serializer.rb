@@ -1,6 +1,6 @@
 class UnapprovedFriendshipSerializer < ActiveModel::Serializer
-  attributes :user
-  
+  attributes :user, :id
+
   def user
     PublicUserSerializer.new(User.find(object.user_id))
   end
