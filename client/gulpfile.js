@@ -12,7 +12,7 @@ var concat = require('gulp-concat');
 var watch = require('gulp-watch');
 
 var paths ={
-  
+
 }
 
 //proxy all requests to /api to localhost:3000 for rails api
@@ -42,7 +42,8 @@ gulp.task('format-js', function(){
 });
 
 gulp.task('js', function(){
-  return gulp.src(['!./app/bower_components/**/*', '!./app/scripts/*', '!./app/**/*Spec.js', './app/js/app.js', './app/**/*.js'])
+  return gulp.src(['!./app/bower_components/**/*', '!./app/scripts/main.js',
+   '!./app/**/*Spec.js', './app/scripts/app.js', './app/**/*.js'])
   .pipe(concat('main.js'))
   .pipe(gulp.dest('./app/scripts/'));
 });
