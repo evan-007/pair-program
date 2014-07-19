@@ -239,25 +239,6 @@ angular.module('ppApp')
   };
   return TokenHandler;
 });
-angular.module('ppApp')
-.config(function($stateProvider){
-  $stateProvider.state('signin', {
-    url: '/signin',
-    templateUrl: 'signin/signin.html',
-    controller: 'signinCtrl as signin'
-  });
-})
-.controller('signinCtrl', function($scope, SessionService, $http){
-  $scope.newSession = function(authInfo){
-    SessionService(authInfo);
-  };
-
-  $scope.useTest = function(){
-    $scope.signin.email = 'test@test.com';
-    $scope.signin.password = 'password';
-  }
-});
-
 angular.module('ppApp').config(function($stateProvider){
   $stateProvider.state('about', {
     url: '/about',
@@ -339,6 +320,25 @@ angular.module('ppApp')
     return defer.promise;
   }
 })
+angular.module('ppApp')
+.config(function($stateProvider){
+  $stateProvider.state('signin', {
+    url: '/signin',
+    templateUrl: 'ui/signin/signin.html',
+    controller: 'signinCtrl as signin'
+  });
+})
+.controller('signinCtrl', function($scope, SessionService, $http){
+  $scope.newSession = function(authInfo){
+    SessionService(authInfo);
+  };
+
+  $scope.useTest = function(){
+    $scope.signin.email = 'test@test.com';
+    $scope.signin.password = 'password';
+  }
+});
+
 angular.module('ppApp')
 .config(function($stateProvider){
   $stateProvider.state('signup', {

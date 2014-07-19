@@ -2,7 +2,7 @@ angular.module('ppApp')
 .config(function($stateProvider){
   $stateProvider.state('signin', {
     url: '/signin',
-    templateUrl: 'signin/signin.html',
+    templateUrl: 'ui/signin/signin.html',
     controller: 'signinCtrl as signin'
   });
 })
