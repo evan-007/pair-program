@@ -1,21 +1,21 @@
 angular.module('ppApp')
 .config(function($stateProvider){
-  $stateProvider.state('dashboard', {
-    url: '/dashboard',
-    templateUrl: 'dashboard/dashboard.html',
-    controller: 'dashboardCtrl',
+  $stateProvider.state('friendfinder', {
+    url: '/friendfinder',
+    templateUrl: 'ui/friendfinder/friendfinder.html',
+    controller: 'friendFinderCtrl',
     resolve: { UserList: function(PublicUserData){
       return PublicUserData();
     }}
   });
 })
-.controller('dashboardCtrl', function(UserList, $scope, FriendshipService, PublicUserData){
+.controller('friendFinderCtrl', function(UserList, $scope, FriendshipService, PublicUserData){
   $scope.totalUsers = UserList.length;
   $scope.users = UserList;
   $scope.currentPage = 1;
   $scope.itemsPerPage = 12;
   $scope.activeUsers = [];
-  
+
   $scope.add = function(id){
     FriendshipService.request(id);
     PublicUserData().then(function(data){
@@ -23,7 +23,7 @@ angular.module('ppApp')
     });
   }
 
-  
+
   $scope.$watchGroup(['currentPage', 'users'], function(newValue, oldValue){
     //calculates range of active users based on currentPage
     var start = (($scope.currentPage -1)) * $scope.itemsPerPage;

@@ -78,41 +78,6 @@ angular.module('ppApp')
 
 angular.module('ppApp')
 .config(function($stateProvider){
-  $stateProvider.state('dashboard', {
-    url: '/dashboard',
-    templateUrl: 'dashboard/dashboard.html',
-    controller: 'dashboardCtrl',
-    resolve: { UserList: function(PublicUserData){
-      return PublicUserData();
-    }}
-  });
-})
-.controller('dashboardCtrl', function(UserList, $scope, FriendshipService, PublicUserData){
-  $scope.totalUsers = UserList.length;
-  $scope.users = UserList;
-  $scope.currentPage = 1;
-  $scope.itemsPerPage = 12;
-  $scope.activeUsers = [];
-  
-  $scope.add = function(id){
-    FriendshipService.request(id);
-    PublicUserData().then(function(data){
-      $scope.users = data;
-    });
-  }
-
-  
-  $scope.$watchGroup(['currentPage', 'users'], function(newValue, oldValue){
-    //calculates range of active users based on currentPage
-    var start = (($scope.currentPage -1)) * $scope.itemsPerPage;
-    var end = start + $scope.itemsPerPage;
-    $scope.totalUsers = $scope.users.length;
-    $scope.activeUsers = $scope.users.slice(start, end);
-  });
-});
-
-angular.module('ppApp')
-.config(function($stateProvider){
   $stateProvider.state('friends', {
     url: '/friends',
     abstract: true,
@@ -212,21 +177,6 @@ angular.module('ppApp')
   }
 })
 
-angular.module('ppApp')
-.factory('SignUpService', function($http, $location){
-  return function(userData){
-    var newUser = {
-      user : userData
-    }
-    $http.post('/api/v1/users', newUser).success(function(data){
-      console.log(data);
-      $location.path('/');
-    })
-    .error(function(data){
-      console.log(data);
-    });
-  }
-})
 //not used anymore? double check and remove!
 //replace by cookieHandler
 angular.module('ppApp')
@@ -255,6 +205,41 @@ angular.module('ppApp').config(function($stateProvider){
     templateUrl: 'ui/contact/contact.html'
   })
 })
+
+angular.module('ppApp')
+.config(function($stateProvider){
+  $stateProvider.state('friendfinder', {
+    url: '/friendfinder',
+    templateUrl: 'ui/friendfinder/friendfinder.html',
+    controller: 'friendFinderCtrl',
+    resolve: { UserList: function(PublicUserData){
+      return PublicUserData();
+    }}
+  });
+})
+.controller('friendFinderCtrl', function(UserList, $scope, FriendshipService, PublicUserData){
+  $scope.totalUsers = UserList.length;
+  $scope.users = UserList;
+  $scope.currentPage = 1;
+  $scope.itemsPerPage = 12;
+  $scope.activeUsers = [];
+
+  $scope.add = function(id){
+    FriendshipService.request(id);
+    PublicUserData().then(function(data){
+      $scope.users = data;
+    });
+  }
+
+
+  $scope.$watchGroup(['currentPage', 'users'], function(newValue, oldValue){
+    //calculates range of active users based on currentPage
+    var start = (($scope.currentPage -1)) * $scope.itemsPerPage;
+    var end = start + $scope.itemsPerPage;
+    $scope.totalUsers = $scope.users.length;
+    $scope.activeUsers = $scope.users.slice(start, end);
+  });
+});
 
 angular.module('ppApp').config(function($stateProvider){
   $stateProvider.state('home', {
@@ -359,6 +344,21 @@ angular.module('ppApp')
   $scope.languages = Languages;
 });
 
+angular.module('ppApp')
+.factory('SignUpService', function($http, $location){
+  return function(userData){
+    var newUser = {
+      user : userData
+    }
+    $http.post('/api/v1/users', newUser).success(function(data){
+      console.log(data);
+      $location.path('/');
+    })
+    .error(function(data){
+      console.log(data);
+    });
+  }
+})
 angular.module('ppApp')
 .controller('alertsCtrl', function($scope){
 
