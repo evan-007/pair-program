@@ -149,21 +149,6 @@ angular.module('ppApp')
   }
   return LanguageService;
 })
-//not used anymore? double check and remove!
-//replace by cookieHandler
-angular.module('ppApp')
-.factory('TokenHandler', function(){
-  var token = null;
-
-  var TokenHandler = {
-    set: function(v) { token = v; },
-    get: function() {
-      return token;
-    }
-  };
-  return TokenHandler;
-});
-
 angular.module('ppApp').config(function($stateProvider){
   $stateProvider.state('about', {
     url: '/about',
