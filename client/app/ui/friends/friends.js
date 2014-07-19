@@ -21,6 +21,5 @@ angular.module('ppApp')
   }
 })
 .controller('friendsCtrl', function(FriendsData, $scope, $filter){
-  console.log(FriendsData)
   $scope.allFriends = FriendsData.friendships;
 })

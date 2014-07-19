@@ -13,6 +13,7 @@ angular.module('ppApp').config(function($stateProvider){
   $scope.requests = RequestData;
   $scope.approve = function(userId){
     FriendApproveService(userId);
+    //do something with slice and RequestData
+    //to remove userId
   }
-  //todo make the view work
 })
