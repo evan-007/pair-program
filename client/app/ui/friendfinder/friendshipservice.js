@@ -4,6 +4,7 @@ angular.module('ppApp')
     getAll: function(){
       var defer = $q.defer();
       $http.get('api/v1/friendships').success(function(data){
+        console.log(data.friendships);
         defer.resolve(data);
       });
       return defer.promise;
