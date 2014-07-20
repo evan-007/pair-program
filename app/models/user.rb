@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
   def ensure_token
     self.token = generate_token
   end
-  
+
   #store hashed email in db so don't have to send all user emails
   #to angular for privacy protection
   def generate_gravatar
@@ -39,7 +39,7 @@ class User < ActiveRecord::Base
     end
     ids
   end
-  
+
   def all_friendship_ids
     ids = []
     self.friendships.each do |f|
@@ -50,10 +50,20 @@ class User < ActiveRecord::Base
     end
     ids
   end
-  
+
   def not_friends
     ids = User.all.map {|u| u.id}.sort
     return ids - self.all_friendship_ids.push(self.id).sort
+  end
+
+  def pending_friends
+    ids = []
+    self.friendships.each do |f|
+      if f.workflow_state = 'pending'
+        ids.push(f.friend_id)
+      end
+    end
+    ids
   end
 
   private

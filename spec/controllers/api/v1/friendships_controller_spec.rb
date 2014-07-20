@@ -133,6 +133,10 @@ RSpec.describe Api::V1::FriendshipsController, type: :controller do
         request.headers["username"] = @user1.username
       end
       it 'returns pending friendship requests made by the user' do
+        get :pending
+        data = JSON.parse(response.body)
+        expect(response.status).to eq 200
+        expect(data["friendships"].length).to eq 1
       end
     end
   end

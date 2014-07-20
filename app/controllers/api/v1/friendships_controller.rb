@@ -31,6 +31,11 @@ module Api
         end
       end
 
+      def pending
+        @pending = User.find(current_user.pending_friends)
+        render json: @pending, status: 200, each_serializer: PublicUserSerializer
+      end
+
       private
         def friendship_params
           params.require(:friendship).permit(:friend_id)

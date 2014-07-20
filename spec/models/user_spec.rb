@@ -11,7 +11,7 @@ RSpec.describe User, type: :model do
   it { should have_many :friends}
   it { should have_many(:inverse_friendships).dependent(:destroy) }
   it { should have_many :inverse_friends }
-  
+
   before do
     @user = create(:user)
   end
@@ -20,15 +20,15 @@ RSpec.describe User, type: :model do
     expect(@user.latitude).to_not eq nil
     expect(@user.longitude).to_not eq nil
   end
-  
+
   it 'should hash email after validation' do
     expect(@user.gravatar_hash).to_not eq nil
   end
-  
+
   it 'should have a token' do
     expect(@user.token).to_not eq nil
   end
-  
+
   describe ':friend_ids' do
     it 'returns an array of all approved friendship user ids' do
       @user2 = create(:user)
@@ -41,13 +41,13 @@ RSpec.describe User, type: :model do
       @friendship4 = create(:friendship, user_id: @user5.id, friend_id: @user.id)
       @friendship1.approve!
       @friendship3.approve!
-      
+
       #can't user eq with block
       result = @user.friend_ids
       expect(result).to eq [@user2.id, @user4.id]
     end
   end
-  
+
   describe ':all_friendship_ids' do
     it 'returns all friendships and inverse_friendships, approved or not' do
       @user2 = create(:user)
@@ -59,24 +59,38 @@ RSpec.describe User, type: :model do
       @friendship3 = create(:friendship, user_id: @user4.id, friend_id: @user.id)
       @friendship4 = create(:friendship, user_id: @user5.id, friend_id: @user.id)
       @friendship1.approve!
-      
+
       expect(@user.all_friendship_ids.length).to eq 4
     end
   end
-  
+
   describe ':not_friends' do
-    before do 
+    before do
       @user2 = create(:user)
       @user3 = create(:user)
       @user4 = create(:user)
       @user5 = create(:user)
       @friendship = create(:friendship, user_id: @user.id, friend_id: @user2.id)
       @friendship2 = create(:friendship, user_id: @user5.id, friend_id: @user.id)
-      
+
     end
-    
+
     it 'returns all users who do not have a friendship with current user' do
       expect(@user.not_friends.sort).to eq [@user3.id, @user4.id]
+    end
+  end
+
+  describe ':pending_frinds' do
+    before do
+      @user2 = create(:user)
+      @user3 = create(:user)
+      @user4 = create(:user)
+      @user5 = create(:user)
+      @friendship = create(:friendship, user_id: @user.id, friend_id: @user2.id)
+      @friendship2 = create(:friendship, user_id: @user5.id, friend_id: @user.id)
+    end
+    it 'returns an array of pending friends' do
+      expect(@user.pending_friends.sort).to eq [@user2.id]
     end
   end
 end
