@@ -325,7 +325,6 @@ angular.module('ppApp').config(function($stateProvider){
 })
 .controller('pendingCtrl', function(PendingFriends, $scope){
   $scope.pendingFriends = PendingFriends;
-  console.log(PendingFriends);
 })
 
 angular.module('ppApp')
