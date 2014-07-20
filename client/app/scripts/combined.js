@@ -144,7 +144,6 @@ angular.module('ppApp')
     getAll: function(){
       var defer = $q.defer();
       $http.get('api/v1/friendships').success(function(data){
-        console.log(data.friendships);
         defer.resolve(data);
       });
       return defer.promise;
@@ -191,7 +190,6 @@ angular.module('ppApp')
   }
 })
 .controller('friendsCtrl', function(FriendsData, $scope, $filter){
-  console.log(FriendsData)
   $scope.allFriends = FriendsData.friendships;
 })
 
@@ -318,10 +316,27 @@ angular.module('ppApp').config(function($stateProvider){
     url: '/pending',
     templateUrl: 'ui/friends/pending/pending.html',
     controller: 'pendingCtrl',
-  })
+    resolve: {
+      PendingFriends: function(PendingFriendService){
+        return PendingFriendService();
+      }
+    }
+  });
 })
-.controller('pendingCtrl', function(){
+.controller('pendingCtrl', function(PendingFriends, $scope){
+  $scope.pendingFriends = PendingFriends;
+  console.log(PendingFriends);
+})
 
+angular.module('ppApp')
+.factory('PendingFriendService', function($http, $q){
+  return function(){
+    var defer = $q.defer()
+    $http.get('/api/v1/friendships/pending').then(function(data){
+      defer.resolve(data.data)
+    });
+    return defer.promise
+  }
 })
 
 angular.module('ppApp').config(function($stateProvider){
@@ -380,8 +395,9 @@ angular.module('ppApp').config(function($stateProvider){
   $scope.requests = RequestData;
   $scope.approve = function(userId){
     FriendApproveService(userId);
+    //do something with slice and RequestData
+    //to remove userId
   }
-  //todo make the view work
 })
 
 angular.module('ppApp')
