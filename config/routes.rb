@@ -14,6 +14,8 @@ Rails.application.routes.draw do
       get 'friendships/pending', to: 'friendships#pending'
       
       resources :friends, only: [:index]
+      
+      resources :conversations, only: [:index]
     end
   end
 end
