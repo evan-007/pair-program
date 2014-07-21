@@ -236,8 +236,7 @@ angular.module('ppApp')
 .factory('MessageGetterService', function($http, $q){
   return function(boxType){
     var defer = $q.defer();
-    var data = {box: boxType}
-    $http.get('/api/v1/conversations', data).then(function(data){
+    $http.get('/api/v1/conversations?box='+boxType).then(function(data){
       defer.resolve(data);
     });
     return defer.promise;
@@ -271,7 +270,7 @@ angular.module('ppApp')
 })
 .controller('inboxCtrl', function($scope, Inbox, OneMessage){
   $scope.messages = Inbox.data.conversations;
-  console.log($scope.messages)
+
   $scope.getMessage = function(id){
     OneMessage(id).then(function(data){
       $scope.activeMessage = data;
@@ -444,8 +443,22 @@ angular.module('ppApp').config(function($stateProvider){
   }
 })
 
-
-
+angular.module('ppApp')
+.config(function($stateProvider){
+  $stateProvider.state('messages.sent', {
+    url: '/sent',
+    templateUrl: 'ui/messages/sent/sent.html',
+    controller: 'sentCtrl',
+    resolve: {
+      Messages: function(MessageGetterService){
+        return MessageGetterService('sentbox');
+      }
+    }
+  })
+})
+.controller('sentCtrl', function($scope, Messages){
+  $scope.messages = Messages.data.conversations;
+})
 angular.module('ppApp')
 .controller('alertsCtrl', function($scope){
 

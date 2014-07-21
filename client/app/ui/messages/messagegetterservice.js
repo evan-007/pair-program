@@ -2,8 +2,7 @@ angular.module('ppApp')
 .factory('MessageGetterService', function($http, $q){
   return function(boxType){
     var defer = $q.defer();
-    var data = {box: boxType}
-    $http.get('/api/v1/conversations', data).then(function(data){
+    $http.get('/api/v1/conversations?box='+boxType).then(function(data){
       defer.resolve(data);
     });
     return defer.promise;
