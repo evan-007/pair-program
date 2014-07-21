@@ -1,4 +1,4 @@
-angular.module('ppApp', ['ngAnimate', 'ui.bootstrap', 'ngCookies', 'google-maps', 'ui.router'])
+angular.module('ppApp', ['ngAnimate', 'ui.bootstrap', 'ngCookies', 'google-maps', 'ui.router', 'ngResource'])
 .config(function($httpProvider){
   $httpProvider.interceptors.push('SessionInjector');
   $httpProvider.interceptors.push('AuthInterceptor');
@@ -244,6 +244,16 @@ angular.module('ppApp')
     return defer.promise;
   }
 })
+.factory('OneMessage', function($http, $q){
+  return function(id){
+    var defer = $q.defer();
+    $http.get('/api/v1/conversations/'+id).then(function(data){
+      console.log(data.data.message);
+      defer.resolve(data.data.message);
+    });
+    return defer.promise;
+  }
+})
 angular.module('ppApp')
 .config(function($stateProvider){
   $stateProvider.state('messages', {
@@ -255,14 +265,19 @@ angular.module('ppApp')
     url: '',
     templateUrl: 'ui/messages/inbox.html',
     resolve: {Inbox: function(MessageGetterService){
-      return MessageGetterService('inbox');
+      return MessageGetterService();
     }},
     controller: 'inboxCtrl'
   })
 })
-.controller('inboxCtrl', function($scope, Inbox){
+.controller('inboxCtrl', function($scope, Inbox, OneMessage){
   $scope.messages = Inbox.data.conversations;
   console.log($scope.messages)
+  $scope.getMessage = function(id){
+    OneMessage(id).then(function(data){
+      $scope.activeMessage = data;
+    })
+  }
 })
 angular.module('ppApp')
 .config(function($stateProvider){

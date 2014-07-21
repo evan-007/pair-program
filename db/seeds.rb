@@ -49,5 +49,5 @@ for n in 11..21
 end
 
 for n in 3..10
-  User.find(n).send_message(User.first, 'empty body', "Message from user#{n}")
+  User.find(n).send_message(User.first, "Dear #{User.first.username}, let's code together. \n love, \n #{User.find(n).username}", "Message from user#{n}")
 end

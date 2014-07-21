@@ -9,12 +9,17 @@ angular.module('ppApp')
     url: '',
     templateUrl: 'ui/messages/inbox.html',
     resolve: {Inbox: function(MessageGetterService){
-      return MessageGetterService('inbox');
+      return MessageGetterService();
     }},
     controller: 'inboxCtrl'
   })
 })
-.controller('inboxCtrl', function($scope, Inbox){
+.controller('inboxCtrl', function($scope, Inbox, OneMessage){
   $scope.messages = Inbox.data.conversations;
   console.log($scope.messages)
+  $scope.getMessage = function(id){
+    OneMessage(id).then(function(data){
+      $scope.activeMessage = data;
+    })
+  }
 })
