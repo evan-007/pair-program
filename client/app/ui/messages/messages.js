@@ -16,7 +16,7 @@ angular.module('ppApp')
 })
 .controller('inboxCtrl', function($scope, Inbox, OneMessage){
   $scope.messages = Inbox.data.conversations;
-  console.log($scope.messages)
+
   $scope.getMessage = function(id){
     OneMessage(id).then(function(data){
       $scope.activeMessage = data;
