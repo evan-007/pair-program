@@ -8,6 +8,8 @@ module Api
           @messages = @mailbox.inbox
         elsif @box.eql? "sentbox"
           @messages = @mailbox.sentbox
+        else
+          @messages = @mailbox.trash
         end
         render json: @messages, status: 200, each_serializer: ConversationSerializer
       end

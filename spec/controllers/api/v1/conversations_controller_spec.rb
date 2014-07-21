@@ -38,6 +38,20 @@ RSpec.describe Api::V1::ConversationsController, type: :controller do
           expect(data["conversations"][0]["subject"]).to eq 'some subject'
         end
       end
+      context 'trashbox params'do
+        it 'returns users trash' do
+          #what a mess, refactor?
+          @user2 = create(:user)
+          @user2.send_message(@user, 'email me', 'delete this')
+          @conversation = @user.mailbox.inbox.first
+          @receipts = @conversation.receipts_for @user
+          @receipts.move_to_trash
+          get :index, {box: 'trash'}
+          data = JSON.parse(response.body)
+          expect(response.status).to eq 200
+          expect(data["conversations"][0]["subject"]).to eq 'delete this'
+        end
+      end
     end
   end
 end
