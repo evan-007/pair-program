@@ -6,6 +6,8 @@ module Api
       def index
         if @box.eql? "inbox"
           @messages = @mailbox.inbox
+        elsif @box.eql? "sentbox"
+          @messages = @mailbox.sentbox
         end
         render json: @messages, status: 200, each_serializer: ConversationSerializer
       end
