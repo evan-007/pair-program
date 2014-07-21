@@ -42,6 +42,9 @@ gem "active_model_serializers"
 #seed data
 gem 'faker'
 
+#messaging system
+gem 'mailboxer'
+
 #state
 gem 'workflow'
 
