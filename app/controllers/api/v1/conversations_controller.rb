@@ -14,6 +14,11 @@ module Api
         render json: @messages, status: 200, each_serializer: ConversationSerializer
       end
       
+      def show
+        @message = current_user.mailbox.conversations.find(params[:id]).receipts_for(current_user).first.message
+        render json: @message, status: 200, serializer: MessageSerializer
+      end
+      
       private
         def get_box
           if params[:box].blank? or !["inbox","sentbox","trash"].include?params[:box]

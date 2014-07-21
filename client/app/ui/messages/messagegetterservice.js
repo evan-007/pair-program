@@ -10,3 +10,10 @@ angular.module('ppApp')
     return defer.promise;
   }
 })
+.factory('OneMessage', function($http, $q){
+  return function(id){
+    var defer = $q.defer();
+    var data = id;
+    
+  }
+})

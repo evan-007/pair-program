@@ -233,6 +233,18 @@ angular.module('ppApp')
   }
 })
 angular.module('ppApp')
+.factory('MessageGetterService', function($http, $q){
+  return function(boxType){
+    var defer = $q.defer();
+    var data = {box: boxType}
+    $http.get('/api/v1/conversations', data).then(function(data){
+      console.log(data);
+      defer.resolve(data);
+    });
+    return defer.promise;
+  }
+})
+angular.module('ppApp')
 .config(function($stateProvider){
   $stateProvider.state('messages', {
     url: '/messages',
@@ -241,8 +253,16 @@ angular.module('ppApp')
   })
   .state('messages.inbox', {
     url: '',
-    templateUrl: 'ui/messages/inbox.html'
+    templateUrl: 'ui/messages/inbox.html',
+    resolve: {Inbox: function(MessageGetterService){
+      return MessageGetterService('inbox');
+    }},
+    controller: 'inboxCtrl'
   })
+})
+.controller('inboxCtrl', function($scope, Inbox){
+  $scope.messages = Inbox.data.conversations;
+  console.log($scope.messages)
 })
 angular.module('ppApp')
 .config(function($stateProvider){
@@ -409,6 +429,8 @@ angular.module('ppApp').config(function($stateProvider){
     //to remove userId
   }
 })
+
+
 
 angular.module('ppApp')
 .controller('alertsCtrl', function($scope){
