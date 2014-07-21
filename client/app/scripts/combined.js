@@ -234,6 +234,18 @@ angular.module('ppApp')
 })
 angular.module('ppApp')
 .config(function($stateProvider){
+  $stateProvider.state('messages', {
+    url: '/messages',
+    abstract: true,
+    templateUrl: 'ui/messages/index.html'
+  })
+  .state('messages.inbox', {
+    url: '',
+    templateUrl: 'ui/messages/inbox.html'
+  })
+})
+angular.module('ppApp')
+.config(function($stateProvider){
   $stateProvider.state('profile', {
     url: '/profile',
     templateUrl: 'ui/profile/profile.html',
@@ -361,7 +373,6 @@ angular.module('ppApp')
 
     $http.post('/api/v1/friendships/approve/'+friendId, data).then(
       function(data){
-        console.log(data);
         defer.resolve(data);
       }
     );
