@@ -1,19 +1,2 @@
 this is the sentbox
-<div class='row'>
-  <div class='col-md-3'>
-    <h5>Messages</h5>
-    <ul>
-      <li ng-repeat='message in messages' ng-click='getMessage(message.id)'>{{message.subject}}</li>
-    </ul>
-  </div>
-  <div class='col-md-9'>
-    <div ng-if='!activeMessage'>
-      <p>Messages you've sent</p>
-    </div>
-    <div ng-if='activeMessage'>
-      <h4>{{activeMessage.subject}}</h4>
-      <h6>From: {{activeMessage.username}}</h6>
-      <p>{{activeMessage.body}}</p>
-    </div>
-  </div>
-</div>
+<mail-box messages="messages"></mail-box>
