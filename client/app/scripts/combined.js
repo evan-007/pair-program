@@ -490,6 +490,7 @@ angular.module('ppApp')
 .directive('alerts', function(){
   return {
     restrict: 'E',
+    controller: 'alertsCtrl as alertCtrl',
     templateUrl: './ui/shared/alerts/alerts.html'
   }
 })
