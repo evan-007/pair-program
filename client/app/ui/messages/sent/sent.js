@@ -11,6 +11,11 @@ angular.module('ppApp')
     }
   })
 })
-.controller('sentCtrl', function($scope, Messages){
+.controller('sentCtrl', function($scope, Messages, OneMessage){
   $scope.messages = Messages.data.conversations;
+  $scope.getMessage = function(id){
+    OneMessage(id).then(function(data){
+      $scope.activeMessage = data;
+    });
+  }
 })

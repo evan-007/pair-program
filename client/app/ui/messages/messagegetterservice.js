@@ -13,6 +13,7 @@ angular.module('ppApp')
   return function(id){
     var defer = $q.defer();
     $http.get('/api/v1/conversations/'+id).then(function(data){
+      console.log(data);
       defer.resolve(data.data.message);
     });
     return defer.promise;

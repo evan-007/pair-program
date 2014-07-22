@@ -247,6 +247,7 @@ angular.module('ppApp')
   return function(id){
     var defer = $q.defer();
     $http.get('/api/v1/conversations/'+id).then(function(data){
+      console.log(data);
       defer.resolve(data.data.message);
     });
     return defer.promise;
@@ -456,8 +457,13 @@ angular.module('ppApp')
     }
   })
 })
-.controller('sentCtrl', function($scope, Messages){
+.controller('sentCtrl', function($scope, Messages, OneMessage){
   $scope.messages = Messages.data.conversations;
+  $scope.getMessage = function(id){
+    OneMessage(id).then(function(data){
+      $scope.activeMessage = data;
+    });
+  }
 })
 angular.module('ppApp')
 .controller('alertsCtrl', function($scope){

@@ -53,5 +53,5 @@ for n in 3..10
 end
 
 for n in 20..25
-  User.first.send_message(User.find(n), "to #{User.find(n)} blablablab", "test from #{User.first}")
+  User.first.send_message(User.find(n), "to #{User.find(n).username} blablablab", "test from #{User.first.username}")
 end
