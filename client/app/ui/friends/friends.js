@@ -20,6 +20,15 @@ angular.module('ppApp')
     templateUrl: 'ui/friends/friendnavbar.html'
   }
 })
+.directive('friendsList', function(){
+  return {
+    restrict: 'E',
+    templateUrl: 'ui/friends/friendslist.html',
+    scope: {
+      friends: '=friends'
+    },
+  }
+})
 .controller('friendsCtrl', function(FriendsData, $scope, $filter){
   $scope.allFriends = FriendsData.friendships;
 })

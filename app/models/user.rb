@@ -60,7 +60,7 @@ class User < ActiveRecord::Base
   def pending_friends
     ids = []
     self.friendships.each do |f|
-      if f.workflow_state = 'pending'
+      if f.workflow_state == 'unapproved'
         ids.push(f.friend_id)
       end
     end
