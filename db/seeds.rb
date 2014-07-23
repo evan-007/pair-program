@@ -47,11 +47,3 @@ User.last.friendships.first.approve!
 for n in 11..21
   User.find(n).friendships.create(friend_id: User.first.id)
 end
-
-for n in 3..10
-  User.find(n).send_message(User.first, "Dear #{User.first.username}, let's code together. \n love, \n #{User.find(n).username}", "Message from user#{n}")
-end
-
-for n in 20..25
-  User.first.send_message(User.find(n), "to #{User.find(n).username} blablablab", "test from #{User.first.username}")
-end
