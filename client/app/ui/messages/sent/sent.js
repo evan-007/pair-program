@@ -12,7 +12,8 @@ angular.module('ppApp')
   })
 })
 .controller('sentCtrl', function($scope, Messages, OneMessage){
-  $scope.messages = Messages.data.conversations;
+  $scope.messages = Messages.data.messages;
+  $scope.type = 'sentbox';
   $scope.getMessage = function(id){
     OneMessage(id).then(function(data){
       $scope.activeMessage = data;

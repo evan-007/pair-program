@@ -15,19 +15,21 @@ angular.module('ppApp')
   })
 })
 .controller('inboxCtrl', function($scope, Inbox, OneMessage){
-  $scope.messages = Inbox.data.conversations;
+  $scope.messages = Inbox.data.messages;
+  $scope.type = 'inbox';
 })
 .directive('mailBox', function(OneMessage){
   return {
     restrict: 'E',
     templateUrl: './ui/messages/mailbox.html',
     scope: {
-      messages: '=messages'
+      messages: '=messages',
+      type: '=type'
     },
     //wow this actual works, scope is $scope?
     link: function(scope, element, attrs) {
-      scope.getMessage = function(id) {
-        OneMessage(id).then(function(data){
+      scope.getMessage = function(id, type) {
+        OneMessage(id, type).then(function(data){
           scope.activeMessage = data;
         })
       }
