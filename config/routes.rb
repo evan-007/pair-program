@@ -15,7 +15,7 @@ Rails.application.routes.draw do
       
       resources :friends, only: [:index]
       
-      resources :conversations, only: [:index, :show]
+      resources :messages, only: [:index, :show]
     end
   end
 end

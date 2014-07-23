@@ -1,21 +1,25 @@
 module Api
   module V1
-    class ConversationsController < ApplicationController
-      before_action :signed_in?, :get_box, :get_mailbox
+    class MessagesController < ApplicationController
+      before_action :signed_in?, :get_box
       
       def index
         if @box.eql? "inbox"
-          @messages = @mailbox.inbox
+          @messages = current_user.received_messages
         elsif @box.eql? "sentbox"
-          @messages = @mailbox.sentbox
+          @messages = current_user.sent_messages
         else
           @messages = @mailbox.trash
         end
-        render json: @messages, status: 200, each_serializer: ConversationSerializer
+        render json: @messages, status: 200, each_serializer: MessageSerializer
       end
       
       def show
-        @message = current_user.mailbox.conversations.find(params[:id]).receipts_for(current_user).first.message
+        if @box.eql? "inbox"
+          @message = current_user.received_messages.find(params[:id])
+        else
+          @message = current_user.sent_messages.find(params[:id])
+        end
         render json: @message, status: 200, serializer: MessageSerializer
       end
       
@@ -25,10 +29,6 @@ module Api
             params[:box] = 'inbox'
           end
           @box = params[:box]
-        end
-        
-        def get_mailbox
-          @mailbox = current_user.mailbox
         end
     end
   end
