@@ -6,7 +6,7 @@
     </ul>
   </div>
   <div class='col-md-9'>
-    <div ng-if='!activeMessage'>
+    <div ng-if='!activeMessage && newMessage'>
       <p>Click on a message on the left to read it</p>
     </div>
     <div ng-if='activeMessage'>
@@ -15,6 +15,15 @@
       <h6>To: {{activeMessage.receiver_name}}</h6>
       <h6>Sent on {{activeMessage.created_at | date : 'medium'}}</h6>
       <p>{{activeMessage.body}}</p>
+      <button ng-click='reply(activeMessage)' class='btn btn-primary'>Reply</button>
+    </div>
+    <div ng-if='newMessage'>
+      <h6>To: {{newMessage.receiver_name}}</h6>
+      <p><input type='hidden' ng-model='newMessage.receiverId' /></p>
+      <p><input type='text' class='form-control' ng-model='newMessage.title' /></p>
+      <p><textarea ng-model='newMessage.response' placeholder="on {{newMessage.created_at | date : 'medium'}} {{newMessage.receiver_name}} wrote: {{newMessage.body}}"
+                   class='form-control'></textarea></p>
+      <button ng-click='send(newMessage)' class='btn btn-primary'>Send</button><button ng-click='cancel(newMessage)' class='btn btn-danger'>Cancel</button>
     </div>
   </div>
 </div>

@@ -33,6 +33,15 @@ angular.module('ppApp')
           scope.activeMessage = data;
         })
       }
+      scope.reply = function(message){
+        console.log(message);
+        scope.newMessage = message;
+        scope.activeMessage = '';
+      }
+      scope.cancel = function(message){
+        scope.activeMessage = message;
+        scope.newMessage = '';
+      }
     }
   }
 })
