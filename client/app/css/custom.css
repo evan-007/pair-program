@@ -25,3 +25,11 @@ body {
   -webkit-animation: lightSpeedIn 0.5s;
   animation: lightSpeedIn 0.5s;
 }
+
+.user-sidebar {
+  border: 1px solid #000000;
+}
+
+.spaced-li {
+  margin: 10px 0;
+}
