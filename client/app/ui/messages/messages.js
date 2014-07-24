@@ -23,8 +23,8 @@ angular.module('ppApp')
     restrict: 'E',
     templateUrl: './ui/messages/mailbox.html',
     scope: {
-      messages: '=messages',
-      type: '=type'
+      messages: '=',
+      type: '='
     },
     //wow this actual works, scope is $scope?
     link: function(scope, element, attrs) {

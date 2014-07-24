@@ -257,7 +257,6 @@ angular.module('ppApp')
   return function(id, boxType){
     var defer = $q.defer();
     $http.get('/api/v1/messages/'+id+'?box='+boxType).then(function(data){
-      console.log(data);
       defer.resolve(data.data.message);
     });
     return defer.promise;
@@ -303,8 +302,8 @@ angular.module('ppApp')
     restrict: 'E',
     templateUrl: './ui/messages/mailbox.html',
     scope: {
-      messages: '=messages',
-      type: '=type'
+      messages: '=',
+      type: '='
     },
     //wow this actual works, scope is $scope?
     link: function(scope, element, attrs) {
@@ -318,7 +317,6 @@ angular.module('ppApp')
       scope.reply = function(message){
         scope.newMessage = message;
         scope.activeMessage = '';
-        console.log(scope.activeMessage);
       }
       scope.cancel = function(message){
         scope.activeMessage = message;
@@ -328,6 +326,7 @@ angular.module('ppApp')
         PostMessage(message).then(function(){
           scope.newMessage = '';
           scope.activeMessage = '';
+          //alert or something that message was sent/failed?
         })
       }
     }
