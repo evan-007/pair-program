@@ -11,16 +11,32 @@
   <navbar></navbar>
 	<div class='container'>
 
-    <view-body>
-			<p>top</p>
-      <alerts></alerts>
-      <div ui-view class='animate-view well'></div>
-			<p>bottom</p>
-    </view-body>
+	<div ng-controller='authCtrl'>
+		<div ng-if='authUser'>
+	    <div class='row'>
+				<div class='col-md-1 user-sidebar well'>
+					<ul class='list-inline'>
+						<li class='spaced-li'><a ui-sref='messages.inbox'><i class='fa fa-envelope fa-3x'></i>Messages</a></li>
+						<li class='spaced-li'><a ui-sref='friends.all'><i class='fa fa-users fa-3x'></i>Friends</a></li>
+						<li class='spaced-li'><a ui-sref='friendfinder'><i class='fa fa-search fa-3x'></i>Friend Finder</a></li>
+					</ul>
+				</div>
+				<div class='col-md-11'>
+					<alerts></alerts>
+					<div ui-view class='animate-view well'></div>
+				</div>
+			</div>
+		</div><!--auth user-->
+		<div ng-if='!authUser'>
+			<alerts></alerts>
+			<div ui-view class='animate-view well'></div>
+		</div>
+
+	</div>
 
   </div><!--container-->
 	<script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
 
-	<script src="./assets/combined-8f43c218.js"></script>
+	<script src="./assets/combined-2688d9eb.js"></script>
 </body>
 </html>
