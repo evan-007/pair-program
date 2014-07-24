@@ -306,6 +306,15 @@ angular.module('ppApp')
     },
     //wow this actual works, scope is $scope?
     link: function(scope, element, attrs) {
+      scope.currentPage = 1;
+      scope.totalMessages = scope.messages.length;
+      scope.itemsPerPage = 10;
+      scope.$watch('currentPage', function(newValue, oldValue){
+        var start = ((scope.currentPage -1) * scope.itemsPerPage)
+        var end = start + scope.itemsPerPage
+        scope.showMessages = scope.messages.slice(start, end);
+      });
+      
       scope.getMessage = function(id, type) {
         scope.activeMessage = '';
         scope.newMessage = '';

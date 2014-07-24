@@ -1,9 +1,10 @@
 <div class='row'>
   <div class='col-md-3'>
     <h5>Messages</h5>
-    <ul>
-      <li ng-repeat='message in messages' ng-click='getMessage(message.id, type)'>{{message.title}}</li>
+    <ul class='list-unstyled'>
+      <li ng-repeat='message in showMessages' ng-click='getMessage(message.id, type)'>{{message.title}}</li>
     </ul>
+    <pager total-items='totalMessages' ng-model="currentPage"></pager>
   </div>
   <div class='col-md-7'>
     <div ng-if='!activeMessage && newMessage'>
