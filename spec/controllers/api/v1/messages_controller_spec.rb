@@ -85,6 +85,9 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
       end
       context 'two users are not friends' do
         it 'does not create a new message' do
+          @user3 = create(:user)
+          post :create, message: attributes_for(:message, receiver_id: @user3.id)
+          expect(response.status).to eq 401
         end
       end
     end

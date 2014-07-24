@@ -2,6 +2,7 @@ module Api
   module V1
     class MessagesController < ApplicationController
       before_action :signed_in?, :get_box
+      before_action :can_message?, only: [:create]
       
       def index
         if @box.eql? "inbox"
@@ -42,6 +43,12 @@ module Api
       
         def message_params
           params.require(:message).permit(:receiver_id, :title, :body)
+        end
+      
+        def can_message?
+          if FriendVerifier.new.check(current_user, params[:message][:receiver_id]) == false
+            render nothing: true, status: 401
+          end
         end
     end
   end
