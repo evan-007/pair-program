@@ -370,6 +370,7 @@ angular.module('ppApp')
 })
 angular.module('ppApp')
 .controller('authCtrl', function($scope, CookieHandler){
+  $scope.authUser = CookieHandler.get();
   $scope.$watch(function(){
     var user = CookieHandler.get();
     return (user == null) ? 0 : user.id;
