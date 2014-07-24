@@ -14,7 +14,7 @@
 
   <navbar></navbar>
 	<div class='container'>
-
+	<alerts></alerts>
 	<div ng-controller='authCtrl'>
 		<div ng-if='authUser'>
 	    <div class='row'>
@@ -26,13 +26,12 @@
 					</ul>
 				</div>
 				<div class='col-md-11'>
-					<alerts></alerts>
+
 					<div ui-view class='animate-view well'></div>
 				</div>
 			</div>
 		</div><!--auth user-->
 		<div ng-if='!authUser'>
-			<alerts></alerts>
 			<div ui-view class='animate-view well'></div>
 		</div>
 
