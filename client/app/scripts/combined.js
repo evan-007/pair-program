@@ -246,7 +246,6 @@ angular.module('ppApp')
   return function(boxType){
     var defer = $q.defer();
     $http.get('/api/v1/messages?box='+boxType).then(function(data){
-      console.log(data)
       defer.resolve(data);
     });
     return defer.promise;
