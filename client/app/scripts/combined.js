@@ -263,6 +263,21 @@ angular.module('ppApp')
     return defer.promise;
   }
 })
+// toDo ngResource or restangular
+.factory('PostMessage', function($http, $q){
+  return function(message){
+    var newMessage = {message: {
+      receiver_id: message.sender_id,
+      body: message.response,
+      title: message.title
+    }}
+    var defer = $q.defer();
+    $http.post('/api/v1/messages', newMessage).then(function(data){
+      defer.resolve(data);
+    });
+    return defer.promise;
+  }
+})
 angular.module('ppApp')
 .config(function($stateProvider){
   $stateProvider.state('messages', {
@@ -279,11 +294,11 @@ angular.module('ppApp')
     controller: 'inboxCtrl'
   })
 })
-.controller('inboxCtrl', function($scope, Inbox, OneMessage){
+.controller('inboxCtrl', function($scope, Inbox){
   $scope.messages = Inbox.data.messages;
   $scope.type = 'inbox';
 })
-.directive('mailBox', function(OneMessage){
+.directive('mailBox', function(OneMessage, PostMessage){
   return {
     restrict: 'E',
     templateUrl: './ui/messages/mailbox.html',
@@ -294,18 +309,26 @@ angular.module('ppApp')
     //wow this actual works, scope is $scope?
     link: function(scope, element, attrs) {
       scope.getMessage = function(id, type) {
+        scope.activeMessage = '';
+        scope.newMessage = '';
         OneMessage(id, type).then(function(data){
           scope.activeMessage = data;
         })
       }
       scope.reply = function(message){
-        console.log(message);
         scope.newMessage = message;
         scope.activeMessage = '';
+        console.log(scope.activeMessage);
       }
       scope.cancel = function(message){
         scope.activeMessage = message;
         scope.newMessage = '';
+      }
+      scope.send = function(message){
+        PostMessage(message).then(function(){
+          scope.newMessage = '';
+          scope.activeMessage = '';
+        })
       }
     }
   }

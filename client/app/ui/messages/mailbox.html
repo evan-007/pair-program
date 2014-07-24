@@ -19,7 +19,7 @@
     </div>
     <div ng-if='newMessage'>
       <h6>To: {{newMessage.receiver_name}}</h6>
-      <p><input type='hidden' ng-model='newMessage.receiverId' /></p>
+      <p><input type='hidden' ng-model='newMessage.sender_id' /></p>
       <p><input type='text' class='form-control' ng-model='newMessage.title' /></p>
       <p><textarea ng-model='newMessage.response' placeholder="on {{newMessage.created_at | date : 'medium'}} {{newMessage.receiver_name}} wrote: {{newMessage.body}}"
                    class='form-control'></textarea></p>
