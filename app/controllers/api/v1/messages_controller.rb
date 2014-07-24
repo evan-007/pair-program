@@ -23,12 +23,25 @@ module Api
         render json: @message, status: 200, serializer: MessageSerializer
       end
       
+      def create
+        @message = current_user.sent_messages.build(message_params)
+        if @message.save
+          render json: @message, status: 200, serializer: MessageSerializer
+        else
+          render json: @message.errors, status: 400
+        end
+      end
+      
       private
         def get_box
           if params[:box].blank? or !["inbox","sentbox","trash"].include?params[:box]
             params[:box] = 'inbox'
           end
           @box = params[:box]
+        end
+      
+        def message_params
+          params.require(:message).permit(:receiver_id, :title, :body)
         end
     end
   end

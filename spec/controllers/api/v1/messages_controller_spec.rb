@@ -63,4 +63,30 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
       end
     end
   end
+  describe 'POST create' do
+    context 'with current user' do
+      before do
+        @user = create(:user)
+        request.headers["token"] = @user.token
+        request.headers["username"] = @user.username
+      end
+      context 'two users are friends' do
+        before do
+          @user2 = create(:user)
+          @friendship = Friendship.create(user_id: @user.id, friend_id: @user2.id)
+          @friendship.approve!
+        end
+        it 'creates a new message' do
+          post :create, message: attributes_for(:message, receiver_id: @user2.id)
+          data = JSON.parse(response.body)
+          expect(response.status).to eq 200
+          expect(data["message"]["receiver_name"]).to eq @user2.username
+        end
+      end
+      context 'two users are not friends' do
+        it 'does not create a new message' do
+        end
+      end
+    end
+  end
 end
