@@ -44,22 +44,22 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
         end
       end
     end
-    describe 'GET :show' do
-      context 'with a current user' do
-        before do
-          @user = create(:user)
-          request.headers["token"] = @user.token
-          request.headers["username"] = @user.username
-        end
-        it 'returns one message' do
-          @user2 = create(:user)
-          @user2.sent_messages.create(receiver_id: @user.id, title: 'call me', body: 'blablabla')
-          @id = @user.received_messages.first.id
-          get :show, id: @id
-          data = JSON.parse(response.body)
-          expect(response.status).to eq 200
-          expect(data["message"]["title"]).to eq 'call me'
-        end
+  end
+  describe 'GET :show' do
+    context 'with a current user' do
+      before do
+        @user = create(:user)
+        request.headers["token"] = @user.token
+        request.headers["username"] = @user.username
+      end
+      it 'returns one message' do
+        @user2 = create(:user)
+        @user2.sent_messages.create(receiver_id: @user.id, title: 'call me', body: 'blablabla')
+        @id = @user.received_messages.first.id
+        get :show, id: @id
+        data = JSON.parse(response.body)
+        expect(response.status).to eq 200
+        expect(data["message"]["title"]).to eq 'call me'
       end
     end
   end
