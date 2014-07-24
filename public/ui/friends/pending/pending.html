@@ -1,11 +1,2 @@
 <p>requests that haven't been approved yet</p>
-<div class='row'>
-  <div class='col-sm-3 user-box' ng-repeat='friend in pendingFriends.friendships'>
-    <h5>{{friend.username}}</h5>
-    <img ng-src='https://secure.gravatar.com/avatar/{{friend.gravatar_hash}}' />
-    <ul class='list-inline'>
-      <li>Languages:</li>
-      <li ng-repeat='language in friend.languages'>{{language.name}}</li>
-    </ul>
-  </div>
-</div>
+<friends-list friends='pendingFriends.friendships'></friends-list>
