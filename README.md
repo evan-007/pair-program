@@ -1,5 +1,8 @@
 #README
 
+demo: <a href='http://tranquil-tor-7118.herokuapp.com'>http://tranquil-tor-7118.herokuapp.com</a>. Demo
+loads super slow, refresh page if initial load looks weird. 
+
 `clone` and `bundle install && rake db:create db:migrate db:seed`
 
 Rails api lives in the rails app as usual, the angular app is in `client`.
