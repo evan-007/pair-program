@@ -1,32 +1,51 @@
-<p>this is the signup view</p>
-<form nonvalidate ng-submit="submit(signup)">
-  <p>
-    <label>Username</label>
-    <input type="text" ng-model="signup.username">
-  </p>
-  <p>
-    <label>Email</label>
-    <input type="email" ng-model="signup.email">
-  </p>
-  <p>
-    <label>Password</label>
-    <input type="password" ng-model="signup.password">
-  </p>
-  <p>
-    <label>Password Confirmation</label>
-    <input type="password" ng-model="signup.password_confirmation">
-  </p>
-  <p>
-    <label>Location</label>
-    <input type="text" ng-model="signup.location">
-  </p>
-  <p>
-    <label>Languages</label><select multiple ng-model='signup.language_ids' ng-options='l.id as l.name for l in languages'></select>
-  </p>
-  <p>
-    <input type="submit" value="Sign up" name="SubmitButton">
-  </p>
-</form>
-
-<p ng-model='signup'>{{signup}}</p>
-
+<div class='row'>
+  <div class='col-sm-7'>
+    <form novalidate ng-submit="submit(signup)" class='form-horizontal' name='signupForm'>
+      <p>
+        <label>Username</label>
+        <input type="text" ng-model="signup.username" class='form-control' name='username'
+               require minlength='3'>
+      </p>
+      <div ng-messages="signupForm.username.$error">
+        <div ng-message="required">You did not enter a username</div>
+        <div ng-message="minlength">Username must be at least 3 characters</div>
+      </div>
+      <p>
+        <label>Email</label>
+        <input type="email" ng-model="signup.email" class='form-control'>
+      </p>
+      <p>
+        <label>Password</label>
+        <input type="password" ng-model="signup.password" class='form-control'>
+      </p>
+      <p>
+        <label>Password Confirmation</label>
+        <input type="password" ng-model="signup.password_confirmation" class='form-control'>
+      </p>
+      <p>
+        <label>Location</label>
+        <input type="text" ng-model="signup.location" class='form-control'>
+      </p>
+      <p>
+        <label>Languages</label><select multiple ng-model='signup.language_ids' ng-options='l.id as l.name for l in languages' class='form-control multiple'></select>
+      </p>
+      <p class='checkbox'>
+        <label><input type='checkbox' ng-model="signup['mentor?']" />Interested in mentoring?</label>
+      </p>
+      <p class='checkbox'>
+        <label><input type='checkbox' ng-model="signup['student?']" />Looking for a mentor?</label>  
+      </p>
+      <p class='checkbox'>
+        <label><input type='checkbox' ng-model="signup['just_partner?']" />Just want to hack with someone?</label>
+      </p>
+      <p>
+        <label>About:</label>
+        <textarea ng-model='signup.about' placeholder='What are you working on? What do you wanna pair on?'
+              class='form-control'></textarea>
+      </p>
+      <p>
+        <input type="submit" value="Sign up" name="SubmitButton">
+      </p>
+    </form>
+  </div>
+</div>
