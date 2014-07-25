@@ -39,7 +39,7 @@ module Api
     	private
 	      def user_params
 	  	    params.require(:user).permit(:email, :password, :password_confirmation,
-            :username, :location, language_ids: [])
+            :username, :mentor?, :student?, :just_partner?, :location, language_ids: [])
 	      end
     end
   end

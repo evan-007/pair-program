@@ -48,7 +48,7 @@ for n in 11..21
   User.find(n).friendships.create(friend_id: User.first.id)
 end
 
-for n in 1..10
+for n in 2..10
   User.first.sent_messages.create(receiver_id: User.find(n).id, title: "Message from #{User.first.username}", body: 'hellohello')
 end
 
