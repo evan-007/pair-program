@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140723053634) do
+ActiveRecord::Schema.define(version: 20140725020307) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,6 +63,9 @@ ActiveRecord::Schema.define(version: 20140723053634) do
     t.string   "location"
     t.string   "token"
     t.string   "gravatar_hash"
+    t.boolean  "mentor?"
+    t.boolean  "student?"
+    t.boolean  "just_partner?"
   end
 
 end
