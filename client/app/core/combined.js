@@ -230,7 +230,6 @@ angular.module('ppApp').config(function($stateProvider){
     $scope.filteredUsers = $filter("filter")($scope.users, language.name);
   });
 })
-
 angular.module('ppApp')
 .factory('MapUserData', function($http, $q){
   return function(){

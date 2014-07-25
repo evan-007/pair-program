@@ -70,9 +70,7 @@ gulp.task('build', function() {
 });
 
 gulp.task('watch', function(){
-	gulp.watch('./app/**/.js', function() {
-		gulp.run('js');
-	});
+	gulp.watch('./app/**/*.js', ['js'])
 });
 
 gulp.task('default', ['connect', 'js', 'watch']);
