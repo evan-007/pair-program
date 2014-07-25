@@ -42,10 +42,10 @@ gulp.task('format-js', function(){
 });
 
 gulp.task('js', function(){
-  return gulp.src(['!./app/bower_components/**/*', '!./app/scripts/combined.js',
-   '!./app/**/*Spec.js', './app/scripts/app.js', './app/**/*.js'])
+  return gulp.src(['!./app/bower_components/**/*', '!./app/core/combined.js',
+   '!./app/**/*Spec.js', './app/core/app.js', './app/**/*.js'])
   .pipe(concat('combined.js'))
-  .pipe(gulp.dest('./app/scripts/'));
+  .pipe(gulp.dest('./app/core/'));
 });
 
 gulp.task('usemin', function() {
