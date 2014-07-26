@@ -5,14 +5,28 @@ RSpec.describe Api::V1::LanguagesController, type: :controller do
     before do
       3.times { create(:language)}
     end
-    
-    it 'return an array of all languages' do
-      get :index
-      data = JSON.parse(response.body)
-      expect(response.status).to eq 200
-      #this is bad
-      expect(data["languages"][0]["name"]).to eq 'language1'
-      expect(data["languages"][2]["name"]).to eq 'language3'
+    context 'without params' do
+      it 'return an array of all languages' do
+        get :index
+        data = JSON.parse(response.body)
+        expect(response.status).to eq 200
+        #this is bad
+        expect(data["languages"][0]["name"]).to eq 'language1'
+        expect(data["languages"][2]["name"]).to eq 'language3'
+      end
+    end
+
+    context 'with :q params' do
+      before do
+        @language = create(:language, name: 'ruby')
+      end
+
+      it 'returns languages with names like :q' do
+        get :index, {q: 'ruby'}
+        data = JSON.parse(response.body)
+        expect(response.body).to eq 200
+        expect(data).to eq '99'
+      end
     end
   end
 end
