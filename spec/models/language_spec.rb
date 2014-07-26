@@ -10,10 +10,17 @@ RSpec.describe Language, :type => :model do
     before do
       @language = create(:language, name: 'ruby')
     end
-
-    it 'returns languages that match the query' do
-      @return = Language.tokens('ruby')
-      expect(@return[0]["name"]).to eq @language.name
+    context 'language exists' do
+      it 'returns languages that match the query' do
+        @return = Language.tokens('ruby')
+        expect(@return[0]["name"]).to eq @language.name
+      end
+    end
+    context 'language is new' do
+      it 'returns a new language from the query' do
+        @return = Language.tokens('python')
+        expect(@return[0]).to eq 'cat'
+      end
     end
 
   end

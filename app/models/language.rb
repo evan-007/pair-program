@@ -5,5 +5,8 @@ class Language < ActiveRecord::Base
 
   def self.tokens(query)
     languages = where("name like ?", "%#{query}")
+    if languages.empty?
+      [{id: "<<<#{query}>>>", name: "New: \"#{query}\""}]
+    end
   end
 end
