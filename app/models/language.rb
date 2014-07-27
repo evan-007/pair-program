@@ -4,9 +4,11 @@ class Language < ActiveRecord::Base
   has_many :users, through: :user_languages, inverse_of: :languages
 
   def self.tokens(query)
-    languages = where("name like ?", "%#{query}")
+    languages = self.where("name ILIKE ?", "%#{query}%")
     if languages.empty?
       [{id: "<<<#{query}>>>", name: "New: \"#{query}\""}]
+    else
+      languages
     end
   end
 end

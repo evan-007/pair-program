@@ -27,13 +27,20 @@
         <input type="text" ng-model="signup.location" class='form-control'>
       </p>
       <p>
+        <label>Languages tokens</label>
+        <tags-input ng-model='signup.language_ids'>
+          <auto-complete source='getLanguages($query)'>
+          </auto-complete>
+        </tags-input>
+      </p>
+      <p>
         <label>Languages</label><select multiple ng-model='signup.language_ids' ng-options='l.id as l.name for l in languages' class='form-control multiple'></select>
       </p>
       <p class='checkbox'>
         <label><input type='checkbox' ng-model="signup['mentor?']" />Interested in mentoring?</label>
       </p>
       <p class='checkbox'>
-        <label><input type='checkbox' ng-model="signup['student?']" />Looking for a mentor?</label>  
+        <label><input type='checkbox' ng-model="signup['student?']" />Looking for a mentor?</label>
       </p>
       <p class='checkbox'>
         <label><input type='checkbox' ng-model="signup['just_partner?']" />Just want to hack with someone?</label>
