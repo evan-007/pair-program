@@ -8,6 +8,7 @@ angular.module('ppApp')
       language_ids.push(userData.languages[n].id)
     }
     console.log(language_ids);
+    userData.language_ids = language_ids;
     var newUser = {
       user : userData
     }
