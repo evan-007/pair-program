@@ -28,9 +28,9 @@
       </p>
       <p>
         <label>Languages</label>
-        <tags-input ng-model='signup.languages' min-length="2" placeholder="Languages you wanna pair on"
+        <tags-input ng-model='signup.languages' min-length="1" placeholder="Languages you wanna pair on"
         add-on-enter="false" add-on-comma="false" add-on-blur="false">
-          <auto-complete source='getLanguages($query)'>
+          <auto-complete source='getLanguages($query)' min-length='1'>
           </auto-complete>
         </tags-input>
       </p>

@@ -6,15 +6,11 @@ class Language < ActiveRecord::Base
 
   def self.tokens(query)
     languages = self.where("name ILIKE ?", "%#{query}%")
-    if languages.empty?
-      languages << {id: "<<<#{query}>>>", name: "New:\"#{query}\"", text: "New:\"#{query}\"" }
-    end
-    languages
+    languages << {id: "<<<#{query}>>>", name: "New:\"#{query}\"", text: "New:\"#{query}\"" }
   end
 
   def self.ids_from_tokens(tokens)
     tokens.gsub!(/<<<(.+?)>>>/) { Language.create!(name: $1).id }
-    puts tokens.split(' ')
     return tokens.split(' ')
   end
 end
