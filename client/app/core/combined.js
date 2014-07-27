@@ -437,8 +437,9 @@ angular.module('ppApp')
     for (var n = 0; n < length; n++) {
       language_ids.push(userData.languages[n].id)
     }
+    language_ids = language_ids.join(' ');
     console.log(language_ids);
-    userData.language_ids = language_ids;
+    userData.language_tokens = language_ids;
     var newUser = {
       user : userData
     }
@@ -450,6 +451,33 @@ angular.module('ppApp')
     .error(function(data){
       console.log(data);
     });
+  }
+})
+
+angular.module('ppApp').config(function($stateProvider){
+  $stateProvider.state('friends.pending', {
+    url: '/pending',
+    templateUrl: 'ui/friends/pending/pending.html',
+    controller: 'pendingCtrl',
+    resolve: {
+      PendingFriends: function(PendingFriendService){
+        return PendingFriendService();
+      }
+    }
+  });
+})
+.controller('pendingCtrl', function(PendingFriends, $scope){
+  $scope.pendingFriends = PendingFriends;
+})
+
+angular.module('ppApp')
+.factory('PendingFriendService', function($http, $q){
+  return function(){
+    var defer = $q.defer()
+    $http.get('/api/v1/friendships/pending').then(function(data){
+      defer.resolve(data.data)
+    });
+    return defer.promise
   }
 })
 
@@ -513,33 +541,6 @@ angular.module('ppApp').config(function($stateProvider){
   }
 })
 
-angular.module('ppApp').config(function($stateProvider){
-  $stateProvider.state('friends.pending', {
-    url: '/pending',
-    templateUrl: 'ui/friends/pending/pending.html',
-    controller: 'pendingCtrl',
-    resolve: {
-      PendingFriends: function(PendingFriendService){
-        return PendingFriendService();
-      }
-    }
-  });
-})
-.controller('pendingCtrl', function(PendingFriends, $scope){
-  $scope.pendingFriends = PendingFriends;
-})
-
-angular.module('ppApp')
-.factory('PendingFriendService', function($http, $q){
-  return function(){
-    var defer = $q.defer()
-    $http.get('/api/v1/friendships/pending').then(function(data){
-      defer.resolve(data.data)
-    });
-    return defer.promise
-  }
-})
-
 angular.module('ppApp')
 .config(function($stateProvider){
   $stateProvider.state('messages.sent', {
@@ -593,29 +594,6 @@ angular.module('ppApp')
 })
 
 angular.module('ppApp')
-.directive('viewBody', function(CookieHandler){
-  return {
-    restrict: 'E',
-    templateUrl: 'ui/shared/view-body/view-body.html',
-    transclude: true,
-    link: function(scope, element, attrs) {
-      scope.currentUser = CookieHandler.get();
-
-      scope.$watch(
-        function(){
-          var user = CookieHandler.get();
-          return (user == null) ? 0 : user.id;
-        },
-        function(newValue, oldValue) {
-          if( newValue !== oldValue) {
-            scope.currentUser = CookieHandler.get();
-          }
-        }
-      );
-    }
-  }
-})
-angular.module('ppApp')
 .directive('navbar', function(){
   return {
     restrict: 'E',
@@ -641,5 +619,29 @@ angular.module('ppApp')
   $scope.logout = function(){
     CookieHandler.delete();
     $location.path('/')
+  }
+})
+
+angular.module('ppApp')
+.directive('viewBody', function(CookieHandler){
+  return {
+    restrict: 'E',
+    templateUrl: 'ui/shared/view-body/view-body.html',
+    transclude: true,
+    link: function(scope, element, attrs) {
+      scope.currentUser = CookieHandler.get();
+
+      scope.$watch(
+        function(){
+          var user = CookieHandler.get();
+          return (user == null) ? 0 : user.id;
+        },
+        function(newValue, oldValue) {
+          if( newValue !== oldValue) {
+            scope.currentUser = CookieHandler.get();
+          }
+        }
+      );
+    }
   }
 })

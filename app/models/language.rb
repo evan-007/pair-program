@@ -3,12 +3,19 @@ class Language < ActiveRecord::Base
   has_many :user_languages, dependent: :destroy, inverse_of: :language
   has_many :users, through: :user_languages, inverse_of: :languages
 
+
   def self.tokens(query)
     languages = self.where("name ILIKE ?", "%#{query}%")
     if languages.empty?
-      [{id: "<<<#{query}>>>", name: "New: \"#{query}\""}]
+      [{id: "<<<#{query}>>>", name: "New:\"#{query}\"", text: "New:\"#{query}\"" }]
     else
       languages
     end
+  end
+
+  def self.ids_from_tokens(tokens)
+    tokens.gsub!(/<<<(.+?)>>>/) { Language.create!(name: $1).id }
+    puts tokens.split(' ')
+    return tokens.split(' ')
   end
 end

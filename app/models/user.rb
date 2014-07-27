@@ -18,6 +18,12 @@ class User < ActiveRecord::Base
   after_validation :ensure_token
   after_validation :generate_gravatar
 
+  attr_reader :language_tokens
+
+  def language_tokens=(tokens)
+    self.language_ids = Language.ids_from_tokens(tokens)
+  end
+
   def ensure_token
     self.token = generate_token
   end

@@ -7,8 +7,9 @@ angular.module('ppApp')
     for (var n = 0; n < length; n++) {
       language_ids.push(userData.languages[n].id)
     }
+    language_ids = language_ids.join(' ');
     console.log(language_ids);
-    userData.language_ids = language_ids;
+    userData.language_tokens = language_ids;
     var newUser = {
       user : userData
     }
