@@ -27,8 +27,9 @@
         <input type="text" ng-model="signup.location" class='form-control'>
       </p>
       <p>
-        <label>Languages tokens</label>
-        <tags-input ng-model='signup.languages'>
+        <label>Languages</label>
+        <tags-input ng-model='signup.languages' min-length="2" placeholder="Languages you wanna pair on"
+        add-on-enter="false" add-on-comma="false" add-on-blur="false">
           <auto-complete source='getLanguages($query)'>
           </auto-complete>
         </tags-input>
