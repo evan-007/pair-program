@@ -416,11 +416,13 @@ angular.module('ppApp')
     SignUpService(signup);
   };
   $scope.languages = Languages;
+  
+  //put this in a service!
   $scope.getLanguages = function(query){
     var defer = $q.defer()
-    $http.get('./api/v1/languages?q='+query).then(function(data){
-      console.log(data)
-      defer.resolve(data)
+    $http.get('./api/v1/languages?q='+query).then(function(response){
+      console.log(response)
+      defer.resolve(response.data.languages)
     })
     return defer.promise
   }
@@ -429,6 +431,13 @@ angular.module('ppApp')
 angular.module('ppApp')
 .factory('SignUpService', function($http, $location, $rootScope, CookieHandler){
   return function(userData){
+    var length = userData.languages.length;
+    var language_ids = [];
+    //get just ids from languages
+    for (var n = 0; n < length; n++) {
+      language_ids.push(userData.languages[n].id)
+    }
+    console.log(language_ids);
     var newUser = {
       user : userData
     }
@@ -442,6 +451,7 @@ angular.module('ppApp')
     });
   }
 })
+
 angular.module('ppApp').config(function($stateProvider){
   $stateProvider.state('friends.pending', {
     url: '/pending',

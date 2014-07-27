@@ -28,7 +28,7 @@
       </p>
       <p>
         <label>Languages tokens</label>
-        <tags-input ng-model='signup.language_ids'>
+        <tags-input ng-model='signup.languages'>
           <auto-complete source='getLanguages($query)'>
           </auto-complete>
         </tags-input>
@@ -56,3 +56,5 @@
     </form>
   </div>
 </div>
+
+{{signup.languages}}
