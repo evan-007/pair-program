@@ -251,31 +251,7 @@ angular.module('ppApp')
     return defer.promise;
   }
 })
-//rafactor with ng resource or into messagegetterservice
-.factory('OneMessage', function($http, $q){
-  return function(id, boxType){
-    var defer = $q.defer();
-    $http.get('/api/v1/messages/'+id+'?box='+boxType).then(function(data){
-      defer.resolve(data.data.message);
-    });
-    return defer.promise;
-  }
-})
-// toDo ngResource or restangular
-.factory('PostMessage', function($http, $q){
-  return function(message){
-    var newMessage = {message: {
-      receiver_id: message.sender_id,
-      body: message.response,
-      title: message.title
-    }}
-    var defer = $q.defer();
-    $http.post('/api/v1/messages', newMessage).then(function(data){
-      defer.resolve(data);
-    });
-    return defer.promise;
-  }
-})
+
 angular.module('ppApp')
 .config(function($stateProvider){
   $stateProvider.state('messages', {
@@ -296,7 +272,7 @@ angular.module('ppApp')
   $scope.messages = Inbox.data.messages;
   $scope.type = 'inbox';
 })
-.directive('mailBox', function(OneMessage, PostMessage){
+.directive('mailBox', function(OneMessageService, PostMessageService){
   return {
     restrict: 'E',
     templateUrl: './ui/messages/mailbox.html',
@@ -321,7 +297,7 @@ angular.module('ppApp')
         message.read = true;
         scope.activeMessage = '';
         scope.newMessage = '';
-        OneMessage(id, type).then(function(data){
+        OneMessageService(id, type).then(function(data){
           scope.activeMessage = data;
         })
       }
@@ -334,13 +310,40 @@ angular.module('ppApp')
         scope.newMessage = '';
       }
       scope.send = function(message){
-        PostMessage(message).then(function(){
+        PostMessageService(message).then(function(){
           scope.newMessage = '';
           scope.activeMessage = '';
           //alert or something that message was sent/failed?
         })
       }
     }
+  }
+})
+
+angular.module('ppApp')
+.factory('OneMessageService', function($http, $q){
+  return function(id, boxType){
+    var defer = $q.defer();
+    $http.get('/api/v1/messages/'+id+'?box='+boxType).then(function(data){
+      defer.resolve(data.data.message);
+    });
+    return defer.promise;
+  }
+})
+
+angular.module('ppApp')
+.factory('PostMessageService', function($http, $q){
+  return function(message){
+    var newMessage = {message: {
+      receiver_id: message.sender_id,
+      body: message.response,
+      title: message.title
+    }}
+    var defer = $q.defer();
+    $http.post('/api/v1/messages', newMessage).then(function(data){
+      defer.resolve(data);
+    });
+    return defer.promise;
   }
 })
 
@@ -558,15 +561,16 @@ angular.module('ppApp')
     }
   })
 })
-.controller('sentCtrl', function($scope, Messages, OneMessage){
+.controller('sentCtrl', function($scope, Messages, OneMessageService){
   $scope.messages = Messages.data.messages;
   $scope.type = 'sentbox';
   $scope.getMessage = function(id){
-    OneMessage(id).then(function(data){
+    OneMessageService(id).then(function(data){
       $scope.activeMessage = data;
     });
   }
 })
+
 angular.module('ppApp')
 .controller('alertsCtrl', function($scope){
 

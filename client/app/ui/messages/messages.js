@@ -18,7 +18,7 @@ angular.module('ppApp')
   $scope.messages = Inbox.data.messages;
   $scope.type = 'inbox';
 })
-.directive('mailBox', function(OneMessage, PostMessage){
+.directive('mailBox', function(OneMessageService, PostMessageService){
   return {
     restrict: 'E',
     templateUrl: './ui/messages/mailbox.html',
@@ -43,7 +43,7 @@ angular.module('ppApp')
         message.read = true;
         scope.activeMessage = '';
         scope.newMessage = '';
-        OneMessage(id, type).then(function(data){
+        OneMessageService(id, type).then(function(data){
           scope.activeMessage = data;
         })
       }
@@ -56,7 +56,7 @@ angular.module('ppApp')
         scope.newMessage = '';
       }
       scope.send = function(message){
-        PostMessage(message).then(function(){
+        PostMessageService(message).then(function(){
           scope.newMessage = '';
           scope.activeMessage = '';
           //alert or something that message was sent/failed?
