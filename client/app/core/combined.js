@@ -91,17 +91,17 @@ angular.module('ppApp')
   return LanguageService;
 })
 angular.module('ppApp').config(function($stateProvider){
-  $stateProvider.state('about', {
-    url: '/about',
-    templateUrl: 'ui/about/about.html'
-  });
-})
-
-angular.module('ppApp').config(function($stateProvider){
   $stateProvider.state('contact', {
     url: '/contact',
     templateUrl: 'ui/contact/contact.html'
   })
+})
+
+angular.module('ppApp').config(function($stateProvider){
+  $stateProvider.state('about', {
+    url: '/about',
+    templateUrl: 'ui/about/about.html'
+  });
 })
 
 angular.module('ppApp')
