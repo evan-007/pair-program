@@ -242,36 +242,6 @@ angular.module('ppApp')
   }
 })
 angular.module('ppApp')
-.factory('MessageGetterService', function($http, $q){
-  return function(boxType){
-    var defer = $q.defer();
-    $http.get('/api/v1/messages?box='+boxType).then(function(data){
-      defer.resolve(data);
-    });
-    return defer.promise;
-  }
-})
-
-angular.module('ppApp')
-.config(function($stateProvider){
-  $stateProvider.state('messages', {
-    url: '/messages',
-    abstract: true,
-    templateUrl: 'ui/messages/index.html'
-  })
-  .state('messages.inbox', {
-    url: '',
-    templateUrl: 'ui/messages/inbox.html',
-    resolve: {Inbox: function(MessageGetterService){
-      return MessageGetterService();
-    }},
-    controller: 'inboxCtrl'
-  })
-})
-.controller('inboxCtrl', function($scope, Inbox){
-  $scope.messages = Inbox.data.messages;
-  $scope.type = 'inbox';
-})
 .directive('mailBox', function(OneMessageService, PostMessageService){
   return {
     restrict: 'E',
@@ -318,6 +288,38 @@ angular.module('ppApp')
       }
     }
   }
+})
+
+angular.module('ppApp')
+.factory('MessageGetterService', function($http, $q){
+  return function(boxType){
+    var defer = $q.defer();
+    $http.get('/api/v1/messages?box='+boxType).then(function(data){
+      defer.resolve(data);
+    });
+    return defer.promise;
+  }
+})
+
+angular.module('ppApp')
+.config(function($stateProvider){
+  $stateProvider.state('messages', {
+    url: '/messages',
+    abstract: true,
+    templateUrl: 'ui/messages/index.html'
+  })
+  .state('messages.inbox', {
+    url: '',
+    templateUrl: 'ui/messages/inbox.html',
+    resolve: {Inbox: function(MessageGetterService){
+      return MessageGetterService();
+    }},
+    controller: 'inboxCtrl'
+  })
+})
+.controller('inboxCtrl', function($scope, Inbox){
+  $scope.messages = Inbox.data.messages;
+  $scope.type = 'inbox';
 })
 
 angular.module('ppApp')
