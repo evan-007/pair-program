@@ -1,8 +1,8 @@
 <div class='row'>
   <div class='col-md-3'>
     <h5>Messages</h5>
-    <table class='table-striped'>
-      <tr ng-repeat='message in showMessages' ng-click='getMessage(message.id, type)'>
+    <table class='table'>
+      <tr ng-repeat='message in showMessages' ng-click='getMessage(message.id, type, message)' ng-class='message.read === true ? "" : "success"'>
         <td>{{message.title}}<td>
       </tr>
     </table>

@@ -26,7 +26,8 @@ angular.module('ppApp')
       messages: '=',
       type: '='
     },
-    //wow this actual works, scope is $scope?
+    //refactor things that don't use scope, element, attrs
+    //into controller
     link: function(scope, element, attrs) {
       scope.currentPage = 1;
       scope.totalMessages = scope.messages.length;
@@ -36,8 +37,10 @@ angular.module('ppApp')
         var end = start + scope.itemsPerPage
         scope.showMessages = scope.messages.slice(start, end);
       });
-      
-      scope.getMessage = function(id, type) {
+
+      //too many arguments!!!
+      scope.getMessage = function(id, type, message) {
+        message.read = true;
         scope.activeMessage = '';
         scope.newMessage = '';
         OneMessage(id, type).then(function(data){
