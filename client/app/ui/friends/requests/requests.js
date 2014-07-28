@@ -11,9 +11,15 @@ angular.module('ppApp').config(function($stateProvider){
 .controller('requestsCtrl', function(RequestData, $scope, FriendApproveService){
   console.log(RequestData);
   $scope.requests = RequestData;
-  $scope.approve = function(userId){
-    FriendApproveService(userId);
-    //do something with slice and RequestData
-    //to remove userId
+  $scope.approve = function(friend){
+    FriendApproveService(friend.id);
+    //cleaner way to rm one value from array???
+    //doing it here assumes success from server
+    //avoids extra http.GET to refresh data
+    var array = $scope.requests.friendships
+    var index = array.indexOf(friend)
+    if (index > -1) {
+      array.splice(index, 1)
+    }
   }
 })
