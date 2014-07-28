@@ -49,7 +49,7 @@ for n in 11..21
 end
 
 for n in 2..10
-  User.first.sent_messages.create(receiver_id: User.find(n).id, title: "Message from #{User.first.username}", body: 'hellohello')
+  User.first.sent_messages.create(receiver_id: User.find(n).id, title: "It's #{User.first.username}", body: 'hellohello')
 end
 
 for n in 11..21

@@ -3,7 +3,7 @@ module Api
     class MessagesController < ApplicationController
       before_action :signed_in?, :get_box
       before_action :can_message?, only: [:create]
-      
+
       def index
         if @box.eql? "inbox"
           @messages = current_user.received_messages
@@ -14,16 +14,17 @@ module Api
         end
         render json: @messages, status: 200, each_serializer: MessageSerializer
       end
-      
+
       def show
         if @box.eql? "inbox"
           @message = current_user.received_messages.find(params[:id])
         else
           @message = current_user.sent_messages.find(params[:id])
         end
+        @message.update(read?: true) #GET is not idempotent :(
         render json: @message, status: 200, serializer: MessageSerializer
       end
-      
+
       def create
         @message = current_user.sent_messages.build(message_params)
         if @message.save
@@ -32,7 +33,7 @@ module Api
           render json: @message.errors, status: 400
         end
       end
-      
+
       private
         def get_box
           if params[:box].blank? or !["inbox","sentbox","trash"].include?params[:box]
@@ -40,11 +41,11 @@ module Api
           end
           @box = params[:box]
         end
-      
+
         def message_params
           params.require(:message).permit(:receiver_id, :title, :body)
         end
-      
+
         def can_message?
           if FriendVerifier.new.check(current_user, params[:message][:receiver_id]) == false
             render nothing: true, status: 401
