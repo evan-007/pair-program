@@ -45,7 +45,7 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
       end
     end
   end
-  describe 'GET :show' do
+  describe 'GET :update' do
     context 'with a current user' do
       before do
         @user = create(:user)
@@ -56,14 +56,14 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
         @id = @user.received_messages.first.id
       end
       it 'returns one message' do
-        get :show, id: @id
+        get :update, id: @id
         data = JSON.parse(response.body)
         expect(response.status).to eq 200
         expect(data["message"]["title"]).to eq 'call me'
       end
       it 'sets the message to read?: true' do
         expect(@user.received_messages.first.read?).to eq false
-        get :show, id: @id
+        get :update, id: @id
         expect(@user.received_messages.first.read?).to eq true
       end
     end

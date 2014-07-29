@@ -12,10 +12,10 @@ Rails.application.routes.draw do
       get 'friendships/requests', to: 'friendships#requests'
       post 'friendships/approve/:id', to: 'friendships#approve'
       get 'friendships/pending', to: 'friendships#pending'
-      
+
       resources :friends, only: [:index]
-      
-      resources :messages, only: [:index, :show, :create]
+
+      resources :messages, only: [:index, :update, :create]
     end
   end
 end
