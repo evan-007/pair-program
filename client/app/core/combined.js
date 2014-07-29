@@ -16,19 +16,18 @@ angular.module('ppApp')
   return {
     response: function(response){
       if (response.status === 401) {
-        console.log("Response 401");
       }
       return response || $q.when(response);
       },
     responseError: function(rejection) {
       if (rejection.status === 401) {
-        console.log("Response Error 401",rejection);
         $location.path('/');
       }
       return $q.reject(rejection);
       }
     }
 })
+
 angular.module('ppApp')
 .factory('CookieHandler', function($cookieStore, $rootScope){
 	var user = null;
@@ -64,16 +63,17 @@ angular.module('ppApp').factory('SessionInjector', function(CookieHandler){
 })
 
 angular.module('ppApp')
-.factory('SessionService', function(CookieHandler, $http, $location, $rootScope){
+.factory('SessionService', function(CookieHandler, $http, $location, growlNotifications){
   return function(authInfo){
     $http.post('api/v1/sessions', authInfo)
     .success(function(data){
       CookieHandler.set(data.user);
-      $rootScope.$broadcast('authorized', data.user.username);
+      growlNotifications.add('Logged in as '+data.user.username, 'success', 2000);
       $location.path('/friends')
     })
 		.error(function(){
-			$rootScope.$broadcast('unauthorized');
+      $location.path('/signin')
+			growlNotifications.add('Are you sure that\'s the right password?', 'warning', 2000);
     });
   };
 });
@@ -440,7 +440,7 @@ angular.module('ppApp')
 });
 
 angular.module('ppApp')
-.factory('SignUpService', function($http, $location, $rootScope, CookieHandler){
+.factory('SignUpService', function($http, $location, $rootScope, CookieHandler, growlNotifications){
   return function(userData){
     var length = userData.languages.length;
     var language_ids = [];
@@ -449,14 +449,13 @@ angular.module('ppApp')
       language_ids.push(userData.languages[n].id)
     }
     language_ids = language_ids.join(' ');
-    console.log(language_ids);
     userData.language_tokens = language_ids;
     var newUser = {
       user : userData
     }
     $http.post('/api/v1/users', newUser).success(function(data){
       CookieHandler.set(data.user);
-      $rootScope.$broadcast('authorized', data.user.username);
+      growlNotifications.add('Logged in as '+data.user.username, 'success');
       $location.path('/friends')
     })
     .error(function(data){

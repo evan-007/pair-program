@@ -1,5 +1,5 @@
 angular.module('ppApp')
-.factory('SignUpService', function($http, $location, $rootScope, CookieHandler){
+.factory('SignUpService', function($http, $location, $rootScope, CookieHandler, growlNotifications){
   return function(userData){
     var length = userData.languages.length;
     var language_ids = [];
@@ -8,14 +8,13 @@ angular.module('ppApp')
       language_ids.push(userData.languages[n].id)
     }
     language_ids = language_ids.join(' ');
-    console.log(language_ids);
     userData.language_tokens = language_ids;
     var newUser = {
       user : userData
     }
     $http.post('/api/v1/users', newUser).success(function(data){
       CookieHandler.set(data.user);
-      $rootScope.$broadcast('authorized', data.user.username);
+      growlNotifications.add('Logged in as '+data.user.username, 'success');
       $location.path('/friends')
     })
     .error(function(data){
