@@ -1,5 +1,5 @@
 angular.module('ppApp')
-.directive('mailBox', function(OneMessageService, PostMessageService){
+.directive('mailBox', function(OneMessageService, PostMessageService, $rootScope){
   return {
     restrict: 'E',
     templateUrl: './ui/messages/mailbox.html',
@@ -38,6 +38,7 @@ angular.module('ppApp')
       }
       scope.send = function(message){
         PostMessageService(message).then(function(){
+          $rootScope.$broadcast('newMessage', message.sender_name);
           scope.newMessage = '';
           scope.activeMessage = '';
           //alert or something that message was sent/failed?

@@ -16,6 +16,10 @@ angular.module('ppApp')
 		alerts.push({type: 'success', msg: 'Later!'});
 	});
 
+	$scope.$on('newMessage', function(event, data){
+		alerts.push({type: 'success', msg: 'Message sent to '+data});
+	})
+
 	$scope.closeAlert = function(index) {
 		alerts.splice(index, 1);
 	};

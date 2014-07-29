@@ -1,6 +1,7 @@
 angular.module('ppApp')
 .factory('PostMessageService', function($http, $q){
   return function(message){
+    console.log(message);
     var newMessage = {message: {
       receiver_id: message.sender_id,
       body: message.response,

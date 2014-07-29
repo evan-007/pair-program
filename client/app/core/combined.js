@@ -242,7 +242,7 @@ angular.module('ppApp')
   }
 })
 angular.module('ppApp')
-.directive('mailBox', function(OneMessageService, PostMessageService){
+.directive('mailBox', function(OneMessageService, PostMessageService, $rootScope){
   return {
     restrict: 'E',
     templateUrl: './ui/messages/mailbox.html',
@@ -281,6 +281,7 @@ angular.module('ppApp')
       }
       scope.send = function(message){
         PostMessageService(message).then(function(){
+          $rootScope.$broadcast('newMessage', message.sender_name);
           scope.newMessage = '';
           scope.activeMessage = '';
           //alert or something that message was sent/failed?
@@ -336,6 +337,7 @@ angular.module('ppApp')
 angular.module('ppApp')
 .factory('PostMessageService', function($http, $q){
   return function(message){
+    console.log(message);
     var newMessage = {message: {
       receiver_id: message.sender_id,
       body: message.response,
@@ -597,6 +599,10 @@ angular.module('ppApp')
 		alerts.push({type: 'success', msg: 'Later!'});
 	});
 
+	$scope.$on('newMessage', function(event, data){
+		alerts.push({type: 'success', msg: 'Message sent to '+data});
+	})
+
 	$scope.closeAlert = function(index) {
 		alerts.splice(index, 1);
 	};
@@ -609,6 +615,29 @@ angular.module('ppApp')
   }
 })
 
+angular.module('ppApp')
+.directive('viewBody', function(CookieHandler){
+  return {
+    restrict: 'E',
+    templateUrl: 'ui/shared/view-body/view-body.html',
+    transclude: true,
+    link: function(scope, element, attrs) {
+      scope.currentUser = CookieHandler.get();
+
+      scope.$watch(
+        function(){
+          var user = CookieHandler.get();
+          return (user == null) ? 0 : user.id;
+        },
+        function(newValue, oldValue) {
+          if( newValue !== oldValue) {
+            scope.currentUser = CookieHandler.get();
+          }
+        }
+      );
+    }
+  }
+})
 angular.module('ppApp')
 .directive('navbar', function(){
   return {
@@ -635,29 +664,5 @@ angular.module('ppApp')
   $scope.logout = function(){
     CookieHandler.delete();
     $location.path('/')
-  }
-})
-
-angular.module('ppApp')
-.directive('viewBody', function(CookieHandler){
-  return {
-    restrict: 'E',
-    templateUrl: 'ui/shared/view-body/view-body.html',
-    transclude: true,
-    link: function(scope, element, attrs) {
-      scope.currentUser = CookieHandler.get();
-
-      scope.$watch(
-        function(){
-          var user = CookieHandler.get();
-          return (user == null) ? 0 : user.id;
-        },
-        function(newValue, oldValue) {
-          if( newValue !== oldValue) {
-            scope.currentUser = CookieHandler.get();
-          }
-        }
-      );
-    }
   }
 })
