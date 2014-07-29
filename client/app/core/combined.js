@@ -250,13 +250,7 @@ angular.module('ppApp')
       messages: '=',
       type: '='
     },
-    //refactor things that don't use scope, element, attrs
-    //into controller
     link: function(scope, element, attrs) {
-
-
-      //too many arguments!!!
-
     },
     controller: function($scope, $rootScope, PostMessageService, OneMessageService) {
       $scope.currentPage = 1;
