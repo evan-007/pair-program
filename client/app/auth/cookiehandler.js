@@ -1,5 +1,5 @@
 angular.module('ppApp')
-.factory('CookieHandler', function($cookieStore, $rootScope){
+.factory('CookieHandler', function($cookieStore, growlNotifications){
 	var user = null;
 
 	var CookieHandler = {
@@ -13,7 +13,7 @@ angular.module('ppApp')
 
 		delete: function(user){
 			$cookieStore.remove('currentUser');
-			$rootScope.$broadcast('logout');
+			growlNotifications.add('Byebye!', 'success', 2000);
 		}
 	};
 
