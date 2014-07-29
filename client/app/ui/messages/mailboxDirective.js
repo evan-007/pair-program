@@ -1,5 +1,5 @@
 angular.module('ppApp')
-.directive('mailBox', function(OneMessageService, PostMessageService, $rootScope){
+.directive('ppMailbox', function(OneMessageService, PostMessageService, $rootScope){
   return {
     restrict: 'E',
     templateUrl: './ui/messages/mailbox.html',
