@@ -9,7 +9,8 @@ angular.module('ppApp')
     },
     link: function(scope, element, attrs) {
     },
-    controller: function($scope, $rootScope, PostMessageService, OneMessageService) {
+    controller: function($scope, $rootScope, PostMessageService, OneMessageService,
+      growlNotifications) {
       $scope.currentPage = 1;
       $scope.totalMessages = $scope.messages.length;
       $scope.itemsPerPage = 10;
@@ -37,7 +38,7 @@ angular.module('ppApp')
       }
       $scope.send = function(message){
         PostMessageService(message).then(function(){
-          $rootScope.$broadcast('newMessage', message.sender_name);
+          growlNotifications.add('Message sent to '+message.sender_name, 'success', 2000)
           $scope.newMessage = '';
           $scope.activeMessage = '';
           //alert or something that message was sent/failed?
