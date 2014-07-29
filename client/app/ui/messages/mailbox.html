@@ -18,7 +18,7 @@
       <h6>To: {{activeMessage.receiver_name}}</h6>
       <h6>Sent on {{activeMessage.created_at | date : 'medium'}}</h6>
       <p>{{activeMessage.body}}</p>
-      <button ng-if='type == inbox' ng-click='reply(activeMessage)' class='btn btn-primary'>Reply</button>
+      <button ng-if='type == inbox' ng-click='reply(activeMessage)' class='btn btn-default'>Reply</button>
     </div>
     <div ng-if='newMessage'>
       <h6>To: {{newMessage.receiver_name}}</h6>
