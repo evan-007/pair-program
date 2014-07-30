@@ -489,7 +489,7 @@ angular.module('ppApp')
 .factory('PendingFriendService', function($http, $q){
   return function(){
     var defer = $q.defer()
-    $http.get('/api/v1/friendships/pending').then(function(data){
+    $http.get('/api/v1/friendships?type=pending').then(function(data){
       defer.resolve(data.data)
     });
     return defer.promise
@@ -541,12 +541,14 @@ angular.module('ppApp')
 .factory('FriendRequestService', function($http, $q){
   return function(){
     var defer = $q.defer();
-    $http.get('/api/v1/friendships/requests').success(function(data){
+    $http.get('/api/v1/friendships?type=requests').success(function(data){
+      console.log(data);
       defer.resolve(data);
     });
     return defer.promise;
   }
 })
+
 angular.module('ppApp').config(function($stateProvider){
   $stateProvider.state('friends.requests', {
     url: '/requests',
