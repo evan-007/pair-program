@@ -9,8 +9,6 @@ Rails.application.routes.draw do
       resources :languages, only: [:index]
 
       resources :friendships, only: [:index, :create, :update]
-      get 'friendships/requests', to: 'friendships#requests'
-      get 'friendships/pending', to: 'friendships#pending'
 
       resources :friends, only: [:index]
 

@@ -2,10 +2,21 @@ module Api
   module V1
     class FriendshipsController < ApplicationController
       before_action :signed_in?
+      before_action :get_type, only: :index
 
       def index
-        @friends = User.find(current_user.friend_ids)
-        render json: @friends, status: 200, each_serializer: PublicUserSerializer
+        if @type == "all"
+          @friends = User.find(current_user.friend_ids)
+          render json: @friends, status: 200, each_serializer: PublicUserSerializer
+        elsif @type == 'requests'
+          @requests = current_user.inverse_friendships.where(workflow_state: 'unapproved')
+          render json: @requests, status: 200, each_serializer: UnapprovedFriendshipSerializer
+        elsif @type == 'pending'
+          @pending = User.find(current_user.pending_friends)
+          render json: @pending, status: 200, each_serializer: PublicUserSerializer
+        else
+          render nothing: true, status: 400
+        end
       end
 
       def create
@@ -15,11 +26,6 @@ module Api
         else
           render nothing: true, status: 422
         end
-      end
-
-      def requests
-        @requests = current_user.inverse_friendships.where(workflow_state: 'unapproved')
-        render json: @requests, status: 200, each_serializer: UnapprovedFriendshipSerializer
       end
 
       def update
@@ -42,14 +48,16 @@ module Api
         end
       end
 
-      def pending
-        @pending = User.find(current_user.pending_friends)
-        render json: @pending, status: 200, each_serializer: PublicUserSerializer
-      end
-
       private
         def friendship_params
           params.require(:friendship).permit(:friend_id)
+        end
+
+        def get_type
+          if params[:type].blank? or !["all", "pending", "rejected", "requests"].include?params[:type]
+            params[:type] = 'all'
+          end
+          @type = params[:type]
         end
     end
   end

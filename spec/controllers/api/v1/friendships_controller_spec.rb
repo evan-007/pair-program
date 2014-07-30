@@ -51,43 +51,51 @@ RSpec.describe Api::V1::FriendshipsController, type: :controller do
         request.headers["token"] = @user1.token
         request.headers["username"] = @user1.username
       end
-      it 'returns an array of friends' do
-        get :index
-        data = JSON.parse(response.body)
-        expect(response.status).to eq 200
-        expect(data["friendships"].length).to eq 2
+      context 'with params[:type] == "all"' do
+        it 'returns an array of friends' do
+          get :index, { type: 'all' }
+          data = JSON.parse(response.body)
+          expect(response.status).to eq 200
+          expect(data["friendships"].length).to eq 2
+        end
+      end
+      context 'without params[:type]' do
+        it 'returns an array of friends' do
+          get :index
+          data = JSON.parse(response.body)
+          expect(response.status).to eq 200
+          expect(data["friendships"].length).to eq 2
+        end
+      end
+      context 'with params[:type] == "requests"' do
+        before do
+          @user4 = create(:user)
+          @friendship2 = create(:friendship, user_id: @user4.id, friend_id: @user1.id)
+        end
+        it 'returns all friend requests' do
+          get :index, type: 'requests'
+          data = JSON.parse(response.body)
+          expect(response.status).to eq 200
+          #so bad, refactor serializer
+          expect(data["friendships"][0]["user"]["public_user"]["username"]).to eq @user4.username
+        end
+      end
+      context 'with params[:type] == "pending"' do
+        before do
+          @user5 = create(:user)
+          @friendship3 = create(:friendship, user_id: @user1.id, friend_id: @user5.id)
+        end
+        it 'returns pending friendship requests made by the user' do
+          get :index, type: 'pending'
+          data = JSON.parse(response.body)
+          expect(response.status).to eq 200
+          expect(data["friendships"].length).to eq 1
+        end
       end
     end
     context 'without a current user' do
       it 'returns status 401' do
         get :index
-        expect(response.status).to eq 401
-      end
-    end
-  end
-
-  describe 'GET #requests' do
-    before do
-      @user2 = create(:user)
-      @friendship = create(:friendship, user_id: @user2.id, friend_id: @user1.id)
-    end
-    context 'with a current user' do
-      before do
-        request.headers["token"] = @user1.token
-        request.headers["username"] = @user1.username
-      end
-      it 'returns all friend requests' do
-        get :requests
-        data = JSON.parse(response.body)
-        expect(response.status).to eq 200
-        #so bad, refactor serializer
-        expect(data["friendships"][0]["user"]["public_user"]["username"]).to eq @user2.username
-      end
-    end
-
-    context 'without a current user' do
-      it 'returns status 401' do
-        get :requests
         expect(response.status).to eq 401
       end
     end
@@ -131,25 +139,6 @@ RSpec.describe Api::V1::FriendshipsController, type: :controller do
       it 'returns status 401' do
         put :update, id: @friendship.id, reject: 'true'
         expect(response.status).to eq 401
-      end
-    end
-  end
-
-  describe 'GET #pending' do
-    before do
-      @user2 = create(:user)
-      @friendship = create(:friendship, user_id: @user1.id, friend_id: @user1.id)
-    end
-    context 'with a current_users' do
-      before do
-        request.headers["token"] = @user1.token
-        request.headers["username"] = @user1.username
-      end
-      it 'returns pending friendship requests made by the user' do
-        get :pending
-        data = JSON.parse(response.body)
-        expect(response.status).to eq 200
-        expect(data["friendships"].length).to eq 1
       end
     end
   end
