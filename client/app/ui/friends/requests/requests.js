@@ -9,7 +9,6 @@ angular.module('ppApp').config(function($stateProvider){
   })
 })
 .controller('requestsCtrl', function(RequestData, $scope, FriendApproveService){
-  console.log(RequestData);
   $scope.requests = RequestData;
   $scope.approve = function(friend){
     FriendApproveService(friend.id);

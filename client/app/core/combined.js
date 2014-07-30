@@ -470,6 +470,33 @@ angular.module('ppApp')
 })
 
 angular.module('ppApp').config(function($stateProvider){
+  $stateProvider.state('friends.pending', {
+    url: '/pending',
+    templateUrl: 'ui/friends/pending/pending.html',
+    controller: 'pendingCtrl',
+    resolve: {
+      PendingFriends: function(PendingFriendService){
+        return PendingFriendService();
+      }
+    }
+  });
+})
+.controller('pendingCtrl', function(PendingFriends, $scope){
+  $scope.pendingFriends = PendingFriends;
+})
+
+angular.module('ppApp')
+.factory('PendingFriendService', function($http, $q){
+  return function(){
+    var defer = $q.defer()
+    $http.get('/api/v1/friendships/pending').then(function(data){
+      defer.resolve(data.data)
+    });
+    return defer.promise
+  }
+})
+
+angular.module('ppApp').config(function($stateProvider){
   $stateProvider.state('friends.rejected', {
     url: '/rejected',
     templateUrl: 'ui/friends/rejected/rejected.html',
@@ -520,7 +547,6 @@ angular.module('ppApp').config(function($stateProvider){
   })
 })
 .controller('requestsCtrl', function(RequestData, $scope, FriendApproveService){
-  console.log(RequestData);
   $scope.requests = RequestData;
   $scope.approve = function(friend){
     FriendApproveService(friend.id);
@@ -532,33 +558,6 @@ angular.module('ppApp').config(function($stateProvider){
     if (index > -1) {
       array.splice(index, 1)
     }
-  }
-})
-
-angular.module('ppApp').config(function($stateProvider){
-  $stateProvider.state('friends.pending', {
-    url: '/pending',
-    templateUrl: 'ui/friends/pending/pending.html',
-    controller: 'pendingCtrl',
-    resolve: {
-      PendingFriends: function(PendingFriendService){
-        return PendingFriendService();
-      }
-    }
-  });
-})
-.controller('pendingCtrl', function(PendingFriends, $scope){
-  $scope.pendingFriends = PendingFriends;
-})
-
-angular.module('ppApp')
-.factory('PendingFriendService', function($http, $q){
-  return function(){
-    var defer = $q.defer()
-    $http.get('/api/v1/friendships/pending').then(function(data){
-      defer.resolve(data.data)
-    });
-    return defer.promise
   }
 })
 
