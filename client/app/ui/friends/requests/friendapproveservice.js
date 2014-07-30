@@ -7,7 +7,7 @@ angular.module('ppApp')
       id: friendId
     }
 
-    $http.post('/api/v1/friendships/approve/'+friendId, data).then(
+    $http.put('/api/v1/friendships/'+friendId+'?approve="true"', data).then(
       function(data){
         defer.resolve(data);
       }

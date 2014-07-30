@@ -470,33 +470,6 @@ angular.module('ppApp')
 })
 
 angular.module('ppApp').config(function($stateProvider){
-  $stateProvider.state('friends.pending', {
-    url: '/pending',
-    templateUrl: 'ui/friends/pending/pending.html',
-    controller: 'pendingCtrl',
-    resolve: {
-      PendingFriends: function(PendingFriendService){
-        return PendingFriendService();
-      }
-    }
-  });
-})
-.controller('pendingCtrl', function(PendingFriends, $scope){
-  $scope.pendingFriends = PendingFriends;
-})
-
-angular.module('ppApp')
-.factory('PendingFriendService', function($http, $q){
-  return function(){
-    var defer = $q.defer()
-    $http.get('/api/v1/friendships/pending').then(function(data){
-      defer.resolve(data.data)
-    });
-    return defer.promise
-  }
-})
-
-angular.module('ppApp').config(function($stateProvider){
   $stateProvider.state('friends.rejected', {
     url: '/rejected',
     templateUrl: 'ui/friends/rejected/rejected.html',
@@ -517,7 +490,7 @@ angular.module('ppApp')
       id: friendId
     }
 
-    $http.post('/api/v1/friendships/approve/'+friendId, data).then(
+    $http.put('/api/v1/friendships/'+friendId+'?approve="true"', data).then(
       function(data){
         defer.resolve(data);
       }
@@ -559,6 +532,33 @@ angular.module('ppApp').config(function($stateProvider){
     if (index > -1) {
       array.splice(index, 1)
     }
+  }
+})
+
+angular.module('ppApp').config(function($stateProvider){
+  $stateProvider.state('friends.pending', {
+    url: '/pending',
+    templateUrl: 'ui/friends/pending/pending.html',
+    controller: 'pendingCtrl',
+    resolve: {
+      PendingFriends: function(PendingFriendService){
+        return PendingFriendService();
+      }
+    }
+  });
+})
+.controller('pendingCtrl', function(PendingFriends, $scope){
+  $scope.pendingFriends = PendingFriends;
+})
+
+angular.module('ppApp')
+.factory('PendingFriendService', function($http, $q){
+  return function(){
+    var defer = $q.defer()
+    $http.get('/api/v1/friendships/pending').then(function(data){
+      defer.resolve(data.data)
+    });
+    return defer.promise
   }
 })
 
