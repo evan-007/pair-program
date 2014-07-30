@@ -117,25 +117,27 @@ angular.module('ppApp')
   });
 })
 .controller('friendFinderCtrl', function(UserList, $scope, FriendshipService, PublicUserData, growlNotifications){
-  $scope.totalUsers = UserList.length;
   $scope.users = UserList;
+  $scope.totalUsers = $scope.users.length;
   $scope.currentPage = 1;
   $scope.itemsPerPage = 12;
   $scope.activeUsers = [];
 
   $scope.add = function(user){
     FriendshipService.request(user.id);
-    var array = $scope.activeUsers
+    var array = $scope.users;
     var index = array.indexOf(user);
     if (index > -1) {
       array.splice(index, 1);
     }
+    //need to manually update totalUsers to get watch to run WTF
+    $scope.totalUsers = array.length
     growlNotifications.add('Request sent to '+user.username, 'success', 2000)
   }
 
 
-  $scope.$watchGroup(['currentPage', 'users'], function(newValue, oldValue){
-    //calculates range of active users based on currentPage
+  $scope.$watchGroup(['currentPage', 'totalUsers'], function(newValue, oldValue){
+    console.log('running the watcher')
     var start = (($scope.currentPage -1)) * $scope.itemsPerPage;
     var end = start + $scope.itemsPerPage;
     $scope.totalUsers = $scope.users.length;
