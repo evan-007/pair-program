@@ -93,30 +93,34 @@ RSpec.describe Api::V1::FriendshipsController, type: :controller do
     end
   end
 
-  describe 'POST #approve' do
+  describe 'PUT #update' do
     before do
       @user2 = create(:user)
       @friendship = create(:friendship, user_id: @user2.id, friend_id: @user1.id)
     end
     context 'with a current user' do
-      before do
-        request.headers["token"] = @user1.token
-        request.headers["username"] = @user1.username
+      context 'with params[:approve]' do
+        before do
+          request.headers["token"] = @user1.token
+          request.headers["username"] = @user1.username
+        end
+        it 'approves the friendship request' do
+          expect(@friendship.workflow_state).to eq 'unapproved'
+          put :update, id: @friendship.id, approve: 'true'
+          data = JSON.parse(response.body)
+          expect(response.status).to eq 200
+          expect(data["workflow_state"]).to eq 'approved'
+          #reload to get new state
+          @friendship.reload
+          expect(@friendship.workflow_state).to eq 'approved'
+        end
       end
-      it 'approves the friendship request' do
-        expect(@friendship.workflow_state).to eq 'unapproved'
-        post :approve, id: @friendship.id
-        data = JSON.parse(response.body)
-        expect(response.status).to eq 200
-        expect(data["workflow_state"]).to eq 'approved'
-        #reload to get new state
-        @friendship.reload
-        expect(@friendship.workflow_state).to eq 'approved'
+      context 'with params[:reject]' do
       end
     end
     context 'without a current_user' do
       it 'returns status 401' do
-        post :approve, id: @friendship.id
+        put :update, id: @friendship.id, reject: 'true'
         expect(response.status).to eq 401
       end
     end

@@ -22,12 +22,23 @@ module Api
         render json: @requests, status: 200, each_serializer: UnapprovedFriendshipSerializer
       end
 
-      def approve
-        @request = current_user.inverse_friendships.find(params[:id])
-        if @request.approve!
-          render json: @request, status: 200
+      def update
+        if params[:approve].present?
+          @request = current_user.inverse_friendships.find(params[:id])
+          if @request.approve!
+            render json: @request, status: 200
+          else
+            render nothing: true, status: 400
+          end
+        elsif params[:reject].present?
+          @request = current_user.inverse_friendships.find(params[:id])
+          if @request.reject!
+            render json: @request, status: 200
+          else
+            render nothing: true, status: 400
+          end
         else
-          render nothing: true, status: 400
+          render nothing:true, status: 400
         end
       end
 

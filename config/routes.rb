@@ -8,9 +8,8 @@ Rails.application.routes.draw do
       resources :sessions, only: [:create, :destroy]
       resources :languages, only: [:index]
 
-      resources :friendships, only: [:index, :create]
+      resources :friendships, only: [:index, :create, :update]
       get 'friendships/requests', to: 'friendships#requests'
-      post 'friendships/approve/:id', to: 'friendships#approve'
       get 'friendships/pending', to: 'friendships#pending'
 
       resources :friends, only: [:index]
