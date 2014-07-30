@@ -14,6 +14,9 @@ module Api
         elsif @type == 'pending'
           @pending = User.find(current_user.pending_friends)
           render json: @pending, status: 200, each_serializer: PublicUserSerializer
+        elsif @type == 'rejected'
+          @rejects = current_user.inverse_friendships.where(workflow_state: 'rejected')
+          render json: @rejects, status: 200, each_serializer: UnapprovedFriendshipSerializer
         else
           render nothing: true, status: 400
         end

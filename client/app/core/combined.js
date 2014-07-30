@@ -501,11 +501,24 @@ angular.module('ppApp').config(function($stateProvider){
     url: '/rejected',
     templateUrl: 'ui/friends/rejected/rejected.html',
     controller: 'rejectedCtrl',
-    resolve: { } //todo
+    resolve: { Friends: function(RejectedFriendService){
+      return RejectedFriendService;
+    }} //todo
   })
 })
-.controller('rejectedCtrl', function(){
+.controller('rejectedCtrl', function(Friends, $scope){
+  $scope.friends = Friends;
+})
 
+angular.module('ppApp')
+.factory('RejectedFriendService', function($http, $http){
+  return function(){
+    var defer = $q.defer();
+    $http.get('api/v1/friends?type=rejected').then(function(data){
+      defer.resolve(data);
+    });
+    return defer.promise;
+  }
 })
 
 angular.module('ppApp')

@@ -92,6 +92,19 @@ RSpec.describe Api::V1::FriendshipsController, type: :controller do
           expect(data["friendships"].length).to eq 1
         end
       end
+      context 'with params[:type] == "rejected"' do
+        before do
+          @user6 = create(:user)
+          @friendship4 = create(:friendship, user_id: @user6.id, friend_id: @user1.id)
+          @friendship4.reject!
+        end
+        it 'returns friendship requests the user rejected' do
+          get :index, type: 'rejected'
+          data = JSON.parse(response.body)
+          expect(response.status).to eq 200
+          expect(data).to eq 'lol'
+        end
+      end
     end
     context 'without a current user' do
       it 'returns status 401' do
