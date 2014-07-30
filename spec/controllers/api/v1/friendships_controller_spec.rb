@@ -99,11 +99,11 @@ RSpec.describe Api::V1::FriendshipsController, type: :controller do
       @friendship = create(:friendship, user_id: @user2.id, friend_id: @user1.id)
     end
     context 'with a current user' do
+      before do
+        request.headers["token"] = @user1.token
+        request.headers["username"] = @user1.username
+      end
       context 'with params[:approve]' do
-        before do
-          request.headers["token"] = @user1.token
-          request.headers["username"] = @user1.username
-        end
         it 'approves the friendship request' do
           expect(@friendship.workflow_state).to eq 'unapproved'
           put :update, id: @friendship.id, approve: 'true'
@@ -116,6 +116,15 @@ RSpec.describe Api::V1::FriendshipsController, type: :controller do
         end
       end
       context 'with params[:reject]' do
+        it 'rejects the friend request' do
+          expect(@friendship.workflow_state).to eq 'unapproved'
+          put :update, id: @friendship.id, reject: 'true'
+          data = JSON.parse(response.body)
+          expect(response.status).to eq 200
+          expect(data["workflow_state"]).to eq 'rejected'
+          @friendship.reload
+          expect(@friendship.workflow_state).to eq 'rejected'
+        end
       end
     end
     context 'without a current_user' do
