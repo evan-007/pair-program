@@ -4,8 +4,8 @@ angular.module('ppApp').config(function($stateProvider){
     templateUrl: 'ui/friends/rejected/rejected.html',
     controller: 'rejectedCtrl',
     resolve: { Friends: function(RejectedFriendService){
-      return RejectedFriendService;
-    }} //todo
+      return RejectedFriendService();
+    }}
   })
 })
 .controller('rejectedCtrl', function(Friends, $scope){

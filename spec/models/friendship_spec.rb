@@ -25,4 +25,10 @@ RSpec.describe Friendship, :type => :model do
     @friendship.reject!
     expect(@friendship.workflow_state).to eq 'rejected'
   end
+
+  it 'can be approved after being rejected' do
+    @friendship.reject!
+    @friendship.approve!
+    expect(@friendship.workflow_state).to eq 'approved'
+  end
 end
