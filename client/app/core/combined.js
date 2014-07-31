@@ -506,16 +506,27 @@ angular.module('ppApp').config(function($stateProvider){
     }}
   })
 })
-.controller('rejectedCtrl', function(Friends, $scope){
-  $scope.friends = Friends;
+.controller('rejectedCtrl', function(Friends, FriendApproveService, $scope){
+  $scope.friends = Friends.data;
+  console.log(Friends)
+  $scope.approve = function(friend){
+    FriendApproveService(friend.id);
+    //cleaner way to rm one value from array???
+    //doing it here assumes success from server
+    //avoids extra http.GET to refresh data
+    var array = $scope.friends.friendships
+    var index = array.indexOf(friend)
+    if (index > -1) {
+      array.splice(index, 1)
+    }
+  }
 })
 
 angular.module('ppApp')
 .factory('RejectedFriendService', function($http, $q){
   return function(){
     var defer = $q.defer();
-    $http.get('api/v1/friends?type=rejected').then(function(data){
-      console.log('asdf')
+    $http.get('api/v1/friendships?type=rejected').then(function(data){
       defer.resolve(data);
     });
     return defer.promise;

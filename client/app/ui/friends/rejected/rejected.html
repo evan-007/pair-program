@@ -1,5 +1,14 @@
+<p>You rejected these requests. Changed your mind?</p>
 <div class='row'>
-  <p>Friend requests you rejected</p>
-  <p>nothing here for now</p>
+<div class='col-sm-3 user-box' ng-repeat='friend in friends.friendships'>
+    <h5>{{friend.user.public_user.username}}</h5>
+    <img ng-src='https://secure.gravatar.com/avatar/{{friend.user.public_user.gravatar_hash}}' />
+    <ul class='list-inline'>
+      <li>Languages:</li>
+      <li ng-repeat='language in friend.user.public_user.languages'>{{language.name}}</li>
+    </ul>
+    <button class='btn btn-primary' ng-click='approve(friend)'>Approve</button>
+    <button class='btn btn-danger'>Reject</button>
+  </div>
 </div>
 {{friends}}
