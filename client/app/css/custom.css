@@ -38,3 +38,15 @@ body {
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important;
 }
+
+.center {
+  text-align: center;
+}
+
+.big-header {
+  font-size: 3em;
+}
+
+.half-rule {
+  width: 25%
+}
