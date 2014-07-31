@@ -13,9 +13,14 @@ RSpec.describe Api::V1::UsersController, :type => :controller do
 				post :create, user: attributes_for(:user)
         data = JSON.parse(response.body)
         expect(response.status).to eq 200
-        expect(data).to include 'user' 
+        expect(data).to include 'user'
 			end
-      
+
+			it 'sends a welcome message to the new user' do
+				post :create, user: attributes_for(:user)
+				expect(User.last.received_messages.count).to eq 1
+			end
+
       it 'renders username and token' do
         post :create, user: attributes_for(:user, username: 'justATest', email: 'me@gmail.com', password: 'password', password_confirmation: 'password')
         data = JSON.parse(response.body)
@@ -48,9 +53,9 @@ RSpec.describe Api::V1::UsersController, :type => :controller do
         expect(response.status).to be 401
 			end
 		end
-    
+
     context 'with current_user' do
-      before do 
+      before do
         request.headers["username"] = @user.username
         request.headers["token"] = @user.token
       end
@@ -71,7 +76,7 @@ RSpec.describe Api::V1::UsersController, :type => :controller do
       end
     end
 	end
-  
+
   describe 'GET #index' do
     before do
       @user1 = create(:user)
@@ -82,7 +87,7 @@ RSpec.describe Api::V1::UsersController, :type => :controller do
       request.headers["token"] = @user1.token
       request.headers["username"] = @user1.username
     end
-    
+
     it 'renders an array of all non-friends' do
       #this is a terrible test
       get :index
@@ -91,12 +96,12 @@ RSpec.describe Api::V1::UsersController, :type => :controller do
       expect(data["users"].length).to eq 2
     end
   end
-  
+
   describe 'GET #profile' do
     before do
       @user = create(:user)
     end
-    
+
     context 'as an authorized user' do
       before do
         request.headers["username"] = @user.username
@@ -110,7 +115,7 @@ RSpec.describe Api::V1::UsersController, :type => :controller do
         expect(data["user_profile"]["token"]).to eq nil
       end
     end
-    
+
     context 'as an unauthorized user' do
       it 'returns status unauthorized' do
         get :profile, id: @user.id
