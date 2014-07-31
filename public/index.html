@@ -3,39 +3,39 @@
 <head>
 	<meta charset="UTF-8">
 	<title>ngThing</title>
-	<link rel="stylesheet" href="./assets/combined-a290ee62.css"/>
+	<link rel="stylesheet" href="./assets/combined-9b5acbf0.css"/>
   <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
 
   <navbar></navbar>
 	<div class='container'>
-	<alerts></alerts>
-	<div ng-controller='authCtrl'>
-		<div ng-if='authUser' ng-cloak>
-	    <div class='row'>
-				<div class='col-sm-1 user-sidebar well'>
-					<ul class='list-inline'>
-						<li class='spaced-li'><a ui-sref='messages.inbox'><i class='fa fa-envelope fa-3x'></i>Messages</a></li>
-						<li class='spaced-li'><a ui-sref='friends.all'><i class='fa fa-users fa-3x'></i>Friends</a></li>
-						<li class='spaced-li'><a ui-sref='friendfinder'><i class='fa fa-search fa-3x'></i>Friend Finder</a></li>
-					</ul>
-				</div>
-				<div class='col-sm-11'>
+		<div growl-notifications></div>
+		<div ng-controller='authCtrl'>
+			<div ng-if='authUser' ng-cloak>
+		    <div class='row'>
+					<div class='col-sm-1 user-sidebar well'>
+						<ul class='list-inline'>
+							<li class='spaced-li'><a ui-sref='messages.inbox'><i class='fa fa-envelope fa-3x'></i>Messages</a></li>
+							<li class='spaced-li'><a ui-sref='friends.all'><i class='fa fa-users fa-3x'></i>Friends</a></li>
+							<li class='spaced-li'><a ui-sref='friendfinder'><i class='fa fa-search fa-3x'></i>Friend Finder</a></li>
+						</ul>
+					</div>
+					<div class='col-sm-11'>
 
-					<div ui-view class='animate-view well'></div>
+						<div ui-view class='animate-view well'></div>
+					</div>
 				</div>
+			</div><!--auth user-->
+			<div ng-if='!authUser'>
+				<div ui-view class='animate-view well'></div>
 			</div>
-		</div><!--auth user-->
-		<div ng-if='!authUser'>
-			<div ui-view class='animate-view well'></div>
-		</div>
 
-	</div>
+		</div>
 
   </div><!--container-->
 	<script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
 
-	<script src="./assets/combined-55fbd9ba.js"></script>
+	<script src="./assets/combined-ad93f3aa.js"></script>
 </body>
 </html>

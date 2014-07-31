@@ -8,6 +8,6 @@
       <li ng-repeat='language in friend.user.public_user.languages'>{{language.name}}</li>
     </ul>
     <button class='btn btn-primary' ng-click='approve(friend)'>Approve</button>
-    <button class='btn btn-danger'>Reject</button>
+    <button class='btn btn-danger' ng-click='reject(friend)'>Reject</button>
   </div>
 </div>
