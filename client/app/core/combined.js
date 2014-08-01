@@ -385,8 +385,9 @@ angular.module('ppApp')
   }
 })
 angular.module('ppApp')
-.controller('authCtrl', function($scope, CookieHandler){
+.controller('authCtrl', function($scope, $interval, CookieHandler, MessageCountService){
   $scope.authUser = CookieHandler.get();
+  console.log($scope.authUser)
   $scope.$watch(function(){
     var user = CookieHandler.get();
     return (user == null) ? 0 : user.id;
@@ -396,6 +397,26 @@ angular.module('ppApp')
       $scope.authUser = CookieHandler.get();
     }
   })
+  if ($scope.authUser ) {
+    $interval(function() {
+
+      MessageCountService().then(function(data) {
+          $scope.messageCount = data;
+      });
+    }, 5000);
+  }
+})
+
+angular.module('ppApp')
+.factory('MessageCountService', function($http, $q){
+  return function(){
+    var defer = $q.defer();
+    $http.get('/api/v1/messages/count').then(function(response){
+      console.log(response)
+      defer.resolve(response.data);
+    });
+    return defer.promise;
+  }
 })
 
 angular.module('ppApp')
