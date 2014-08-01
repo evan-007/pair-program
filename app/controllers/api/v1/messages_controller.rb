@@ -5,13 +5,7 @@ module Api
       before_action :can_message?, only: [:create]
 
       def index
-        if @box.eql? "inbox"
-          @messages = current_user.received_messages
-        elsif @box.eql? "sentbox"
-          @messages = current_user.sent_messages
-        else
-          @messages = @mailbox.trash
-        end
+        @messages = MailFetcher.new(@box, current_user.id).get
         render json: @messages, status: 200, each_serializer: MessageSerializer
       end
 
