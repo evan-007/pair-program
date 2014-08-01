@@ -40,7 +40,7 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
       end
       context 'trashbox params' do
         it 'returns users trash' do
-
+          expect('this').to be 'done later'
         end
       end
     end
