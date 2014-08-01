@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       resources :friends, only: [:index]
 
       resources :messages, only: [:index, :update, :create]
+      #bad, refactor into index?count
       get '/messages/count', to: 'messages#count'
     end
   end
