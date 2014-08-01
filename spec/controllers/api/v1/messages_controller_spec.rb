@@ -58,7 +58,7 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
       it 'returns one message' do
         get :update, id: @id
         data = JSON.parse(response.body)
-        expect(response.status).to eq 200
+      expect(response.status).to eq 200
         expect(data["message"]["title"]).to eq 'call me'
       end
       it 'sets the message to read?: true' do
