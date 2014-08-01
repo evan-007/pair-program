@@ -35,6 +35,12 @@ module Api
         end
       end
 
+      def count
+        @count = current_user.unread_messages
+        puts @count
+        render json: @count, status: 200
+      end
+
       private
         def get_box
           if params[:box].blank? or !["inbox","sentbox","trash"].include?params[:box]

@@ -97,4 +97,20 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
       end
     end
   end
+  describe 'GET count' do
+    context 'with a current user' do
+      before do
+        @user = create(:user)
+        request.headers["token"] = @user.token
+        request.headers["username"] = @user.username
+      end
+      it 'returns a count of unread user messages' do
+        @user2 = create(:user)
+        3.times { create(:message, sender_id: @user2.id, receiver_id: @user.id) }
+        get :count
+        expect(response.body).to eq 3
+        expect(response.status).to eq 200
+      end
+    end
+  end
 end

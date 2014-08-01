@@ -95,4 +95,12 @@ RSpec.describe User, type: :model do
       expect(@user.pending_friends.sort).to eq [@user2.id]
     end
   end
+
+  describe ':unread_messages' do
+    it 'returns the number of unread messages' do
+      @user2 = create(:user)
+      3.times { create(:message, sender_id: @user2.id, receiver_id: @user.id) }
+      expect(@user.unread_messages).to eq 3
+    end
+  end
 end
