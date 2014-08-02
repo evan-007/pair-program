@@ -102,7 +102,8 @@ RSpec.describe Api::V1::FriendshipsController, type: :controller do
           get :index, type: 'rejected'
           data = JSON.parse(response.body)
           expect(response.status).to eq 200
-          expect(data).to eq 'lol'
+          #sooooo bad
+          expect(data["friendships"][0]["user"]["public_user"]["username"]).to eq @user6.username
         end
       end
     end

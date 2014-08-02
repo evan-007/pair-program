@@ -27,9 +27,7 @@ RSpec.describe MailFetcher, type: :model do
       end
     end
     context 'type == trash' do
-      it 'gets the user\'s trashed messages' do
-        expect('this feature').to be 'done later'
-      end
+      it 'gets the user\'s trashed messages'
     end
   end
 end

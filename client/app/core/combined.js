@@ -78,6 +78,19 @@ angular.module('ppApp')
   };
 });
 
+angular.module('ppApp')
+.factory('LanguageService', function($http, $q){
+  var LanguageService = {
+    set: function(){
+      var defer = $q.defer();
+      $http.get('/api/v1/languages').success(function(data){
+        defer.resolve(data.languages);
+      });
+      return defer.promise;
+    }
+  }
+  return LanguageService;
+})
 angular.module('ppApp').config(function($stateProvider){
   $stateProvider.state('about', {
     url: '/about',
@@ -456,19 +469,6 @@ angular.module('ppApp')
   }
 })
 
-angular.module('ppApp')
-.factory('LanguageService', function($http, $q){
-  var LanguageService = {
-    set: function(){
-      var defer = $q.defer();
-      $http.get('/api/v1/languages').success(function(data){
-        defer.resolve(data.languages);
-      });
-      return defer.promise;
-    }
-  }
-  return LanguageService;
-})
 angular.module('ppApp').config(function($stateProvider){
   $stateProvider.state('friends.pending', {
     url: '/pending',
@@ -493,6 +493,43 @@ angular.module('ppApp')
       defer.resolve(data.data)
     });
     return defer.promise
+  }
+})
+
+angular.module('ppApp').config(function($stateProvider){
+  $stateProvider.state('friends.rejected', {
+    url: '/rejected',
+    templateUrl: 'ui/friends/rejected/rejected.html',
+    controller: 'rejectedCtrl',
+    resolve: { Friends: function(RejectedFriendService){
+      return RejectedFriendService();
+    }}
+  })
+})
+.controller('rejectedCtrl', function(Friends, FriendApproveService, $scope){
+  $scope.friends = Friends.data;
+  console.log(Friends)
+  $scope.approve = function(friend){
+    FriendApproveService(friend.id);
+    //cleaner way to rm one value from array???
+    //doing it here assumes success from server
+    //avoids extra http.GET to refresh data
+    var array = $scope.friends.friendships
+    var index = array.indexOf(friend)
+    if (index > -1) {
+      array.splice(index, 1)
+    }
+  }
+})
+
+angular.module('ppApp')
+.factory('RejectedFriendService', function($http, $q){
+  return function(){
+    var defer = $q.defer();
+    $http.get('api/v1/friendships?type=rejected').then(function(data){
+      defer.resolve(data);
+    });
+    return defer.promise;
   }
 })
 
@@ -644,41 +681,5 @@ angular.module('ppApp')
         }
       );
     }
-  }
-})
-angular.module('ppApp').config(function($stateProvider){
-  $stateProvider.state('friends.rejected', {
-    url: '/rejected',
-    templateUrl: 'ui/friends/rejected/rejected.html',
-    controller: 'rejectedCtrl',
-    resolve: { Friends: function(RejectedFriendService){
-      return RejectedFriendService();
-    }}
-  })
-})
-.controller('rejectedCtrl', function(Friends, FriendApproveService, $scope){
-  $scope.friends = Friends.data;
-  console.log(Friends)
-  $scope.approve = function(friend){
-    FriendApproveService(friend.id);
-    //cleaner way to rm one value from array???
-    //doing it here assumes success from server
-    //avoids extra http.GET to refresh data
-    var array = $scope.friends.friendships
-    var index = array.indexOf(friend)
-    if (index > -1) {
-      array.splice(index, 1)
-    }
-  }
-})
-
-angular.module('ppApp')
-.factory('RejectedFriendService', function($http, $q){
-  return function(){
-    var defer = $q.defer();
-    $http.get('api/v1/friendships?type=rejected').then(function(data){
-      defer.resolve(data);
-    });
-    return defer.promise;
   }
 })
