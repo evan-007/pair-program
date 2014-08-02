@@ -123,4 +123,20 @@ RSpec.describe Api::V1::UsersController, :type => :controller do
       end
     end
   end
+	describe 'GET show' do
+		context 'as an authorized user' do
+			before do
+				@user = create(:user)
+				request.headers["username"] = @user.username
+				request.headers["token"] = @user.token
+			end
+			it 'returns a user\'s profile' do
+				@user2 = create(:user)
+				get :show, id: @user2.id
+				data = JSON.parse(response.body)
+				expect(response.status).to eq 200
+				expect(data["public_user"]["username"]).to eq @user2.username
+			end
+		end
+	end
 end
