@@ -469,6 +469,32 @@ angular.module('ppApp')
   }
 })
 
+angular.module('ppApp')
+.config(function($stateProvider){
+  $stateProvider.state('friendfinder.users', {
+    url: '/users/:id',
+    templateUrl: 'ui/friendfinder/user/user.html',
+    controller: 'userController',
+    resolve: {User: function(UserDataService, $stateParams){
+      return UserDataService($stateParams.id);
+    }}
+  })
+})
+.controller('userController', function($scope, User){
+  $scope.user = User;
+})
+
+angular.module('ppApp')
+.factory('UserDataService', function($http, $q){
+  return function(id){
+    var defer = $q.defer();
+    $http.get('/api/v1/users/'+id).then(function(response){
+      defer.resolve(response.data);
+    });
+    return defer.promise;
+  }
+});
+
 angular.module('ppApp').config(function($stateProvider){
   $stateProvider.state('friends.pending', {
     url: '/pending',
