@@ -18,8 +18,9 @@ RSpec.describe Language, :type => :model do
     end
     context 'language is new' do
       it 'returns a new language from the query' do
+        #badbadbad
         @return = Language.tokens('python')
-        expect(@return[0]).to eq 'cat'
+        expect(@return).to eq [{:id=>"<<<python>>>", :name=>"New:\"python\"", :text=>"New:\"python\""}]
       end
     end
 
