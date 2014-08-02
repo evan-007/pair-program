@@ -39,9 +39,7 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
         end
       end
       context 'trashbox params' do
-        it 'returns users trash' do
-          expect('this').to be 'done later'
-        end
+        it 'returns users trash'
       end
     end
   end
@@ -108,7 +106,7 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
         @user2 = create(:user)
         3.times { create(:message, sender_id: @user2.id, receiver_id: @user.id) }
         get :count
-        expect(response.body).to eq 3
+        expect(response.body).to eq '3'
         expect(response.status).to eq 200
       end
     end
