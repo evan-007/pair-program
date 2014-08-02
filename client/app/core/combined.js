@@ -481,7 +481,8 @@ angular.module('ppApp')
   })
 })
 .controller('userController', function($scope, User){
-  $scope.user = User;
+  $scope.user = User.public_user;
+  console.log(User)
 })
 
 angular.module('ppApp')

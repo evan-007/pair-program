@@ -37,10 +37,10 @@ module Api
         render json: @user, serializer: UserProfileSerializer, status: 200
       end
 
-      def show
-        @user = User.find(params[:id])
-        render json: @user, serializer: PublicUserSerializer, status: 200
-      end
+      # def show
+      #   @user = User.find(params[:id])
+      #   render json: @user, serializer: PublicUserSerializer, status: 200
+      # end
 
     	private
 	      def user_params
