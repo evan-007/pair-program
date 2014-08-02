@@ -24,8 +24,8 @@ RSpec.describe Api::V1::LanguagesController, type: :controller do
       it 'returns languages with names like :q' do
         get :index, {q: 'ruby'}
         data = JSON.parse(response.body)
-        expect(response.body).to eq 200
-        expect(data).to eq '99'
+        expect(response.status).to eq 200
+        expect(data['languages'][0]["name"]).to eq 'ruby'
       end
     end
   end
