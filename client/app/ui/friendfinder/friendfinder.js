@@ -4,8 +4,8 @@ angular.module('ppApp')
     url: '/friendfinder',
     templateUrl: 'ui/friendfinder/friendfinder.html',
     controller: 'friendFinderCtrl',
-    resolve: { UserList: function(PublicUserData){
-      return PublicUserData();
+    resolve: { UserList: function(Restangular){
+      return Restangular.all('users').getList();
     }}
   });
 })

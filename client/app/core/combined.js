@@ -1,5 +1,5 @@
 angular.module('ppApp', ['ngAnimate', 'ui.bootstrap', 'ngCookies', 'google-maps',
-                         'ui.router', 'ngResource', 'ngMessages', 'ngTagsInput',
+                         'ui.router', 'restangular', 'ngMessages', 'ngTagsInput',
                          'growlNotifications', 'ngSanitize'])
 .config(function($httpProvider){
   $httpProvider.interceptors.push('SessionInjector');
@@ -7,6 +7,9 @@ angular.module('ppApp', ['ngAnimate', 'ui.bootstrap', 'ngCookies', 'google-maps'
 })
 .config(function($urlRouterProvider){
   $urlRouterProvider.otherwise('/');
+})
+.config(function(RestangularProvider){
+  RestangularProvider.setBaseUrl('/api/v1')
 })
 
 angular.module('ppApp')
@@ -91,6 +94,11 @@ angular.module('ppApp')
   }
   return LanguageService;
 })
+angular.module('ppApp')
+.factory('UserService', function($resource){
+	return $resource('/api/v1/users/:id', { id: '@id'})
+});
+
 angular.module('ppApp').config(function($stateProvider){
   $stateProvider.state('about', {
     url: '/about',
@@ -111,8 +119,8 @@ angular.module('ppApp')
     url: '/friendfinder',
     templateUrl: 'ui/friendfinder/friendfinder.html',
     controller: 'friendFinderCtrl',
-    resolve: { UserList: function(PublicUserData){
-      return PublicUserData();
+    resolve: { UserList: function(Restangular){
+      return Restangular.all('users').getList();
     }}
   });
 })
@@ -214,15 +222,16 @@ angular.module('ppApp').config(function($stateProvider){
     url: '/',
     templateUrl: 'ui/home/home.html',
     controller: 'homeCtrl',
-    resolve: { MapUsers: function(MapUserData){
-        return MapUserData();
+    resolve: { MapUsers: function(UserService){
+        return UserService.get({map: 'true'});
     }, Languages: function(LanguageService){
       return LanguageService.set();
     }
     }
   })
 }).controller('homeCtrl', function($scope, $filter, MapUsers, Languages){
-  $scope.users = MapUsers;
+  $scope.users = MapUsers.users;
+  console.log(MapUsers)
   $scope.languages = Languages;
   $scope.language = $scope.languages[0];
   $scope.map = {
@@ -237,16 +246,7 @@ angular.module('ppApp').config(function($stateProvider){
     $scope.filteredUsers = $filter("filter")($scope.users, language.name);
   });
 })
-angular.module('ppApp')
-.factory('MapUserData', function($http, $q){
-  return function(){
-    var defer = $q.defer();
-    $http.get('/api/v1/users/map').then(function(data){
-      defer.resolve(data.data.users);
-    })
-    return defer.promise;
-  }
-})
+
 angular.module('ppApp')
 .directive('ppMailbox', function(OneMessageService, PostMessageService, $rootScope){
   return {
@@ -475,13 +475,13 @@ angular.module('ppApp')
     url: '/users/:id',
     templateUrl: 'ui/friendfinder/user/user.html',
     controller: 'userController',
-    resolve: {User: function(UserDataService, $stateParams){
-      return UserDataService($stateParams.id);
+    resolve: {User: function(restangular, $stateParams){
+      return Restangular.one('users', $stateParams.id).get();
     }}
   })
 })
 .controller('userController', function($scope, User){
-  $scope.user = User.public_user;
+  $scope.user = User;
   console.log(User)
 })
 

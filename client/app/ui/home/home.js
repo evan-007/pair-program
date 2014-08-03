@@ -3,15 +3,16 @@ angular.module('ppApp').config(function($stateProvider){
     url: '/',
     templateUrl: 'ui/home/home.html',
     controller: 'homeCtrl',
-    resolve: { MapUsers: function(MapUserData){
-        return MapUserData();
+    resolve: { MapUsers: function(UserService){
+        return UserService.get({map: 'true'});
     }, Languages: function(LanguageService){
       return LanguageService.set();
     }
     }
   })
 }).controller('homeCtrl', function($scope, $filter, MapUsers, Languages){
-  $scope.users = MapUsers;
+  $scope.users = MapUsers.users;
+  console.log(MapUsers)
   $scope.languages = Languages;
   $scope.language = $scope.languages[0];
   $scope.map = {

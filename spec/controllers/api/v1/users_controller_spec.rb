@@ -87,15 +87,25 @@ RSpec.describe Api::V1::UsersController, :type => :controller do
       request.headers["token"] = @user1.token
       request.headers["username"] = @user1.username
     end
+		context 'no params' do
+	    it 'renders an array of all non-friends' do
+	      #this is a terrible test
+	      get :index
+	      data = JSON.parse(response.body)
+	      expect(response.status).to be 200
+	      expect(data["users"].length).to eq 2
+	    end
+	  end
+		context 'with params[:map]' do
+			it 'renders all users' do
+				get :index, { map: 'true' }
+				data = JSON.parse(response.body)
+				expect(response.status).to be 200
+				expect(data["users"].length).to eq 4
+			end
+		end
+	end
 
-    it 'renders an array of all non-friends' do
-      #this is a terrible test
-      get :index
-      data = JSON.parse(response.body)
-      expect(response.status).to be 200
-      expect(data["users"].length).to eq 2
-    end
-  end
 
   describe 'GET #profile' do
     before do
