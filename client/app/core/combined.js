@@ -258,7 +258,7 @@ angular.module('ppApp')
     },
     link: function(scope, element, attrs) {
     },
-    controller: function($scope, $rootScope, PostMessageService, OneMessageService,
+    controller: function($scope, $rootScope, PostMessageService,
       Restangular, growlNotifications) {
       $scope.currentPage = 1;
       $scope.totalMessages = $scope.messages.length;
@@ -275,12 +275,8 @@ angular.module('ppApp')
         $scope.newMessage = '';
         var box = {box: type}
         Restangular.one('messages', id).patch(box).then(function(response){
-          console.log(response.message);
           $scope.activeMessage = response.message;
         })
-        // OneMessageService(id, type).then(function(data){
-        //   $scope.activeMessage = data;
-        // })
       }
       $scope.reply = function(message){
         $scope.newMessage = message;
