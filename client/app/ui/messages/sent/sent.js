@@ -6,7 +6,8 @@ angular.module('ppApp')
     controller: 'sentCtrl',
     resolve: {
       Messages: function(Restangular){
-        return Restangular.all('messages', {box: 'sentbox'}).getList();
+        var box = { box: 'sentbox'}
+        return Restangular.all('messages').getList(box);
       }
     }
   })
@@ -15,5 +16,5 @@ angular.module('ppApp')
   $scope.messages = Messages;
   console.log(Messages)
   $scope.type = 'sentbox';
-  
+
 })

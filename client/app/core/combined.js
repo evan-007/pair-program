@@ -273,7 +273,8 @@ angular.module('ppApp')
         message.read = true;
         $scope.activeMessage = '';
         $scope.newMessage = '';
-        Restangular.one('messages', id).patch().then(function(response){
+        var box = {box: type}
+        Restangular.one('messages', id).patch(box).then(function(response){
           console.log(response.message);
           $scope.activeMessage = response.message;
         })
@@ -648,7 +649,8 @@ angular.module('ppApp')
     controller: 'sentCtrl',
     resolve: {
       Messages: function(Restangular){
-        return Restangular.all('messages', {box: 'sentbox'}).getList();
+        var box = { box: 'sentbox'}
+        return Restangular.all('messages').getList(box);
       }
     }
   })
@@ -657,7 +659,7 @@ angular.module('ppApp')
   $scope.messages = Messages;
   console.log(Messages)
   $scope.type = 'sentbox';
-  
+
 })
 
 angular.module('ppApp')

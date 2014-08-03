@@ -24,7 +24,8 @@ angular.module('ppApp')
         message.read = true;
         $scope.activeMessage = '';
         $scope.newMessage = '';
-        Restangular.one('messages', id).patch().then(function(response){
+        var box = {box: type}
+        Restangular.one('messages', id).patch(box).then(function(response){
           console.log(response.message);
           $scope.activeMessage = response.message;
         })
