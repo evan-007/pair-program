@@ -38,12 +38,11 @@ angular.module('ppApp')
         $scope.newMessage = '';
       }
       $scope.send = function(message){
-        PostMessageService(message).then(function(){
-          growlNotifications.add('Message sent to '+message.sender_name, 'success', 2000)
-          $scope.newMessage = '';
-          $scope.activeMessage = '';
-          //alert or something that message was sent/failed?
-        })
+        PostMessageService(message);
+        //can't callback outside of restangular, assumes successful post
+        growlNotifications.add('Message sent to '+message.sender_name, 'success', 2000)
+        $scope.newMessage = '';
+        $scope.activeMessage = '';
       }
     }
   }
