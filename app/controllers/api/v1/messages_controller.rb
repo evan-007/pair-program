@@ -6,7 +6,7 @@ module Api
 
       def index
         @messages = MailFetcher.new(@box, current_user.id).get
-        render json: @messages, status: 200, each_serializer: MessageSerializer
+        render json: @messages, root: false, status: 200, each_serializer: MessageSerializer
       end
 
       #use update instead of show to handle read? updates on show

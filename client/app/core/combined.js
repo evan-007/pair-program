@@ -318,14 +318,14 @@ angular.module('ppApp')
   .state('messages.inbox', {
     url: '',
     templateUrl: 'ui/messages/inbox.html',
-    resolve: {Inbox: function(MessageGetterService){
-      return MessageGetterService();
+    resolve: {Inbox: function(Restangular){
+      return Restangular.all('messages', {box: 'inbox'}).getList();
     }},
     controller: 'inboxCtrl'
   })
 })
 .controller('inboxCtrl', function($scope, Inbox){
-  $scope.messages = Inbox.data.messages;
+  $scope.messages = Inbox;
   $scope.type = 'inbox';
 })
 
