@@ -4,8 +4,9 @@ angular.module('ppApp')
     url: '/users/:id',
     templateUrl: 'ui/friendfinder/user/user.html',
     controller: 'userController',
-    resolve: {User: function(restangular, $stateParams){
-      return Restangular.one('users', $stateParams.id).get();
+    resolve: {User: function(Restangular, $stateParams){
+      var id = $stateParams.id;
+      return Restangular.one('users', id).get();
     }}
   })
 })

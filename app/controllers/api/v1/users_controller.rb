@@ -43,7 +43,7 @@ module Api
 
       def show
         @user = User.find(params[:id])
-        render json: @user, serializer: PublicUserSerializer, status: 200
+        render json: @user, root: false, serializer: PublicUserSerializer, status: 200
       end
 
     	private
