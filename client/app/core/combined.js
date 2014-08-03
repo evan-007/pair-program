@@ -643,14 +643,15 @@ angular.module('ppApp')
     templateUrl: 'ui/messages/sent/sent.html',
     controller: 'sentCtrl',
     resolve: {
-      Messages: function(MessageGetterService){
-        return MessageGetterService('sentbox');
+      Messages: function(Restangular){
+        return Restangular.all('messages', {box: 'sentbox'}).getList();
       }
     }
   })
 })
 .controller('sentCtrl', function($scope, Messages, OneMessageService){
-  $scope.messages = Messages.data.messages;
+  $scope.messages = Messages;
+  console.log(Messages)
   $scope.type = 'sentbox';
   $scope.getMessage = function(id){
     OneMessageService(id).then(function(data){
