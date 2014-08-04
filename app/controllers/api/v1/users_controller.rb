@@ -3,9 +3,13 @@ module Api
     class UsersController < ApplicationController
       before_action :signed_in?, only: [:update, :profile]
 
-      def map
-        @users = User.includes(:languages)
-        render json: @users, root: false,  status: 200, each_serializer: PublicUserSerializer
+      def index
+        if params[:map].present?
+          @users = User.includes(:languages)
+        elsif current_user
+          @users = User.includes(:languages).find(current_user.not_friends)
+        end
+        render json: @users, root: false, each_serializer: PublicUserSerializer, status: 200
       end
 
     	def create
@@ -26,15 +30,6 @@ module Api
           render nothing: true, status: 406
         end
 	    end
-
-      def index
-        if params[:map].present?
-          @users = User.includes(:languages)
-        elsif current_user
-          @users = User.includes(:languages).find(current_user.not_friends)
-        end
-        render json: @users, root: false, each_serializer: PublicUserSerializer, status: 200
-      end
 
       def profile
         @user = current_user
