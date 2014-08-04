@@ -402,7 +402,9 @@ angular.module('ppApp')
   })
 
   $scope.openStream = function(){
-    var source = new EventSource('/api/v1/messages/count');
+    console.log(CookieHandler.get().id)
+    var id = CookieHandler.get().id
+    var source = new EventSource('/api/v1/messages/count?id='+id);
     source.onmessage = function(event) {
       console.log(event);
     }

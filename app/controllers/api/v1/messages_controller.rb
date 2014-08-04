@@ -3,8 +3,6 @@ module Api
     class MessagesController < ApplicationController
       include ActionController::Live
 
-      Mime::Type.register "text/event-stream", :stream
-
       before_action :signed_in?, :get_box, except: [:count]
       before_action :can_message?, only: [:create]
 
@@ -34,15 +32,33 @@ module Api
       end
 
       def count
+        #oh god can't pass auth with EventSource
+
+        #is called on login by angular
+        #returns count of unread messages
+        #stream comes from redis, intialzied with unread_messages
+        #new messages to user incr redis value
+        #reading messages decr redis value
+        #redis key is user.id
+        #http://www.slideshare.net/piotrkarbownik5/rails-4-server-sent-events
+        @user = User.find(params[:id]) #can't send auth params with EventSource
+        puts @user
         response.headers['Content-Type'] = 'text/event-stream'
-        begin
-          response.stream.write "data: hihihi\n\n"
-          sleep 2
-          response.stream.close
-        rescue IOError
-        ensure
-          response.stream.close
+        response.stream.write "data: #{@user.unread_messages}"
+        puts @user.unread_messages
+        $redis = Redis.new
+        $redis.subscribe('namespaced:stream') do |on|
+          on.message do |event, data|
+              response.stream.write("data:#{ data }\n\n")
+          end
         end
+        response.stream.close
+        render nothing: true
+        rescue IOError
+          logger.info("Stream closed")
+        ensure
+          $redis.quit
+          response.stream.close
       end
 
       private

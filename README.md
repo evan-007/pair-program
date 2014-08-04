@@ -8,7 +8,7 @@ loads super slow, refresh page if initial load looks weird.
 ##Dev Builds
 
 The dev app has 3 parts: rails, redis and gulp. Run rails with `rails s`, angular with `cd client && gulp`
-and redis: `redis-server /user/local/etc/redis.conf` (or whatver your path to redis is).
+and redis: `redis-server /user/local/etc/redis.conf` (or whatever your path to redis is).
 Install redis: `brew install redis`.
 
 Rails api lives in the rails app as usual, the angular app is in `client`.
