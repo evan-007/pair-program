@@ -76,7 +76,9 @@ class User < ActiveRecord::Base
 
   def unread_messages
     #needs a counter cache?
-    self.received_messages.where(workflow_state: 'unread').count
+    #conflict with workflow_state and read? property
+    #don't need both!
+    self.received_messages.where(read?: false).count
   end
 
   private

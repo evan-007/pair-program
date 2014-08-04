@@ -11,6 +11,13 @@ The dev app has 3 parts: rails, redis and gulp. Run rails with `rails s`, angula
 and redis: `redis-server /user/local/etc/redis.conf` (or whatever your path to redis is).
 Install redis: `brew install redis`.
 
+To allow for multi-threading with puma, in `development.rb`:
+
+`config.cache_classes = true`
+`config.eager_load = true `
+
+Requires a restart of rails server for any code changes to take effect.
+
 Rails api lives in the rails app as usual, the angular app is in `client`.
 `cd client && bower install && npm install` to install dependencies for the
 front end. In `client`, run unit tests with `karma start`.

@@ -42,12 +42,11 @@ module Api
         #redis key is user.id
         #http://www.slideshare.net/piotrkarbownik5/rails-4-server-sent-events
         @user = User.find(params[:id]) #can't send auth params with EventSource
-        puts @user
         response.headers['Content-Type'] = 'text/event-stream'
-        response.stream.write "data: #{@user.unread_messages}"
-        puts @user.unread_messages
+        response.stream.write "#{@user.unread_messages}"
         $redis = Redis.new
-        $redis.subscribe('namespaced:stream') do |on|
+        $redis.publish("#{@user.id}.messages", @user.unread_messages)
+        $redis.subscribe("#{@user.id}.messages") do |on|
           on.message do |event, data|
               response.stream.write("data:#{ data }\n\n")
           end

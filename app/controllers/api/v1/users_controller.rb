@@ -5,7 +5,7 @@ module Api
 
       def map
         @users = User.includes(:languages)
-        render json: @users, status: 200, each_serializer: PublicUserSerializer
+        render json: @users, root: false,  status: 200, each_serializer: PublicUserSerializer
       end
 
     	def create

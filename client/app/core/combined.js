@@ -222,16 +222,16 @@ angular.module('ppApp').config(function($stateProvider){
     url: '/',
     templateUrl: 'ui/home/home.html',
     controller: 'homeCtrl',
-    resolve: { MapUsers: function(UserService){
-        return UserService.get({map: 'true'});
+    resolve: { MapUsers: function(Restangular){
+      var map = { map: 'true'}
+        return Restangular.all('users').getList(map)
     }, Languages: function(LanguageService){
       return LanguageService.set();
     }
     }
   })
 }).controller('homeCtrl', function($scope, $filter, MapUsers, Languages){
-  $scope.users = MapUsers.users;
-  console.log(MapUsers)
+  $scope.users = MapUsers;
   $scope.languages = Languages;
   $scope.language = $scope.languages[0];
   $scope.map = {
@@ -402,11 +402,17 @@ angular.module('ppApp')
   })
 
   $scope.openStream = function(){
-    console.log(CookieHandler.get().id)
-    var id = CookieHandler.get().id
-    var source = new EventSource('/api/v1/messages/count?id='+id);
-    source.onmessage = function(event) {
-      console.log(event);
+    var user = CookieHandler.get()
+    if (user == null) {
+      return
+    }
+    else {
+      var source = new EventSource('/api/v1/messages/count?id='+user.id);
+      source.onmessage = function(event) {
+        console.log(event.data);
+        $scope.messageCount = event.data;
+        $scope.$apply();
+      }
     }
   }
 })
