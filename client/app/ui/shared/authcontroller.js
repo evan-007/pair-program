@@ -10,4 +10,11 @@ angular.module('ppApp')
       $scope.authUser = CookieHandler.get();
     }
   })
+
+  $scope.openStream = function(){
+    var source = new EventSource('/api/v1/messages/count');
+    source.onmessage = function(event) {
+      console.log(event);
+    }
+  }
 })

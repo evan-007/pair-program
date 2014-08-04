@@ -1,9 +1,15 @@
 #README
 
 demo: <a href='http://tranquil-tor-7118.herokuapp.com'>http://tranquil-tor-7118.herokuapp.com</a>. Demo
-loads super slow, refresh page if initial load looks weird. 
+loads super slow, refresh page if initial load looks weird.
 
 `clone` and `bundle install && rake db:create db:migrate db:seed`
+
+##Dev Builds
+
+The dev app has 3 parts: rails, redis and gulp. Run rails with `rails s`, angular with `cd client && gulp`
+and redis: `redis-server /user/local/etc/redis.conf` (or whatver your path to redis is).
+Install redis: `brew install redis`.
 
 Rails api lives in the rails app as usual, the angular app is in `client`.
 `cd client && bower install && npm install` to install dependencies for the

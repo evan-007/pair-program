@@ -1,7 +1,11 @@
 module Api
   module V1
     class MessagesController < ApplicationController
-      before_action :signed_in?, :get_box
+      include ActionController::Live
+
+      Mime::Type.register "text/event-stream", :stream
+
+      before_action :signed_in?, :get_box, except: [:count]
       before_action :can_message?, only: [:create]
 
       def index
@@ -30,9 +34,15 @@ module Api
       end
 
       def count
-        @count = current_user.unread_messages
-        puts @count
-        render json: @count, status: 200
+        response.headers['Content-Type'] = 'text/event-stream'
+        begin
+          response.stream.write "data: hihihi\n\n"
+          sleep 2
+          response.stream.close
+        rescue IOError
+        ensure
+          response.stream.close
+        end
       end
 
       private

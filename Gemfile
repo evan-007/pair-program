@@ -55,11 +55,8 @@ group :test do
   gem 'factory_girl_rails'
   gem 'shoulda-matchers'
 end
-# Use unicorn as the app server
-# gem 'unicorn'
 
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
+#for ActionController streaming
+gem 'puma'
 
-# Use debugger
-# gem 'debugger', group: [:development, :test]
+gem 'redis'
