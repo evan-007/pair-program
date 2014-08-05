@@ -66,12 +66,13 @@ angular.module('ppApp').factory('SessionInjector', function(CookieHandler){
 })
 
 angular.module('ppApp')
-.factory('SessionService', function(CookieHandler, $http, $location, growlNotifications){
+.factory('SessionService', function(CookieHandler, $http, StreamHandler, $location, growlNotifications){
   return function(authInfo){
     $http.post('api/v1/sessions', authInfo)
     .success(function(data){
       CookieHandler.set(data.user);
       growlNotifications.add('Logged in as '+data.user.username, 'success', 2000);
+      StreamHandler.set();
       $location.path('/friends')
     })
 		.error(function(){
@@ -94,6 +95,47 @@ angular.module('ppApp')
   }
   return LanguageService;
 })
+angular.module('ppApp')
+.factory('MessageStream', function(){
+  return {
+    get: 0,
+    set: null
+  }
+})
+
+angular.module('ppApp')
+.factory('StreamHandler', function(CookieHandler, MessageStream){
+  var StreamHandler = {
+
+    set: function(){
+      var user
+      user = CookieHandler.get();
+      var source = new EventSource('/api/v1/messages/count?id='+user.id)
+      MessageStream.get = source
+    },
+
+    get: function(){
+      var source = MessageStream.get
+      source.onmessage = function(event) {
+        console.log(event)
+        // source.close()
+      }
+      source.onerror = function(error) {
+        source.close()
+      }
+    },
+
+    kill: function(){
+      var source = MessageStream.get
+      source.onmessage = function(event) {
+        source.close()
+      }
+    }
+  }
+
+  return StreamHandler
+})
+
 angular.module('ppApp')
 .factory('UserService', function($resource){
 	return $resource('/api/v1/users/:id', { id: '@id'})
@@ -389,7 +431,7 @@ angular.module('ppApp')
   }
 })
 angular.module('ppApp')
-.controller('authCtrl', function($scope, CookieHandler){
+.controller('authCtrl', function($scope, CookieHandler, MessageStream, StreamHandler){
   $scope.authUser = CookieHandler.get();
   $scope.$watch(function(){
     var user = CookieHandler.get();
@@ -401,20 +443,31 @@ angular.module('ppApp')
     }
   })
 
-  $scope.openStream = function(){
-    var user = CookieHandler.get()
-    if (user == null) {
-      return
-    }
-    else {
-      var source = new EventSource('/api/v1/messages/count?id='+user.id);
-      source.onmessage = function(event) {
-        console.log(event.data);
-        $scope.messageCount = event.data;
-        $scope.$apply();
-      }
-    }
+  $scope.messageCount = function(){
+    console.log(MessageStream)
   }
+
+  $scope.getMessages = function(){
+    console.log(StreamHandler.get())
+  }
+
+  $scope.killMessages = function(){
+    StreamHandler.kill()
+  }
+  // $scope.openStream = function(){
+  //   var user = CookieHandler.get()
+  //   if (user == null) {
+  //     return
+  //   }
+  //   else {
+  //     var source = new EventSource('/api/v1/messages/count?id='+user.id);
+  //     source.onmessage = function(event) {
+  //       console.log(event.data);
+  //       $scope.messageCount = event.data;
+  //       $scope.$apply();
+  //     }
+  //   }
+  // }
 })
 
 angular.module('ppApp')
@@ -684,7 +737,8 @@ angular.module('ppApp')
     controller: 'navCtrl'
   }
 })
-.controller('navCtrl', function(CookieHandler, $location, $scope){
+//toDo: refactor into directive controller!
+.controller('navCtrl', function(CookieHandler, $location, $scope, StreamHandler){
   $scope.user = CookieHandler.get();
 
   $scope.$watch(
@@ -701,6 +755,7 @@ angular.module('ppApp')
 
   $scope.logout = function(){
     CookieHandler.delete();
+    StreamHandler.kill();
     $location.path('/')
   }
 })

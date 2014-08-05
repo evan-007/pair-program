@@ -1,5 +1,5 @@
 angular.module('ppApp')
-.controller('authCtrl', function($scope, CookieHandler){
+.controller('authCtrl', function($scope, CookieHandler, MessageStream, StreamHandler){
   $scope.authUser = CookieHandler.get();
   $scope.$watch(function(){
     var user = CookieHandler.get();
@@ -11,18 +11,29 @@ angular.module('ppApp')
     }
   })
 
-  $scope.openStream = function(){
-    var user = CookieHandler.get()
-    if (user == null) {
-      return
-    }
-    else {
-      var source = new EventSource('/api/v1/messages/count?id='+user.id);
-      source.onmessage = function(event) {
-        console.log(event.data);
-        $scope.messageCount = event.data;
-        $scope.$apply();
-      }
-    }
+  $scope.messageCount = function(){
+    console.log(MessageStream)
   }
+
+  $scope.getMessages = function(){
+    console.log(StreamHandler.get())
+  }
+
+  $scope.killMessages = function(){
+    StreamHandler.kill()
+  }
+  // $scope.openStream = function(){
+  //   var user = CookieHandler.get()
+  //   if (user == null) {
+  //     return
+  //   }
+  //   else {
+  //     var source = new EventSource('/api/v1/messages/count?id='+user.id);
+  //     source.onmessage = function(event) {
+  //       console.log(event.data);
+  //       $scope.messageCount = event.data;
+  //       $scope.$apply();
+  //     }
+  //   }
+  // }
 })

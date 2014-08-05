@@ -6,7 +6,8 @@ angular.module('ppApp')
     controller: 'navCtrl'
   }
 })
-.controller('navCtrl', function(CookieHandler, $location, $scope){
+//toDo: refactor into directive controller!
+.controller('navCtrl', function(CookieHandler, $location, $scope, StreamHandler){
   $scope.user = CookieHandler.get();
 
   $scope.$watch(
@@ -23,6 +24,7 @@ angular.module('ppApp')
 
   $scope.logout = function(){
     CookieHandler.delete();
+    StreamHandler.kill();
     $location.path('/')
   }
 })
