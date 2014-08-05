@@ -98,8 +98,7 @@ angular.module('ppApp')
 angular.module('ppApp')
 .factory('MessageStream', function(){
   return {
-    get: 0,
-    set: null
+    stream: null
   }
 })
 
@@ -108,17 +107,16 @@ angular.module('ppApp')
   var StreamHandler = {
 
     set: function(){
-      var user
-      user = CookieHandler.get();
+      var user = CookieHandler.get();
       var source = new EventSource('/api/v1/messages/count?id='+user.id)
-      MessageStream.get = source
+      MessageStream.stream = source
     },
 
     get: function(){
-      var source = MessageStream.get
+      var source = MessageStream.stream
       source.onmessage = function(event) {
-        console.log(event)
-        // source.close()
+        console.log(event.data);
+        return event.data;
       }
       source.onerror = function(error) {
         source.close()
@@ -126,10 +124,9 @@ angular.module('ppApp')
     },
 
     kill: function(){
-      var source = MessageStream.get
-      source.onmessage = function(event) {
-        source.close()
-      }
+      var source = MessageStream.stream
+      source.close();
+
     }
   }
 
@@ -442,6 +439,25 @@ angular.module('ppApp')
       $scope.authUser = CookieHandler.get();
     }
   })
+
+  $scope.getStream = function(){
+    var user = CookieHandler.get()
+    if (user == null ) {
+      return
+    } else {
+      $scope.getDatas()
+    }
+  }
+
+  $scope.getDatas = function(){
+    StreamHandler.set()
+    var source = MessageStream.stream
+    source.onmessage = function(event){
+      $scope.$apply(function(){
+        $scope.messages = event.data;
+      })
+    }
+  }
 
   $scope.messageCount = function(){
     console.log(MessageStream)

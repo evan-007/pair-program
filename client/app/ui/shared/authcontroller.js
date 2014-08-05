@@ -11,6 +11,25 @@ angular.module('ppApp')
     }
   })
 
+  $scope.getStream = function(){
+    var user = CookieHandler.get()
+    if (user == null ) {
+      return
+    } else {
+      $scope.getDatas()
+    }
+  }
+
+  $scope.getDatas = function(){
+    StreamHandler.set()
+    var source = MessageStream.stream
+    source.onmessage = function(event){
+      $scope.$apply(function(){
+        $scope.messages = event.data;
+      })
+    }
+  }
+
   $scope.messageCount = function(){
     console.log(MessageStream)
   }
