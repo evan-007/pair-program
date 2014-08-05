@@ -44,7 +44,7 @@ module Api
         begin
           @user = User.find(params[:id]) #can't send auth params with EventSource
           response.headers['Content-Type'] = 'text/event-stream'
-          response.stream.write "#{@user.unread_messages}"
+          response.stream.write "data: #{@user.unread_messages}\n\n"
           $redis = Redis.new
           $redis.publish("#{@user.id}.messages", @user.unread_messages)
           $redis.subscribe("#{@user.id}.messages") do |on|
