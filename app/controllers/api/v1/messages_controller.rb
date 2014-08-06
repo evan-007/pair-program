@@ -41,23 +41,21 @@ module Api
         #reading messages decr redis value
         #redis key is user.id
         #http://www.slideshare.net/piotrkarbownik5/rails-4-server-sent-events
-        begin
-          @user = User.find(params[:id]) #can't send auth params with EventSource
-          response.headers['Content-Type'] = 'text/event-stream'
-          response.stream.write "data: #{@user.unread_messages}\n\nj"
-          $redis = Redis.new
-          $redis.publish("#{@user.id}.messages", @user.unread_messages)
-          $redis.subscribe("#{@user.id}.messages") do |on|
-            on.message do |event, data|
-                response.stream.write("data:#{ data }\n\n")
-            end
+        @user = User.find(params[:id]) #can't send auth params with EventSource
+        response.headers['Content-Type'] = 'text/event-stream'
+        response.stream.write "data: #{@user.unread_messages}\n\nj"
+        $redis = Redis.new
+        $redis.publish("#{@user.id}.messages", @user.unread_messages)
+        $redis.subscribe("#{@user.id}.messages") do |on|
+          on.message do |event, data|
+              response.stream.write("data:#{ data }\n\n")
           end
+        end
         rescue IOError
           logger.info("Stream closed")
         ensure
           $redis.quit
           response.stream.close
-        end
       end
 
       private
