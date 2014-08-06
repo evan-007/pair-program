@@ -1,0 +1,20 @@
+new
+<div class='row'>
+  <div class='col-md-12'>
+    <form nonvalidate ng-submit='sendMessage(message)'>
+      <label>Recipient:</label>
+      <select ng-model='message.receiver_id' ng-options='friend.id as friend.username for friend in friends'></select>
+      <p>
+        <label>Subject</label>
+        <input type="text" ng-model='message.title' class='form-control' id='subject' placeholder='Enter a subject'>
+      </p>
+      <p>
+        <label>Message</label>
+        <textarea name="body" ng-model='message.body' class='form-control' placeholder='Enter a message' cols="30" rows="10"></textarea>
+      </p>
+      <p>
+        <input type="submit" value="submit">
+      </p>
+    </form>
+  </div>
+</div>

@@ -510,12 +510,11 @@ angular.module('ppApp')
     SignUpService(signup);
   };
   $scope.languages = Languages;
-  
+
   //put this in a service!
   $scope.getLanguages = function(query){
     var defer = $q.defer()
     $http.get('./api/v1/languages?q='+query).then(function(response){
-      console.log(response)
       defer.resolve(response.data.languages)
     })
     return defer.promise
@@ -711,6 +710,31 @@ FriendRejectService){
     if (index > -1) {
       array.splice(index, 1)
     }
+  }
+})
+
+angular.module('ppApp')
+.config(function($stateProvider){
+  $stateProvider.state('messages.new', {
+    url: '/new',
+    templateUrl: 'ui/messages/new/new.html',
+    controller: 'newMessageCtrl',
+    resolve: { Friends: function(FriendshipService) {
+      return FriendshipService.getAll();
+    }}
+  })
+})
+.controller('newMessageCtrl', function(Friends, $scope, Restangular, $location, growlNotifications){
+  $scope.friends = Friends.friendships
+
+  $scope.sendMessage = function(message){
+    var data = {message: message}
+
+    Restangular.all('messages').post(data).then(function(response){
+      console.log(response.message)
+      growlNotifications.add("Message sent!", 'success', 2000);
+      $location.path('/messages');
+    })
   }
 })
 

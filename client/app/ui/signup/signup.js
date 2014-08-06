@@ -13,12 +13,11 @@ angular.module('ppApp')
     SignUpService(signup);
   };
   $scope.languages = Languages;
-  
+
   //put this in a service!
   $scope.getLanguages = function(query){
     var defer = $q.defer()
     $http.get('./api/v1/languages?q='+query).then(function(response){
-      console.log(response)
       defer.resolve(response.data.languages)
     })
     return defer.promise
