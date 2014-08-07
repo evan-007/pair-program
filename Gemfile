@@ -25,6 +25,11 @@ gem 'workflow'
 
 #background jobs
 gem 'sidekiq'
+
+#load app via Procfile
+#starts sidekiq with app
+gem 'foreman'
+
 group :development, :test do
   gem 'spring-commands-rspec'
   gem 'rspec-rails'
