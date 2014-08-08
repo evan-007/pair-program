@@ -1,6 +1,6 @@
 angular.module('ppApp', ['ngAnimate', 'ui.bootstrap', 'ngCookies', 'google-maps',
                          'ui.router', 'restangular', 'ngMessages', 'ngTagsInput',
-                         'growlNotifications', 'ngSanitize'])
+                         'growlNotifications', 'ngSanitize', 'angular-loading-bar'])
 .config(function($httpProvider){
   $httpProvider.interceptors.push('SessionInjector');
   $httpProvider.interceptors.push('AuthInterceptor');
@@ -10,6 +10,9 @@ angular.module('ppApp', ['ngAnimate', 'ui.bootstrap', 'ngCookies', 'google-maps'
 })
 .config(function(RestangularProvider){
   RestangularProvider.setBaseUrl('/api/v1')
+})
+.config(function(cfpLoadingBarProvider) {
+  cfpLoadingBarProvider.includeSpinner = false;
 })
 
 angular.module('ppApp')
