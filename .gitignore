@@ -18,3 +18,5 @@
 # ignore angular packages
 /client/node_modules
 /client/app/bower_components
+
+/config/environment_variables.yml
