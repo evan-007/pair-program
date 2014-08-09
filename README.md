@@ -8,7 +8,8 @@ loads super slow, refresh page if initial load looks weird.
 ##Dev Builds
 
 ####Foreman
-`foreman start` to load the web + worker on port `9292`
+`foreman start` to load the web + worker on port `5000`
+Must also run `redis-server` to start a server for sidekiq
 
 The dev app has 3 parts: rails, redis and gulp. Run rails with `rails s`, angular with `cd client && gulp`
 and redis: `redis-server /user/local/etc/redis.conf` (or whatever your path to redis is).
