@@ -20,3 +20,6 @@
 /client/app/bower_components
 
 /config/environment_variables.yml
+
+#redis logs
+dump.rdb
