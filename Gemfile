@@ -33,7 +33,7 @@ gem 'sinatra', '>= 1.3.0', :require => nil
 
 #load app via Procfile
 #starts sidekiq with app
-gem 'foreman'
+# gem 'foreman'
 
 #deploy
 gem 'capistrano'
@@ -53,6 +53,9 @@ group :test do
 end
 
 #for ActionController streaming
-gem 'puma'
+# gem 'puma'
+
+#app server
+gem 'unicorn'
 
 gem 'redis'
