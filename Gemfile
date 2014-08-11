@@ -35,6 +35,12 @@ gem 'sinatra', '>= 1.3.0', :require => nil
 #starts sidekiq with app
 gem 'foreman'
 
+#deploy
+gem 'capistrano'
+gem 'capistrano-rails'
+gem 'capistrano-bundler'
+gem 'capistrano-rbenv'
+
 group :development, :test do
   gem 'spring-commands-rspec'
   gem 'rspec-rails'
