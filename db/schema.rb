@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140728052106) do
+ActiveRecord::Schema.define(version: 20140813044714) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,16 @@ ActiveRecord::Schema.define(version: 20140728052106) do
     t.string   "workflow_state"
     t.boolean  "read?",          default: false
   end
+
+  create_table "postings", force: true do |t|
+    t.integer  "user_id"
+    t.string   "title"
+    t.text     "body"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "postings", ["user_id"], name: "index_postings_on_user_id", using: :btree
 
   create_table "user_languages", force: true do |t|
     t.integer  "user_id"

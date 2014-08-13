@@ -13,6 +13,7 @@ RSpec.describe User, type: :model do
   it { should have_many :inverse_friends }
   it { should have_many :sent_messages }
   it { should have_many :received_messages }
+  it { should have_many(:postings).dependent(:destroy)}
 
   before do
     @user = create(:user)
