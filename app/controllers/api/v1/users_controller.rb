@@ -15,6 +15,7 @@ module Api
     	def create
 		    @user = User.new(user_params)
 		    if @user.save
+          WelcomeSender.send(@user.id)
           WelcomeEmailer.perform_async(@user.id)
           render json: @user, status: 200
 		    else
