@@ -35,7 +35,7 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
           get :index, {box: 'sentbox'}
           data = JSON.parse(response.body)
           expect(response.status).to eq 200
-          expect(data["messages"][0]["title"]).to eq 'some subject'
+          expect(data[0]["title"]).to eq 'some subject'
         end
       end
       context 'trashbox params' do
