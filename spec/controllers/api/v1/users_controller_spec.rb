@@ -93,7 +93,7 @@ RSpec.describe Api::V1::UsersController, :type => :controller do
 	      get :index
 	      data = JSON.parse(response.body)
 	      expect(response.status).to be 200
-	      expect(data["users"].length).to eq 2
+	      expect(data.length).to eq 2
 	    end
 	  end
 		context 'with params[:map]' do
