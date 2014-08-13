@@ -145,7 +145,7 @@ RSpec.describe Api::V1::UsersController, :type => :controller do
 				get :show, id: @user2.id
 				data = JSON.parse(response.body)
 				expect(response.status).to eq 200
-				expect(data["public_user"]["username"]).to eq @user2.username
+				expect(data["username"]).to eq @user2.username
 			end
 		end
 	end
