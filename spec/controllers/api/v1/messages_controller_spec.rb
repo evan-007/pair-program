@@ -15,7 +15,7 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
           get :index, {box: 'inbox'}
           data = JSON.parse(response.body)
           expect(response.status).to eq 200
-          expect(data["messages"][0]["title"]).to eq 'call me'
+          expect(data[0]["title"]).to eq 'call me'
         end
       end
       context 'no params' do
