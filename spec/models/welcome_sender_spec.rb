@@ -7,9 +7,9 @@ RSpec.describe WelcomeSender, type: :model do
   end
   it 'sends a message to a user' do
     @user = create(:user)
-    WelcomeSender.new(@user).send
+    WelcomeSender.send(@user.id)
     expect(@user.received_messages.count).to eq 1
     expect(@user.received_messages.first.sender_id).to eq User.first.id
-    expect(@user.received_messages.first.title).to eq 'Welcome'
+    expect(@user.received_messages.first.title).to eq 'Welcome to the site'
   end
 end
