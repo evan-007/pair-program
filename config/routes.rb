@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
-  
+
   namespace :api do
     namespace :v1 do
       resources :users, only: [:index, :create, :update, :show]
@@ -18,6 +18,8 @@ Rails.application.routes.draw do
       resources :messages, only: [:index, :update, :create]
       #bad, refactor into index?count
       get '/messages/count', to: 'messages#count'
+
+      resources :postings, only: [:index, :show]
     end
   end
 end
