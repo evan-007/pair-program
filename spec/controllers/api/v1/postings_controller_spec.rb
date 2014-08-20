@@ -31,6 +31,24 @@ RSpec.describe Api::V1::PostingsController, type: :controller do
         expect(response.status).to eq 200
       end
     end
+
+    describe 'POST :create' do
+      context 'with valid params' do
+        it 'creates a Posting' do
+          post :create, posting: attributes_for(:posting)
+          data = JSON.parse(response.body)
+          expect(@user.postings.size).to eq 1
+          expect(response.status).to eq 200
+        end
+      end
+
+      context 'with invalid params' do
+        it 'renders status 400' do
+          post :create, posting: attributes_for(:posting, title: '1')
+          expect(response.status).to eq 400
+        end
+      end
+    end
   end
   context 'without a current user' do
     it 'is unauthorized' do
