@@ -1,6 +1,8 @@
 language: ruby
 rvm:
   - "2.1.1"
+before_script:
+  - cp config/environment_variables.yml.example config/environment_variables.yml
 services:
   - redis-server
 script:
