@@ -20,7 +20,7 @@ angular.module('ppApp')
     if (user == null ) {
       return
     } else {
-      $scope.getDatas()
+      // $scope.getDatas()
       //have to run this in another function
       //otherwise digest in progress errors on $scope.$apply
       //wtf!

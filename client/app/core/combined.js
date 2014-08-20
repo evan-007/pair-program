@@ -75,7 +75,7 @@ angular.module('ppApp')
     .success(function(data){
       CookieHandler.set(data.user);
       growlNotifications.add('Logged in as '+data.user.username, 'success', 2000);
-      StreamHandler.set();
+      // StreamHandler.set();
       $location.path('/friends')
     })
 		.error(function(){
@@ -452,7 +452,7 @@ angular.module('ppApp')
     if (user == null ) {
       return
     } else {
-      $scope.getDatas()
+      // $scope.getDatas()
       //have to run this in another function
       //otherwise digest in progress errors on $scope.$apply
       //wtf!
