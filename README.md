@@ -1,5 +1,7 @@
 #README
 
+[![Build Status](https://travis-ci.org/evan-007/pair-program.svg?branch=master)](https://travis-ci.org/evan-007/pair-program)
+
 demo: <a href='http://tranquil-tor-7118.herokuapp.com'>http://tranquil-tor-7118.herokuapp.com</a>. Demo
 loads super slow, refresh page if initial load looks weird.
 
