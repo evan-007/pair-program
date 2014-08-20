@@ -32,4 +32,10 @@ RSpec.describe Api::V1::PostingsController, type: :controller do
       end
     end
   end
+  context 'without a current user' do
+    it 'is unauthorized' do
+      get :index
+      expect(response.status).to eq 401
+    end
+  end
 end
