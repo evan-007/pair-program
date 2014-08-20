@@ -19,7 +19,7 @@ Rails.application.routes.draw do
       #bad, refactor into index?count
       get '/messages/count', to: 'messages#count'
 
-      resources :postings, only: [:index, :show, :create, :destroy]
+      resources :postings
     end
   end
 end

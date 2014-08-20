@@ -38,7 +38,7 @@ RSpec.describe Api::V1::PostingsController, type: :controller do
           post :create, posting: attributes_for(:posting)
           data = JSON.parse(response.body)
           expect(@user.postings.size).to eq 1
-          expect(response.status).to eq 200
+          expect(response.status).to eq 201
         end
       end
 
@@ -60,6 +60,26 @@ RSpec.describe Api::V1::PostingsController, type: :controller do
           delete :destroy, id: @posting.id
           expect(response.status).to eq 204
           expect(@user.postings.count).to eq 0
+        end
+      end
+    end
+
+    describe 'PUT :update' do
+      before do
+        @posting = create(:posting, user: @user)
+      end
+      context 'with valid params' do
+        it 'updates the post' do
+          put :update, id: @posting.id, posting: attributes_for(:posting, title: 'new title')
+          data = JSON.parse(response.body)
+          expect(response.status).to eq 200
+          expect(data["title"]).to eq 'new title'
+        end
+      end
+      context 'with invalid params' do
+        it 'does not update the post' do
+          put :update, id: @posting.id, posting: attributes_for(:posting, title: '')
+          expect(response.status).to eq 400
         end
       end
     end

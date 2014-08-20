@@ -3,7 +3,7 @@ module Api
     class PostingsController < ApplicationController
       before_action :signed_in?
       before_action :get_posting, only: [:show]
-      before_action :get_user_posting, only: [:destroy]
+      before_action :get_user_posting, only: [:destroy, :update]
 
       def index
         @postings = Posting.all
@@ -17,7 +17,7 @@ module Api
       def create
         @posting = current_user.postings.build(posting_params)
         if @posting.save
-          render json: @posting, root: false, status: 200
+          render json: @posting, root: false, status: 201
         else
           render nothing: true, status: 400
         end
@@ -26,6 +26,14 @@ module Api
       def destroy
         if @posting.destroy
           render nothing: true, status: 204
+        else
+          render nothing: true, status: 400
+        end
+      end
+
+      def update
+        if @posting.update(posting_params)
+          render json: @posting, status: 200
         else
           render nothing: true, status: 400
         end
