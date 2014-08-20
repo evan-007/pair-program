@@ -3,6 +3,7 @@ module Api
     class PostingsController < ApplicationController
       before_action :signed_in?
       before_action :get_posting, only: [:show]
+      before_action :get_user_posting, only: [:destroy]
 
       def index
         @postings = Posting.all
@@ -22,6 +23,14 @@ module Api
         end
       end
 
+      def destroy
+        if @posting.destroy
+          render nothing: true, status: 204
+        else
+          render nothing: true, status: 400
+        end
+      end
+
       private
         def posting_params
           params.require(:posting).permit(:title, :body)
@@ -29,6 +38,10 @@ module Api
 
         def get_posting
           @posting = Posting.find(params[:id])
+        end
+
+        def get_user_posting
+          @posting = current_user.postings.find(params[:id])
         end
     end
   end

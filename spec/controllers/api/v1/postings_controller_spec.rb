@@ -49,7 +49,22 @@ RSpec.describe Api::V1::PostingsController, type: :controller do
         end
       end
     end
+
+    describe 'DELETE :destroy' do
+      before do
+        @posting = create(:posting, user: @user)
+      end
+
+      context 'with valid params' do
+        it 'destroys a Posting' do
+          delete :destroy, id: @posting.id
+          expect(response.status).to eq 204
+          expect(@user.postings.count).to eq 0
+        end
+      end
+    end
   end
+
   context 'without a current user' do
     it 'is unauthorized' do
       get :index
