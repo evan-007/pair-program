@@ -6,7 +6,11 @@ module Api
       before_action :get_user_posting, only: [:destroy, :update]
 
       def index
-        @postings = Posting.all
+        if params[:list].present?
+          @postings = current_user.postings
+        else
+          @postings = Posting.all
+        end
         render json: @postings, root: false, status: 200
       end
 

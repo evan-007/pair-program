@@ -10,13 +10,27 @@ RSpec.describe Api::V1::PostingsController, type: :controller do
     end
 
     describe 'GET :index' do
-      before do
-        5.times { create(:posting, user: @user) }
+      context 'with no params' do
+        before do
+          5.times { create(:posting, user: @user) }
+        end
+        it 'returns all Postings' do
+          get :index
+          data = JSON.parse(response.body)
+          expect(data.length).to eq 5
+        end
       end
-      it 'returns all Postings' do
-        get :index
-        data = JSON.parse(response.body)
-        expect(data.length).to eq 5
+      context 'with "list" params' do
+        before do
+          @user2 = create(:user)
+          2.times { create(:posting, user: @user) }
+          3.times { create(:posting, user: @user2) }
+        end
+        it 'returns a user\'s postings' do
+          get :index, {list: 'true'}
+          data = JSON.parse(response.body)
+          expect(data.length).to eq 2
+        end
       end
     end
 
