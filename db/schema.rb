@@ -74,9 +74,9 @@ ActiveRecord::Schema.define(version: 20140813044714) do
     t.string   "location"
     t.string   "token"
     t.string   "gravatar_hash"
-    t.boolean  "mentor?",         default: false
-    t.boolean  "student?",        default: false
-    t.boolean  "just_partner?",   default: true
+    t.boolean  "mentor?"
+    t.boolean  "student?"
+    t.boolean  "just_partner?"
   end
 
 end
