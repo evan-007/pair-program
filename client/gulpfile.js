@@ -10,6 +10,7 @@ var modRewrite = require('connect-modrewrite');
 var runSequence = require('run-sequence');
 var concat = require('gulp-concat');
 var watch = require('gulp-watch');
+var shell = require('gulp-shell');
 
 var paths ={
 
@@ -29,6 +30,14 @@ gulp.task('connect', function(){
 		}
 	});
 });
+
+gulp.task('rails-start', shell.task([
+  'rails s -d'
+]));
+
+gulp.task('rails-kill', shell.task([
+  "kill `cat ../tmp/pids/server.pid`"
+]));
 
 gulp.task('clean', function(){
 	return gulp.src('build', {read: false})
