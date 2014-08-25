@@ -12,5 +12,4 @@ angular.module('ppApp')
 })
 .controller('postingsShowCtrl', function(Posting, $scope){
   $scope.activePosting = Posting;
-  console.log($scope.activePosting);
 })
