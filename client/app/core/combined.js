@@ -361,7 +361,7 @@ angular.module('ppApp')
     url: '',
     templateUrl: 'ui/messages/inbox.html',
     resolve: {Inbox: function(Restangular){
-      return Restangular.all('messages', {box: 'inbox'}).getList();
+      return Restangular.all('messages').getList();
     }},
     controller: 'inboxCtrl'
   })
@@ -413,9 +413,16 @@ angular.module('ppApp')
     }}
   })
 })
-.controller('postingsCtrl', function($scope, Postings){
+.controller('postingsCtrl', function($scope, Postings, Restangular){
   $scope.postings = Postings;
   console.log(Postings);
+  $scope.myPostings = function(){
+    var params = {list: 'true'}
+    Restangular.all('postings').getList(params).then(function(response){
+      $scope.postings = response;
+      console.log(response)
+    })
+  }
 })
 
 angular.module('ppApp')

@@ -9,7 +9,7 @@ angular.module('ppApp')
     url: '',
     templateUrl: 'ui/messages/inbox.html',
     resolve: {Inbox: function(Restangular){
-      return Restangular.all('messages', {box: 'inbox'}).getList();
+      return Restangular.all('messages').getList();
     }},
     controller: 'inboxCtrl'
   })
