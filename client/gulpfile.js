@@ -39,6 +39,14 @@ gulp.task('rails-kill', shell.task([
   "kill `cat ../tmp/pids/server.pid`"
 ]));
 
+gulp.task('db-setup', shell.task([
+  'bundle exec rake db:setup'
+]));
+
+gulp.task('protractor', shell.task([
+  'protractor protractorConfig.js'
+]));
+
 gulp.task('clean', function(){
 	return gulp.src('build', {read: false})
 	.pipe(clean());
@@ -81,5 +89,13 @@ gulp.task('build', function() {
 gulp.task('watch', function(){
 	gulp.watch('./app/**/*.js', ['js'])
 });
+
+gulp.task('e2e-test', function(){
+  // start servers, setup test db,
+  // run e2e tests, 
+  // reset db, kill rails daemon
+  runSequence('rails-start', 'connect', 'db-setup', 'protractor', 
+              'db-setup', 'rails-kill')
+})
 
 gulp.task('default', ['connect', 'js', 'watch']);
