@@ -1,5 +1,7 @@
 <div>
-  <h4>{{activePosting.title}}  <small>{{activePosting.user.username}}</small></h4>
+  <h4 id='title'>{{activePosting.title}}</h4>
+  <small>User: {{activePosting.user.username}}</small>
   <h5>{{activePosting.created_at | date : shortDate}}</h5>
-  <p>{{activePosting.body}}</p>
+  <p id='body'>{{activePosting.body}}</p>
+  <button id='edit' ng-if='user == activePosting.user.username' ng-click='editPosting()'>Edit</button>
 </div>
