@@ -4,8 +4,11 @@ angular.module('ppApp')
     templateUrl: 'ui/postings/show/ppPosting.html',
     restrict: 'E',
     scope: {
-      activePosting: '=posting'
+      activePosting: '=posting',
+      user: '='
     },
-    
+    link: function(scope, element, attrs) {
+      //edit functionality
+    }
   }
 })

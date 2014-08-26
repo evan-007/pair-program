@@ -10,6 +10,6 @@ angular.module('ppApp')
     }}
   })
 })
-.controller('postingsShowCtrl', function(Posting, $scope){
+.controller('postingsShowCtrl', function(Posting, $scope, CookieStore){
   $scope.activePosting = Posting;
 })

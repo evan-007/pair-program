@@ -55,7 +55,6 @@ angular.module('ppApp')
 
 	return CookieHandler;
 });
-
 angular.module('ppApp').factory('SessionInjector', function(CookieHandler){
   return {
     request: function(config) {
@@ -806,9 +805,12 @@ angular.module('ppApp')
     templateUrl: 'ui/postings/show/ppPosting.html',
     restrict: 'E',
     scope: {
-      activePosting: '=posting'
+      activePosting: '=posting',
+      user: '='
     },
-    
+    link: function(scope, element, attrs) {
+      //edit functionality
+    }
   }
 })
 angular.module('ppApp')
@@ -823,7 +825,7 @@ angular.module('ppApp')
     }}
   })
 })
-.controller('postingsShowCtrl', function(Posting, $scope){
+.controller('postingsShowCtrl', function(Posting, $scope, CookieStore){
   $scope.activePosting = Posting;
 })
 
