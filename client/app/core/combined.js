@@ -801,6 +801,17 @@ angular.module('ppApp')
   }
 })
 angular.module('ppApp')
+.directive('ppPosting', function(){
+  return {
+    templateUrl: 'ui/postings/show/ppPosting.html',
+    restrict: 'E',
+    scope: {
+      activePosting: '=posting'
+    },
+    
+  }
+})
+angular.module('ppApp')
 .config(function($stateProvider){
   $stateProvider.state('postings.show', {
     url: '/:id',
