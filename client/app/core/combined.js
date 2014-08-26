@@ -420,7 +420,6 @@ angular.module('ppApp')
     var params = {list: 'true'}
     Restangular.all('postings').getList(params).then(function(response){
       $scope.postings = response;
-      console.log(response)
     })
   }
 })
