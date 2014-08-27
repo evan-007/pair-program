@@ -3,5 +3,15 @@
   <small>User: {{activePosting.user.username}}</small>
   <h5>{{activePosting.created_at | date : shortDate}}</h5>
   <p id='body'>{{activePosting.body}}</p>
+  <div ng-if='editing === true'>
+    <p>
+      <label>title</label>
+      <input type='text' ng-model='activePosting.title' />
+    </p>
+    <p>
+      <label>body</label>
+      <textarea ng-model='activePosting.body'></textarea>
+    </p>
+  </div>
   <button id='edit' ng-if='user == activePosting.user.username' ng-click='editPosting()'>Edit</button>
 </div>

@@ -16,6 +16,8 @@ angular.module('ppApp')
           title: scope.activePosting.title,
           body: scope.activePosting.body
         }
+        
+        var data = {posting: posting}
         var id = scope.activePosting.id;
 
         if (title.attr('contenteditable') === undefined || title.attr('contenteditable') === 'false'){
@@ -23,6 +25,7 @@ angular.module('ppApp')
           body.attr('contenteditable', true);
           title.addClass('editing');
           body.addClass('editing');
+          scope.editing = true;
           button.text('Save');
         }
         else {
@@ -31,7 +34,10 @@ angular.module('ppApp')
           title.removeClass('editing');
           body.removeClass('editing');
           button.text('Edit');
-          Restangular.one('postings', id).put(posting)
+          // activePosting is a Restangular object,
+          // just call RestAPI on it!
+          scope.activePosting.put()
+          scope.editing = false;
         }
       }
     },
