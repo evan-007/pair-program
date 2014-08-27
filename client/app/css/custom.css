@@ -50,3 +50,7 @@ body {
 .half-rule {
   width: 25%
 }
+
+.editing {
+  border: 2px solid red;
+}
