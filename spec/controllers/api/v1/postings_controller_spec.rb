@@ -87,7 +87,7 @@ RSpec.describe Api::V1::PostingsController, type: :controller do
           put :update, id: @posting.id, posting: attributes_for(:posting, title: 'new title')
           data = JSON.parse(response.body)
           expect(response.status).to eq 200
-          expect(data["title"]).to eq 'new title'
+          expect(data["posting"]["title"]).to eq 'new title'
         end
       end
       context 'with invalid params' do
