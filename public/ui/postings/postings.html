@@ -1,6 +1,12 @@
 <div class='row'>
+  <ul class='list-unstyled'>
+    <li class='btn btn-primary' ng-click='myPostings()'>My Postings</li>
+    <a ui-sref='postings.new'><li class='btn btn-default'>New Posting</li></a>
+  </ul>
+</div>
+<div class='row'>
   <div class='col-md-2'>
-    <ul class='unstyled-list'>
+    <ul class='list-unstyled'>
       <li ng-repeat='posting in postings'>
         <a ng-href="#/postings/{{posting.id}}">{{posting.title}}</a>
         </li>
