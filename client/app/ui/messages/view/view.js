@@ -1,6 +1,6 @@
 angular.module('ppApp')
 .config(function($stateProvider){
-  $stateProvider.state('messages.inbox.id', {
+  $stateProvider.state('messages.inbox.show', {
     url: '/:id',
     resolve: {activeMessage: function(Restangular, $stateParams){
       var id = $stateParams.id

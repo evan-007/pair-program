@@ -768,7 +768,7 @@ angular.module('ppApp')
     templateUrl: 'ui/messages/sent/sent.html',
     controller: 'sentCtrl',
     resolve: {
-      Messages: function(Restangular){
+      Messages: function(Restangular, $stateParams){
         var box = { box: 'sentbox'}
         return Restangular.all('messages').getList(box);
       }
@@ -777,7 +777,6 @@ angular.module('ppApp')
 })
 .controller('sentCtrl', function($scope, Messages){
   $scope.messages = Messages;
-  console.log(Messages)
   $scope.type = 'sentbox';
 
 })
@@ -832,7 +831,7 @@ angular.module('ppApp')
 
 angular.module('ppApp')
 .config(function($stateProvider){
-  $stateProvider.state('messages.inbox.id', {
+  $stateProvider.state('messages.inbox.show', {
     url: '/:id',
     resolve: {activeMessage: function(Restangular, $stateParams){
       var id = $stateParams.id
