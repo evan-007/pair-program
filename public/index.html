@@ -11,16 +11,16 @@
   <navbar></navbar>
 	<div class='container'>
 		<div growl-notifications></div>
-		<div ng-controller='authCtrl' ng-init="getStream()">
+		<div ng-controller='authCtrl'>
 			<div ng-if='authUser' ng-cloak>
 		    <div class='row'>
 					<div class='col-sm-1 user-sidebar well'>
-						<ul class='list-inline'>
+						<ul class='nav nav-pills'>
 
-							<li class='spaced-li'><a ui-sref='postings'>Postings</a></li>
-							<li class='spaced-li'><a ui-sref='messages.inbox'><i class='fa fa-envelope fa-3x'></i>Messages <span class='badge'>{{messages}}</span></a></li>
-							<li class='spaced-li'><a ui-sref='friends.all'><i class='fa fa-users fa-3x'></i>Friends</a></li>
-							<li class='spaced-li'><a ui-sref='friendfinder'><i class='fa fa-search fa-3x'></i>Friend Finder</a></li>
+							<li class='spaced-li' ui-sref-active="active"><a ui-sref='postings'><i class='fa fa-newspaper-o fa-3x'></i>Postings</a></li>
+							<li class='spaced-li' ui-sref-active="active"><a ui-sref='messages.inbox'><i class='fa fa-envelope fa-3x'></i>Messages <span class='badge'>{{messages}}</span></a></li>
+							<li class='spaced-li' ui-sref-active="active"><a ui-sref='friends.all'><i class='fa fa-users fa-3x'></i>Friends</a></li>
+							<li class='spaced-li' ui-sref-active="active"><a ui-sref='friendfinder'><i class='fa fa-search fa-3x'></i>Friend Finder</a></li>
 						</ul>
 					</div>
 					<div class='col-sm-11'>
@@ -38,6 +38,6 @@
   </div><!--container-->
 	<script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
 
-	<script src="./assets/combined-4c767a9f.js"></script>
+	<script src="./assets/combined-5cf095cd.js"></script>
 </body>
 </html>
