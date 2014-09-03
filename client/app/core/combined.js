@@ -812,14 +812,7 @@ angular.module('ppApp')
       scope.editPosting = function(){
         var title = element.find('h4');
         var body = element.find('p');
-        var button = element.find('button');
-        var posting = {
-          title: scope.activePosting.title,
-          body: scope.activePosting.body
-        }
-        
-        var data = {posting: posting}
-        var id = scope.activePosting.id;
+        var button = element.find('button');  
 
         if (title.attr('contenteditable') === undefined || title.attr('contenteditable') === 'false'){
           title.attr('contenteditable', true);
@@ -848,6 +841,7 @@ angular.module('ppApp')
     }
   }
 })
+
 angular.module('ppApp')
 .config(function($stateProvider){
   $stateProvider.state('postings.show', {
