@@ -1,5 +1,5 @@
 angular.module('ppApp')
-.factory('SessionService', function(CookieHandler, $http, StreamHandler, $location, growlNotifications){
+.factory('SessionService', function(CookieHandler, $http, $location, growlNotifications){
   return function(authInfo){
     $http.post('api/v1/sessions', authInfo)
     .success(function(data){
