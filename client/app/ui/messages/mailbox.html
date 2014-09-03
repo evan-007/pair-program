@@ -1,14 +1,9 @@
 <div class='row'>
   <div class='col-md-3'>
     <h5>Messages</h5>
-    <ul class='list-unstyled'>
-      <li ng-repeat='message in showMessages' ng-click='readMessage'>
-        <a ng-href='#/messages/{{message.id}}'>{{message.title}}</a>
-      </li>
-    </ul>
     <table class='table'>
       <tr ng-repeat='message in showMessages' ng-click='getMessage(message.id, type, message)' ng-class='message.read === true ? "" : "success"'>
-        <td>{{message.title}}<td>
+        <td ui-sref-active="active"><a ng-href="#/messages/{{message.id}}">{{message.title}}<td>
       </tr>
     </table>
     <pager total-items='totalMessages' ng-model="currentPage"></pager>
