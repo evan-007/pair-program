@@ -300,14 +300,14 @@ angular.module('ppApp')
     },
     controller: function($scope, $rootScope, PostMessageService,
       Restangular, growlNotifications) {
-      $scope.currentPage = 1;
-      $scope.totalMessages = $scope.messages.length;
-      $scope.itemsPerPage = 10;
-      $scope.$watch('currentPage', function(newValue, oldValue){
-        var start = (($scope.currentPage -1) * $scope.itemsPerPage)
-        var end = start + $scope.itemsPerPage
-        $scope.showMessages = $scope.messages.slice(start, end);
-      });
+        $scope.currentPage = 1;
+        $scope.totalMessages = $scope.messages.length;
+        $scope.itemsPerPage = 10;
+        $scope.$watch('currentPage', function(newValue, oldValue){
+          var start = (($scope.currentPage -1) * $scope.itemsPerPage)
+          var end = start + $scope.itemsPerPage
+          $scope.showMessages = $scope.messages.slice(start, end);
+        });
 
       $scope.getMessage = function(id, type, message) {
         message.read = true;
@@ -974,4 +974,20 @@ angular.module('ppApp')
       );
     }
   }
+})
+angular.module('ppApp')
+.config(function($stateProvider){
+  $stateProvider.state('messages.sent.show', {
+    url: '/:id',
+    resolve: { activeMessage: function(Restangular, $stateParams){
+      var id = $stateParams.id;
+      var box = {box: 'sentbox'}
+      return Restangular.one('messages', id).customPut(id, 'messages');
+    }},
+    controller: 'messagesSentShowCtrl',
+    templateUrl: 'ui/messages/sent/show/show.html'
+  })
+})
+.controller('messagesSentShowCtrl', function(activeMessage){
+  console.log(activeMessage);
 })
