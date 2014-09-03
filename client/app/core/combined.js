@@ -74,7 +74,6 @@ angular.module('ppApp')
     .success(function(data){
       CookieHandler.set(data.user);
       growlNotifications.add('Logged in as '+data.user.username, 'success', 2000);
-      // StreamHandler.set();
       $location.path('/friends')
     })
 		.error(function(){
