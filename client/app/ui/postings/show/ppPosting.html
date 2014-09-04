@@ -1,18 +1,11 @@
-<div>
-  <h4 id='title' ng-model='activePosting.title'>{{activePosting.title}}</h4>
+<div ng-init='editing = false'>
+  <h4 id='title' ng-model='activePosting.title' ng-show='!editing'>{{activePosting.title}}</h4>
+  <input type='text' ng-model='activePosting.title' ng-show='editing' />
   <small>User: {{activePosting.user.username}}</small>
   <h5>{{activePosting.created_at | date : shortDate}}</h5>
-  <p id='body' ng-model='activePosting.body'>{{activePosting.body}}</p>
+  <p id='body' ng-model='activePosting.body' ng-if='!editing'>{{activePosting.body}}</p>
+  <textarea ng-model='activePosting.body' ng-if='editing'></textarea>
 
-  <div ng-if='editing === true'>
-    <p>
-      <label>title</label>
-      <input type='text' ng-model='activePosting.title' />
-    </p>
-    <p>
-      <label>body</label>
-      <textarea ng-model='activePosting.body'></textarea>
-    </p>
-  </div>
-  <button id='edit' ng-if='user == activePosting.user.username' ng-click='editPosting()'>Edit</button>
+  <button id='edit' ng-show='user == activePosting.user.username && !editing' ng-click='editing = true'>Edit</button>
+  <button id='update' ng-show='(user == activePosting.user.username) && editing' ng-click='editing = false'>Save changes</button>
 </div>
