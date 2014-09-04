@@ -8,10 +8,15 @@ angular.module('ppApp')
     },
     link: function(scope, element, attrs) {
       //edit functionality here or in ng-click?
+      scope.updatePosting = function(){
+        //restangular object!
+        scope.activePosting.put()
+      }
+
       scope.editPosting = function(){
         var title = element.find('h4');
         var body = element.find('p');
-        var button = element.find('button');  
+        var button = element.find('button');
 
         if (title.attr('contenteditable') === undefined || title.attr('contenteditable') === 'false'){
           title.attr('contenteditable', true);
