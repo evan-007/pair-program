@@ -4,7 +4,8 @@ angular.module('ppApp')
     restrict: 'E',
     templateUrl: 'ui/messages/view/message.directive.html',
     scope: {
-      message: '='
+      message: '=',
+      type: '='
     },
     controller: function($scope, $rootScope, PostMessageService,
       Restangular, growlNotifications) {
