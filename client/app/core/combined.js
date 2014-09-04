@@ -782,6 +782,14 @@ angular.module('ppApp')
 })
 
 angular.module('ppApp')
+.config(function($stateProvider){
+  $stateProvider.state('messages.trash',{
+    url: '/trash',
+    templateUrl: 'ui/messages/trash/trash.html'
+  })
+})
+
+angular.module('ppApp')
 .directive('ppMessageView', function(){
   return {
     restrict: 'E',
