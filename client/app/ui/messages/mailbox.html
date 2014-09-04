@@ -3,7 +3,7 @@
     <h5>Messages</h5>
     <table class='table'>
       <tr ng-repeat='message in showMessages'  ng-class='message.read === true ? "" : "success"'>
-        <td ui-sref-active="active">
+        <td>
           <div ng-if='type'>
             <a ng-href="#/messages/{{type}}/{{message.id}}">
               {{message.title}}
