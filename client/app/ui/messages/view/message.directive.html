@@ -7,7 +7,8 @@
   <h6>To: {{message.receiver_name}}</h6>
   <h6>Sent on {{message.created_at | date : 'medium'}}</h6>
   <p>{{message.body}}</p>
-  <button ng-if='type == inbox' ng-click='reply(message)' class='btn btn-default'>Reply</button>
+  <button ng-if='type == "inbox"' ng-click='reply(message)' class='btn btn-default'>Reply</button>
+  <button ng-if='type == "inbox"' ng-click='trash(message)' class='btn btn-danger'>Trash</button>
 </div>
 <div ng-if='newMessage'>
   <h6>To: {{newMessage.receiver_name}}</h6>
