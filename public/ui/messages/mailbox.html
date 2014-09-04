@@ -2,31 +2,47 @@
   <div class='col-md-3'>
     <h5>Messages</h5>
     <table class='table'>
-      <tr ng-repeat='message in showMessages' ng-click='getMessage(message.id, type, message)' ng-class='message.read === true ? "" : "success"'>
-        <td>{{message.title}}<td>
+      <tr ng-repeat='message in showMessages' ng-class='message.read === true ? "" : "success"'>
+        <td>
+          <div ng-if='type'>
+            <a ng-href="#/messages/{{type}}/{{message.id}}" ng-click='readMessage(message)'>
+              {{message.title}}
+            </a>
+          </div>
+          <div ng-if='!type'>
+            <a ng-href="#/messages/{{message.id}}" ng-click='readMessage(message)'>
+              {{message.title}}
+            </a>
+          </div>
+        <td>
       </tr>
     </table>
     <pager total-items='totalMessages' ng-model="currentPage"></pager>
   </div>
-  <div class='col-md-7'>
-    <div ng-if='!activeMessage || newMessage'>
-      <p>Click on a message on the left to read it</p>
-    </div>
-    <div ng-if='activeMessage'>
-      <h4>{{activeMessage.subject}}</h4>
-      <h6>From: {{activeMessage.sender_name}}</h6>
-      <h6>To: {{activeMessage.receiver_name}}</h6>
-      <h6>Sent on {{activeMessage.created_at | date : 'medium'}}</h6>
-      <p>{{activeMessage.body}}</p>
-      <button ng-if='type == inbox' ng-click='reply(activeMessage)' class='btn btn-default'>Reply</button>
-    </div>
-    <div ng-if='newMessage'>
-      <h6>To: {{newMessage.receiver_name}}</h6>
-      <p><input type='hidden' ng-model='newMessage.sender_id' /></p>
-      <p><input type='text' class='form-control' ng-model='newMessage.title' /></p>
-      <p><textarea ng-model='newMessage.response' placeholder="on {{newMessage.created_at | date : 'medium'}} {{newMessage.receiver_name}} wrote: {{newMessage.body}}"
-                   class='form-control'></textarea></p>
-      <button ng-click='send(newMessage)' class='btn btn-primary'>Send</button><button ng-click='cancel(newMessage)' class='btn btn-danger'>Cancel</button>
-    </div>
+
+  <!-- state: messages:id -->
+  <div class='col-md-7' ui-view>
   </div>
 </div>
+
+
+<!-- old stuff -->
+<!--   <div ng-if='!activeMessage || newMessage'>
+  <p>Click on a message on the left to read it</p>
+</div>
+<div ng-if='activeMessage'>
+  <h4>{{activeMessage.subject}}</h4>
+  <h6>From: {{activeMessage.sender_name}}</h6>
+  <h6>To: {{activeMessage.receiver_name}}</h6>
+  <h6>Sent on {{activeMessage.created_at | date : 'medium'}}</h6>
+  <p>{{activeMessage.body}}</p>
+  <button ng-if='type == inbox' ng-click='reply(activeMessage)' class='btn btn-default'>Reply</button>
+</div>
+<div ng-if='newMessage'>
+  <h6>To: {{newMessage.receiver_name}}</h6>
+  <p><input type='hidden' ng-model='newMessage.sender_id' /></p>
+  <p><input type='text' class='form-control' ng-model='newMessage.title' /></p>
+  <p><textarea ng-model='newMessage.response' placeholder="on {{newMessage.created_at | date : 'medium'}} {{newMessage.receiver_name}} wrote: {{newMessage.body}}"
+               class='form-control'></textarea></p>
+  <button ng-click='send(newMessage)' class='btn btn-primary'>Send</button><button ng-click='cancel(newMessage)' class='btn btn-danger'>Cancel</button>
+</div> -->
