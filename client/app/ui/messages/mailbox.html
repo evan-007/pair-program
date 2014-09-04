@@ -2,15 +2,15 @@
   <div class='col-md-3'>
     <h5>Messages</h5>
     <table class='table'>
-      <tr ng-repeat='message in showMessages'  ng-class='message.read === true ? "" : "success"'>
+      <tr ng-repeat='message in showMessages' ng-class='message.read === true ? "" : "success"'>
         <td>
           <div ng-if='type'>
-            <a ng-href="#/messages/{{type}}/{{message.id}}">
+            <a ng-href="#/messages/{{type}}/{{message.id}}" ng-click='readMessage(message)'>
               {{message.title}}
             </a>
           </div>
           <div ng-if='!type'>
-            <a ng-href="#/messages/{{message.id}}">
+            <a ng-href="#/messages/{{message.id}}" ng-click='readMessage(message)'>
               {{message.title}}
             </a>
           </div>

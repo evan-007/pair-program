@@ -309,15 +309,13 @@ angular.module('ppApp')
           $scope.showMessages = $scope.messages.slice(start, end);
         });
 
-      $scope.getMessage = function(id, type, message) {
+
+      $scope.readMessage = function(message) {
+        //set client read to true
+        //http request takes care of server side update
         message.read = true;
-        $scope.activeMessage = '';
-        $scope.newMessage = '';
-        var box = {box: type}
-        Restangular.one('messages', id).patch(box).then(function(response){
-          $scope.activeMessage = response.message;
-        })
       }
+
       $scope.reply = function(message){
         $scope.newMessage = message;
         $scope.activeMessage = '';
