@@ -1,1 +1,47 @@
 {{activeUser}}
+<div class='row'>
+  <div class='col-md-6'>
+   <h2>{{activeUser.username}}</h2>
+  </div>
+  <div class='col-md-4'><img class='img-responsive img-rounded' ng-src="http://gravatar.com/avatar/{{activeUser.gravatar_hash}}"/></div>
+</div>
+<hr>
+<h4>About</h4>
+<div class='row'>
+  <p class='col-md-6'>{{activeUser.about}}</p>
+  <div class='col-md-4'>
+    <div class='row'>
+      <div class='col-sm-3'>
+        <p ng-if='activeUser.mentor == true'>
+          <i class='fa fa-5x fa-line-chart active'></i>Mentor
+        </p>
+        <p ng-if='activeUser.mentor !== true' class='text-muted'>
+          <i class='fa fa-5x fa-line-chart'></i>Mentor
+        </p>
+      </div>
+      <div class='col-sm-3'>
+        <p ng-if='activeUser.student == true'>
+          <i class='fa fa-5x fa-graduation-cap active'></i>Student
+        </p>
+        <p ng-if='activeUser.student !== true' class='text-muted'>
+          <i class='fa fa-5x fa-graduation-cap'></i>Student
+        </p>
+      </div>
+      <div class='col-sm-3'>
+        <p ng-if='activeUser.just_partner == true'>
+          <i class='fa fa-5x fa-laptop active'></i>Pair Program
+        </p>
+        <p ng-if='activeUser.just_partner !== true' class='text-muted'>
+          <i class='fa fa-5x fa-laptop'></i>Pair Program
+        </p>
+      </div>
+      <div class='col-sm-3'>{{activeuser.student}}</div>
+      <div class='col-sm-3'>{{activeuser.just_partner}}</div>
+    </div>
+  </div>
+</div>
+<hr>
+<h4>Languages</h4>
+<ul class='list-inline'>
+  <li ng-repeat='language in activeUser.languages'>{{language.name}}</li>
+</ul>
