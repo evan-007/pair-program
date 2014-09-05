@@ -24,7 +24,6 @@ angular.module('ppApp')
 
   $scope.logout = function(){
     CookieHandler.delete();
-    StreamHandler.kill();
     $location.path('/')
   }
 })

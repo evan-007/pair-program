@@ -459,8 +459,6 @@ angular.module('ppApp')
   function(newValue, oldValue) {
     if( newValue !== oldValue) {
       $scope.authUser = CookieHandler.get();
-      //handles data set on login
-      $scope.getDatas()
     }
   })
 
@@ -946,7 +944,6 @@ angular.module('ppApp')
 
   $scope.logout = function(){
     CookieHandler.delete();
-    StreamHandler.kill();
     $location.path('/')
   }
 })

@@ -8,8 +8,6 @@ angular.module('ppApp')
   function(newValue, oldValue) {
     if( newValue !== oldValue) {
       $scope.authUser = CookieHandler.get();
-      //handles data set on login
-      $scope.getDatas()
     }
   })
 
