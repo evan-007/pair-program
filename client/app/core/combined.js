@@ -140,6 +140,13 @@ angular.module('ppApp')
 });
 
 angular.module('ppApp').config(function($stateProvider){
+  $stateProvider.state('about', {
+    url: '/about',
+    templateUrl: 'ui/about/about.html'
+  });
+})
+
+angular.module('ppApp').config(function($stateProvider){
   $stateProvider.state('contact', {
     url: '/contact',
     templateUrl: 'ui/contact/contact.html'
@@ -249,13 +256,6 @@ angular.module('ppApp')
 })
 .controller('friendsCtrl', function(FriendsData, $scope, $filter){
   $scope.allFriends = FriendsData.friendships;
-})
-
-angular.module('ppApp').config(function($stateProvider){
-  $stateProvider.state('about', {
-    url: '/about',
-    templateUrl: 'ui/about/about.html'
-  });
 })
 
 angular.module('ppApp').config(function($stateProvider){
@@ -568,34 +568,6 @@ angular.module('ppApp')
   }
 })
 
-angular.module('ppApp')
-.config(function($stateProvider){
-  $stateProvider.state('friendfinder.users', {
-    url: '/users/:id',
-    templateUrl: 'ui/friendfinder/user/user.html',
-    controller: 'userController',
-    resolve: {User: function(Restangular, $stateParams){
-      var id = $stateParams.id;
-      return Restangular.one('users', id).get();
-    }}
-  })
-})
-.controller('userController', function($scope, User){
-  $scope.user = User;
-  console.log(User)
-})
-
-angular.module('ppApp')
-.factory('UserDataService', function($http, $q){
-  return function(id){
-    var defer = $q.defer();
-    $http.get('/api/v1/users/'+id).then(function(response){
-      defer.resolve(response.data);
-    });
-    return defer.promise;
-  }
-});
-
 angular.module('ppApp').config(function($stateProvider){
   $stateProvider.state('friends.pending', {
     url: '/pending',
@@ -752,6 +724,124 @@ angular.module('ppApp')
 
 angular.module('ppApp')
 .config(function($stateProvider){
+  $stateProvider.state('messages.new', {
+    url: '/new',
+    templateUrl: 'ui/messages/new/new.html',
+    controller: 'newMessageCtrl',
+    resolve: { Friends: function(FriendshipService) {
+      return FriendshipService.getAll();
+    }}
+  })
+})
+.controller('newMessageCtrl', function(Friends, $scope, Restangular, $location, growlNotifications){
+  $scope.friends = Friends.friendships
+
+  $scope.sendMessage = function(message){
+    var data = {message: message}
+
+    Restangular.all('messages').post(data).then(function(response){
+      console.log(response.message)
+      growlNotifications.add("Message sent!", 'success', 2000);
+      $location.path('/messages');
+    })
+  }
+})
+
+angular.module('ppApp')
+.config(function($stateProvider){
+  $stateProvider.state('messages.sent', {
+    url: '/sent',
+    templateUrl: 'ui/messages/sent/sent.html',
+    controller: 'sentCtrl',
+    resolve: {
+      Messages: function(Restangular, $stateParams){
+        var box = { box: 'sentbox'}
+        return Restangular.all('messages').getList(box);
+      }
+    }
+  })
+})
+.controller('sentCtrl', function($scope, Messages){
+  $scope.messages = Messages;
+  $scope.type = 'sentbox';
+
+})
+
+angular.module('ppApp')
+.config(function($stateProvider){
+  $stateProvider.state('messages.trash',{
+    url: '/trash',
+    templateUrl: 'ui/messages/trash/trash.html'
+  })
+})
+
+angular.module('ppApp')
+.directive('ppMessageView', function(){
+  return {
+    restrict: 'E',
+    templateUrl: 'ui/messages/view/message.directive.html',
+    scope: {
+      message: '=',
+      type: '='
+    },
+    controller: function($scope, $rootScope, PostMessageService,
+      Restangular, growlNotifications) {
+        // refactor to other directive
+      // $scope.currentPage = 1;
+      // $scope.totalMessages = $scope.messages.length;
+      // $scope.itemsPerPage = 10;
+      // $scope.$watch('currentPage', function(newValue, oldValue){
+      //   var start = (($scope.currentPage -1) * $scope.itemsPerPage)
+      //   var end = start + $scope.itemsPerPage
+      //   $scope.showMessages = $scope.messages.slice(start, end);
+      // });
+
+      $scope.getMessage = function(id, type, message) {
+        message.read = true;
+        $scope.activeMessage = '';
+        $scope.newMessage = '';
+        var box = {box: type}
+        Restangular.one('messages', id).patch(box).then(function(response){
+          $scope.activeMessage = response.message;
+        })
+      }
+      $scope.reply = function(message){
+        $scope.newMessage = message;
+        $scope.activeMessage = '';
+      }
+      $scope.cancel = function(message){
+        $scope.activeMessage = message;
+        $scope.newMessage = '';
+      }
+      $scope.send = function(message){
+        PostMessageService(message);
+        //can't callback outside of restangular, assumes successful post
+        growlNotifications.add('Message sent to '+message.sender_name, 'success', 2000)
+        $scope.newMessage = '';
+        $scope.activeMessage = '';
+      }
+    }
+  }
+})
+
+angular.module('ppApp')
+.config(function($stateProvider){
+  $stateProvider.state('messages.inbox.show', {
+    url: '/:id',
+    resolve: {activeMessage: function(Restangular, $stateParams){
+      var id = $stateParams.id
+      return Restangular.one('messages', id).patch()
+    }},
+    controller: 'messagesShowCtrl',
+    templateUrl: 'ui/messages/view/view.html'
+  })
+})
+.controller('messagesShowCtrl', function(activeMessage, $scope){
+  $scope.activeMessage = activeMessage.message;
+})
+
+angular.module('ppApp')
+.config(function($stateProvider){
   $stateProvider.state('postings.new', {
     url: '/new',
     controller: 'newPostingCtrl',
@@ -897,124 +987,6 @@ angular.module('ppApp')
 })
 .controller('publicProfileCtrl', function($scope, activeUser){
   $scope.activeUser = activeUser;
-})
-
-angular.module('ppApp')
-.config(function($stateProvider){
-  $stateProvider.state('messages.new', {
-    url: '/new',
-    templateUrl: 'ui/messages/new/new.html',
-    controller: 'newMessageCtrl',
-    resolve: { Friends: function(FriendshipService) {
-      return FriendshipService.getAll();
-    }}
-  })
-})
-.controller('newMessageCtrl', function(Friends, $scope, Restangular, $location, growlNotifications){
-  $scope.friends = Friends.friendships
-
-  $scope.sendMessage = function(message){
-    var data = {message: message}
-
-    Restangular.all('messages').post(data).then(function(response){
-      console.log(response.message)
-      growlNotifications.add("Message sent!", 'success', 2000);
-      $location.path('/messages');
-    })
-  }
-})
-
-angular.module('ppApp')
-.config(function($stateProvider){
-  $stateProvider.state('messages.sent', {
-    url: '/sent',
-    templateUrl: 'ui/messages/sent/sent.html',
-    controller: 'sentCtrl',
-    resolve: {
-      Messages: function(Restangular, $stateParams){
-        var box = { box: 'sentbox'}
-        return Restangular.all('messages').getList(box);
-      }
-    }
-  })
-})
-.controller('sentCtrl', function($scope, Messages){
-  $scope.messages = Messages;
-  $scope.type = 'sentbox';
-
-})
-
-angular.module('ppApp')
-.config(function($stateProvider){
-  $stateProvider.state('messages.trash',{
-    url: '/trash',
-    templateUrl: 'ui/messages/trash/trash.html'
-  })
-})
-
-angular.module('ppApp')
-.directive('ppMessageView', function(){
-  return {
-    restrict: 'E',
-    templateUrl: 'ui/messages/view/message.directive.html',
-    scope: {
-      message: '=',
-      type: '='
-    },
-    controller: function($scope, $rootScope, PostMessageService,
-      Restangular, growlNotifications) {
-        // refactor to other directive
-      // $scope.currentPage = 1;
-      // $scope.totalMessages = $scope.messages.length;
-      // $scope.itemsPerPage = 10;
-      // $scope.$watch('currentPage', function(newValue, oldValue){
-      //   var start = (($scope.currentPage -1) * $scope.itemsPerPage)
-      //   var end = start + $scope.itemsPerPage
-      //   $scope.showMessages = $scope.messages.slice(start, end);
-      // });
-
-      $scope.getMessage = function(id, type, message) {
-        message.read = true;
-        $scope.activeMessage = '';
-        $scope.newMessage = '';
-        var box = {box: type}
-        Restangular.one('messages', id).patch(box).then(function(response){
-          $scope.activeMessage = response.message;
-        })
-      }
-      $scope.reply = function(message){
-        $scope.newMessage = message;
-        $scope.activeMessage = '';
-      }
-      $scope.cancel = function(message){
-        $scope.activeMessage = message;
-        $scope.newMessage = '';
-      }
-      $scope.send = function(message){
-        PostMessageService(message);
-        //can't callback outside of restangular, assumes successful post
-        growlNotifications.add('Message sent to '+message.sender_name, 'success', 2000)
-        $scope.newMessage = '';
-        $scope.activeMessage = '';
-      }
-    }
-  }
-})
-
-angular.module('ppApp')
-.config(function($stateProvider){
-  $stateProvider.state('messages.inbox.show', {
-    url: '/:id',
-    resolve: {activeMessage: function(Restangular, $stateParams){
-      var id = $stateParams.id
-      return Restangular.one('messages', id).patch()
-    }},
-    controller: 'messagesShowCtrl',
-    templateUrl: 'ui/messages/view/view.html'
-  })
-})
-.controller('messagesShowCtrl', function(activeMessage, $scope){
-  $scope.activeMessage = activeMessage.message;
 })
 
 angular.module('ppApp')
