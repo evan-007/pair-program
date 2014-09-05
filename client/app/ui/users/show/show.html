@@ -12,7 +12,7 @@
     <div class='row'>
       <ul class='list-inline'>
         <li >
-          <p ng-if='activeUser.mentor == true'>
+          <p ng-if='activeUser.mentor == true' class='text-success'>
             <i class='fa fa-5x fa-line-chart'></i>Mentor
           </p>
           <p ng-if='activeUser.mentor !== true' class='text-muted'>
@@ -20,7 +20,7 @@
           </p>
         </li>
         <li >
-          <p ng-if='activeUser.student == true'>
+          <p ng-if='activeUser.student == true' class='text-success'>
             <i class='fa fa-5x fa-graduation-cap'></i>Student
           </p>
           <p ng-if='activeUser.student !== true' class='text-muted'>
@@ -28,7 +28,7 @@
           </p>
         </li>
         <li >
-          <p ng-if='activeUser.just_partner == true'>
+          <p ng-if='activeUser.just_partner == true' class='text-success'>
             <i class='fa fa-5x fa-laptop'></i>Pair
           </p>
           <p ng-if='activeUser.just_partner !== true' class='text-muted'>
