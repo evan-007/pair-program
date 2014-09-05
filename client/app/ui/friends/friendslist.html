@@ -1,7 +1,7 @@
 <div class='row'>
   <div class='col-sm-3 user-box' ng-repeat='friend in friends'>
     <h5 ng-if='type == "approved"'><a ng-href="#/friends/{{friend.id}}">{{friend.username}}</a></h5>
-    <h5 ng-if='type !== "approved"'><a ng-href="#/friends">{{friend.username}}</a></h5>
+    <h5 ng-if='type !== "approved"'><a ng-href="#/users/{{friend.id}}">{{friend.username}}</a></h5>
     <img ng-src='https://secure.gravatar.com/avatar/{{friend.gravatar_hash}}' />
     <ul class='list-inline'>
       <li>Languages:</li>

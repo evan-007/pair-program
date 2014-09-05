@@ -7,7 +7,7 @@
 <div ui-view></div>
 <div class='row'>
   <div class='col-sm-3 user-box' ng-repeat='user in activeUsers'>
-    <p><a ui-sref='friendfinder.users({id: user.id})'>{{user.username}}</a></p>
+    <p><a ui-sref='publicprofile({id: user.id})'>{{user.username}}</a></p>
     <button class='btn btn-primary' ng-click='add(user)'>Add friend</button>
     <img ng-src='https://secure.gravatar.com/avatar/{{user.gravatar_hash}}' class='img-circle' />
     <ul class="list-inline">
