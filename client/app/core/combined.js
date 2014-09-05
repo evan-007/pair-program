@@ -249,7 +249,8 @@ angular.module('ppApp')
     restrict: 'E',
     templateUrl: 'ui/friends/friendslist.html',
     scope: {
-      friends: '=friends'
+      friends: '=',
+      type: '='
     },
   }
 })
