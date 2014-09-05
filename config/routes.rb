@@ -13,7 +13,7 @@ Rails.application.routes.draw do
 
       resources :friendships, only: [:index, :create, :update]
 
-      resources :friends, only: [:index]
+      resources :friends, only: [:index, :show]
 
       resources :messages, only: [:index, :update, :create]
       #bad, refactor into index?count

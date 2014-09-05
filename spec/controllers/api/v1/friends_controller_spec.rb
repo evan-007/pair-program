@@ -16,7 +16,7 @@ RSpec.describe Api::V1::FriendsController, type: :controller do
     request.headers["token"] = @user.token
     request.headers["username"] = @user.username
   end
-  
+
   describe 'GET index' do
     it 'returns friends from friendships and inverse_friendships' do
       get :index
@@ -27,11 +27,22 @@ RSpec.describe Api::V1::FriendsController, type: :controller do
     end
   end
   
+  describe 'GET show' do
+    context 'with a valid friend ID' do
+      it 'returns friend JSON' do
+        get :show, id: @user2.id
+        data = JSON.parse(response.body)
+        expect(response.status).to eq 200
+        expect(data["username"]).to eq @user2.username
+      end
+    end
+  end
+
   describe 'GET pending' do
     it 'returns unapproved friend requests the user has made' do
     end
   end
-  
+
   describe 'GET requests' do
     it 'returns all friend requests to the user' do
     end
