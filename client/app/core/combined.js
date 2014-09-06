@@ -416,7 +416,7 @@ angular.module('ppApp')
   $scope.currentPage = 1;
   $scope.itemsPerPage = 10;
 
-  $scope.$watch('currentPage', function(newValue, oldValue){
+  $scope.$watch('currentPage', function(newValue, old){
     var start = ($scope.currentPage - 1) * $scope.itemsPerPage
     var end = start + $scope.itemsPerPage
     $scope.activePostings = $scope.postings.slice(start, end);
@@ -864,7 +864,7 @@ angular.module('ppApp')
   }
 })
 angular.module('ppApp')
-.directive('ppPosting', function(Restangular){
+.directive('ppPosting', function(Restangular, $state, $location, growlNotifications){
   return {
     templateUrl: 'ui/postings/show/ppPosting.html',
     restrict: 'E',
@@ -876,6 +876,17 @@ angular.module('ppApp')
       scope.updatePosting = function(){
         //restangular object!
         scope.activePosting.put()
+      }
+
+      scope.deletePosting = function(){
+        scope.activePosting.remove();
+        $location.path('/postings');
+        growlNotifications.add('Posting removed!')
+        //todo remove posting from parent scope
+      }
+
+      scope.logger = function(){
+        console.log(scope.$parent.postings)
       }
 
       scope.editPosting = function(){

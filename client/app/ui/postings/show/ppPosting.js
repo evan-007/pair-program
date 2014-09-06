@@ -1,5 +1,5 @@
 angular.module('ppApp')
-.directive('ppPosting', function(Restangular){
+.directive('ppPosting', function(Restangular, $state, $location, growlNotifications){
   return {
     templateUrl: 'ui/postings/show/ppPosting.html',
     restrict: 'E',
@@ -11,6 +11,17 @@ angular.module('ppApp')
       scope.updatePosting = function(){
         //restangular object!
         scope.activePosting.put()
+      }
+
+      scope.deletePosting = function(){
+        scope.activePosting.remove();
+        $location.path('/postings');
+        growlNotifications.add('Posting removed!')
+        //todo remove posting from parent scope
+      }
+
+      scope.logger = function(){
+        console.log(scope.$parent.postings)
       }
 
       scope.editPosting = function(){
