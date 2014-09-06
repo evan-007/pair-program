@@ -6,6 +6,7 @@
   <p id='body' ng-model='activePosting.body' ng-if='!editing'>{{activePosting.body}}</p>
   <textarea ng-model='activePosting.body' ng-if='editing' class='form-control'></textarea>
 
-  <button class='btn btn-default' ng-show='user == activePosting.user.username && !editing' ng-click='editing = true'>Edit</button>
+  <button class='btn btn-default' ng-show='user == activePosting.user.username && !editing' ng-click='editing = true; logger();'>Edit</button>
   <button class='btn btn-default' ng-show='(user == activePosting.user.username) && editing' ng-click='editing = false; updatePosting();'>Save changes</button>
+  <button class='btn btn-danger' ng-show='(user == activePosting.user.username) && editing' ng-click='deletePosting()'>Delete</button>
 </div>
