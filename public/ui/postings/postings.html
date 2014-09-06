@@ -5,13 +5,17 @@
   </ul>
 </div>
 <div class='row'>
-  <div class='col-md-2'>
-    <ul class='list-unstyled'>
-      <li ng-repeat='posting in postings'>
-        <a ng-href="#/postings/{{posting.id}}">{{posting.title}}</a>
-        </li>
-    </ul>
+  <div class='col-md-3'>
+    <table class='table'>
+      <tr ng-repeat='posting in activePostings'>
+        <td>
+          <a ng-href="#/postings/{{posting.id}}">{{posting.title}}</a>
+        </td>
+      </tr>
+    </table>
+
+    <pager total-items='totalPostings' ng-model="currentPage"></pager>
   </div>
-<div class='col-md-10'>
+<div class='col-md-9'>
   <div ui-view></div>
 </div>
