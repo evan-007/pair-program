@@ -6,11 +6,14 @@
 </div>
 <div class='row'>
   <div class='col-md-3'>
-    <ul class='list-unstyled'>
-      <li ng-repeat='posting in activePostings'>
-        <a ng-href="#/postings/{{posting.id}}">{{posting.title}}</a>
-        </li>
-    </ul>
+    <table class='table'>
+      <tr ng-repeat='posting in activePostings'>
+        <td>
+          <a ng-href="#/postings/{{posting.id}}">{{posting.title}}</a>
+        </td>
+      </tr>
+    </table>
+
     <pager total-items='totalPostings' ng-model="currentPage"></pager>
   </div>
 <div class='col-md-9'>
