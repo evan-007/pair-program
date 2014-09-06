@@ -5,13 +5,14 @@
   </ul>
 </div>
 <div class='row'>
-  <div class='col-md-2'>
+  <div class='col-md-3'>
     <ul class='list-unstyled'>
-      <li ng-repeat='posting in postings'>
+      <li ng-repeat='posting in activePostings'>
         <a ng-href="#/postings/{{posting.id}}">{{posting.title}}</a>
         </li>
     </ul>
+    <pager total-items='totalPostings' ng-model="currentPage"></pager>
   </div>
-<div class='col-md-10'>
+<div class='col-md-9'>
   <div ui-view></div>
 </div>

@@ -412,7 +412,16 @@ angular.module('ppApp')
 })
 .controller('postingsCtrl', function($scope, Postings, Restangular){
   $scope.postings = Postings;
-  console.log(Postings);
+  $scope.totalPostings = Postings.length;
+  $scope.currentPage = 1;
+  $scope.itemsPerPage = 10;
+
+  $scope.$watch('currentPage', function(newValue, oldValue){
+    var start = ($scope.currentPage - 1) * $scope.itemsPerPage
+    var end = start + $scope.itemsPerPage
+    $scope.activePostings = $scope.postings.slice(start, end);
+  });
+
   $scope.myPostings = function(){
     var params = {list: 'true'}
     Restangular.all('postings').getList(params).then(function(response){
