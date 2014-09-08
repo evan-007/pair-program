@@ -12,8 +12,12 @@
       </div>
       <p>
         <label>Email</label>
-        <input type="email" ng-model="signup.email" class='form-control'>
+        <input type="email" ng-model="signup.email" class='form-control' name='email'>
       </p>
+      <div ng-messages='signupForm.email.$error'>
+        <div ng-message='required'>You did not enter an email</div>
+        <div ng-message='email'>Email is not in the correct format</div>
+      </div>
       <p>
         <label>Password</label>
         <input type="password" ng-model="signup.password" class='form-control'>
