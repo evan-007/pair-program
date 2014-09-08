@@ -59,7 +59,3 @@ end
 gem 'unicorn'
 
 gem 'redis'
-
-
-#stats and stuff
-gem "skylight"
