@@ -9,34 +9,33 @@ loads super slow, refresh page if initial load looks weird.
 
 ##Dev Builds
 
-####Foreman
-`foreman start` to load the web + worker on port `5000`
-Must also run `redis-server` to start a server for sidekiq
+The dev app has 3 parts: rails, redis and gulp. Run rails with `rails s`, angular with `cd client && gulp`.
+Redis is required by SideKiq and runs via `config/initializers/redis.rb`.
 
-The dev app has 3 parts: rails, redis and gulp. Run rails with `rails s`, angular with `cd client && gulp`
-and redis: `redis-server /user/local/etc/redis.conf` (or whatever your path to redis is).
 Install redis: `brew install redis`.
 
-To allow for multi-threading with puma, in `development.rb`:
-
-`config.cache_classes = true`
-`config.eager_load = true `
-
-Requires a restart of rails server for any code changes to take effect.
+Requires a restart of `rails server` for any code changes to take effect.
 
 Rails api lives in the rails app as usual, the angular app is in `client`.
 `cd client && bower install && npm install` to install dependencies for the
 front end. In `client`, run unit tests with `karma start`.
 
+##Secrets!
+`cp environment_variables.yml.example environment_variables.yml` and update
+with real info for mailer. If deploying to heroku, this is bypassed and set via `heroku config`.
+
+
 ##Integration tests
- `protractor protractor.conConfig.js`.
+Todo: see `gulp e2e-test` task for progress.
 
 ##Deployment
 
 Deploy to heroku with `heroku create` `git push heroku master`. Be sure that
 `application_controller` has  `skip_before_filter :verify_authenticity_token
 ` commented out in production and `protect_from_forgery with: :null_session` is
-set. Also set the heroku domain in `app_config` to allow CORS.
+set. Also set the heroku domain in `config/app_config.yml` to allow CORS.
+
+todo: change `app_config.yml` to use an env variable for `client/origin`
 
 If deploy does not show `index.html` and returns `status 404`, set
 `config.serve_static_assets = true` in `production.rb` (Rails 4 default is `false`).
