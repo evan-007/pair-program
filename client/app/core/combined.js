@@ -599,7 +599,6 @@ angular.module('ppApp')
 
         $http.get(apiUrl, { params: {username : value }} )
           .success(function(response) {
-            console.log(response)
             setAsLoading(false);
             setAsAvailable(true);
           })
