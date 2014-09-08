@@ -42,14 +42,6 @@ module Api
         render json: @user, root: false, serializer: PublicUserSerializer, status: 200
       end
 
-      def validator
-        if User.find_by(username: params[:username])
-          render nothing: true, status: 400
-        else
-          render nothing: true, status: 200
-        end
-      end
-
     	private
 	      def user_params
 	  	    params.require(:user).permit(:email, :password, :password_confirmation,

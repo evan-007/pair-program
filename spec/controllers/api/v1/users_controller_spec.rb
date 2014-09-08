@@ -149,22 +149,4 @@ RSpec.describe Api::V1::UsersController, :type => :controller do
 			end
 		end
 	end
-
-	describe 'GET validator' do
-		context 'when params[:username] match a DB record' do
-			before do
-				@user = create(:user)
-			end
-			it 'returns status 400' do
-				get :validator, { username: @user.username }
-				expect(response.status).to eq 400
-			end
-		end
-		context 'when params[:username] do not match a DB record' do
-			it 'returns status 200' do
-				get :validator, { username: 'imvalid' }
-				expect(response.status).to eq 200
-			end
-		end
-	end
 end

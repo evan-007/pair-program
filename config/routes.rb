@@ -8,8 +8,9 @@ Rails.application.routes.draw do
 
       get '/users/validator', to: 'users#validator'
       get '/users/profile', to: 'users#profile'
-      get '/users/map', to: 'users#map'
 
+      get '/validations/username', to: 'validations#username'
+       
       resources :sessions, only: [:create, :destroy]
       resources :languages, only: [:index]
 

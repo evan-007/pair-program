@@ -575,6 +575,72 @@ angular.module('ppApp')
   }
 })
 
+angular.module('ppApp')
+.directive('recordAvailabilityValidator', function($http) {
+
+  return {
+    require : 'ngModel',
+    link : function(scope, element, attrs, ngModel) {
+      var apiUrl = attrs.recordAvailabilityValidator;
+
+      function setAsLoading(bool) {
+        ngModel.$setValidity('recordLoading', !bool);
+      }
+
+      function setAsAvailable(bool) {
+        ngModel.$setValidity('recordAvailable', bool);
+      }
+
+      ngModel.$parsers.push(function(value) {
+        if(!value || value.length == 0) return;
+
+        setAsLoading(true);
+        setAsAvailable(false);
+
+        $http.get(apiUrl, { params: {username : value }} )
+          .success(function(response) {
+            console.log(response)
+            setAsLoading(false);
+            setAsAvailable(true);
+          })
+          .error(function() {
+            setAsLoading(false);
+            setAsAvailable(false);
+          });
+
+        return value;
+      })
+    }
+  }
+});
+
+angular.module('ppApp').config(function($stateProvider){
+  $stateProvider.state('friends.pending', {
+    url: '/pending',
+    templateUrl: 'ui/friends/pending/pending.html',
+    controller: 'pendingCtrl',
+    resolve: {
+      PendingFriends: function(PendingFriendService){
+        return PendingFriendService();
+      }
+    }
+  });
+})
+.controller('pendingCtrl', function(PendingFriends, $scope){
+  $scope.pendingFriends = PendingFriends;
+})
+
+angular.module('ppApp')
+.factory('PendingFriendService', function($http, $q){
+  return function(){
+    var defer = $q.defer()
+    $http.get('/api/v1/friendships?type=pending').then(function(data){
+      defer.resolve(data.data)
+    });
+    return defer.promise
+  }
+})
+
 angular.module('ppApp').config(function($stateProvider){
   $stateProvider.state('friends.rejected', {
     url: '/rejected',
@@ -700,33 +766,6 @@ angular.module('ppApp')
 })
 .controller('friendsShowCtrl', function(activeFriend, $scope){
   $scope.activeFriend = activeFriend;
-})
-
-angular.module('ppApp').config(function($stateProvider){
-  $stateProvider.state('friends.pending', {
-    url: '/pending',
-    templateUrl: 'ui/friends/pending/pending.html',
-    controller: 'pendingCtrl',
-    resolve: {
-      PendingFriends: function(PendingFriendService){
-        return PendingFriendService();
-      }
-    }
-  });
-})
-.controller('pendingCtrl', function(PendingFriends, $scope){
-  $scope.pendingFriends = PendingFriends;
-})
-
-angular.module('ppApp')
-.factory('PendingFriendService', function($http, $q){
-  return function(){
-    var defer = $q.defer()
-    $http.get('/api/v1/friendships?type=pending').then(function(data){
-      defer.resolve(data.data)
-    });
-    return defer.promise
-  }
 })
 
 angular.module('ppApp')
