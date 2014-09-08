@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :users, only: [:index, :create, :update, :show]
+
+      get '/users/validator', to: 'users#validator'
       get '/users/profile', to: 'users#profile'
       get '/users/map', to: 'users#map'
 
