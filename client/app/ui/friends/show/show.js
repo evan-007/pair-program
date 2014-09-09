@@ -10,5 +10,5 @@ angular.module('ppApp')
   })
 })
 .controller('friendsShowCtrl', function(activeFriend, $scope){
-  $scope.activeFriend = activeFriend;
+  $scope.activeUser = activeFriend;
 })
