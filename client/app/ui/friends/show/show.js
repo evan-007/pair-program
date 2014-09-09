@@ -11,4 +11,5 @@ angular.module('ppApp')
 })
 .controller('friendsShowCtrl', function(activeFriend, $scope){
   $scope.activeUser = activeFriend;
+  console.log($scope.activeUser["just_partner?"])
 })
