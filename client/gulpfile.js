@@ -48,8 +48,8 @@ gulp.task('protractor', shell.task([
 ]));
 
 gulp.task('clean', function(){
-	return gulp.src('build', {read: false})
-	.pipe(clean());
+	return gulp.src('../public/assets/', {read: false})
+	.pipe(clean({force: true}));
 });
 
 gulp.task('format-js', function(){
@@ -92,9 +92,9 @@ gulp.task('watch', function(){
 
 gulp.task('e2e-test', function(){
   // start servers, setup test db,
-  // run e2e tests, 
+  // run e2e tests,
   // reset db, kill rails daemon
-  runSequence('rails-start', 'connect', 'db-setup', 'protractor', 
+  runSequence('rails-start', 'connect', 'db-setup', 'protractor',
               'db-setup', 'rails-kill')
 })
 
