@@ -7,13 +7,13 @@ RSpec.describe Api::V1::ValidationsController, :type => :controller do
         @user = create(:user)
       end
       it 'returns status 400' do
-        get :username, { username: @user.username }
+        get :username, { attr: @user.username }
         expect(response.status).to eq 400
       end
     end
     context 'when params[:username] do not match a DB record' do
       it 'returns status 200' do
-        get :username, { username: 'imvalid' }
+        get :username, { attr: 'imvalid' }
         expect(response.status).to eq 200
       end
     end
@@ -24,13 +24,13 @@ RSpec.describe Api::V1::ValidationsController, :type => :controller do
         @user = create(:user)
       end
       it 'returns status 400' do
-        get :email, { email: @user.email }
+        get :email, { attr: @user.email }
         expect(response.status).to eq 400
       end
     end
     context 'when params[:email] do not match a DB record' do
       it 'returns status 200' do
-        get :email, { email: 'imvalid@gmail.com'}
+        get :email, { attr: 'imvalid@gmail.com'}
         expect(response.status).to eq 200
       end
     end
