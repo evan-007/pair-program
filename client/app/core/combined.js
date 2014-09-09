@@ -678,6 +678,21 @@ angular.module('ppApp')
 })
 
 angular.module('ppApp')
+.config(function($stateProvider){
+  $stateProvider.state('friends.show', {
+    url: '/:id',
+    templateUrl: 'ui/friends/show/show.html',
+    resolve: { activeFriend : function($stateParams, Restangular){
+      return Restangular.one('friends', $stateParams.id).get();
+    }},
+    controller: 'friendsShowCtrl'
+  })
+})
+.controller('friendsShowCtrl', function(activeFriend, $scope){
+  $scope.activeFriend = activeFriend;
+})
+
+angular.module('ppApp')
 .factory('FriendApproveService', function($http, $q){
   return function(friendId){
     var defer = $q.defer();
@@ -750,21 +765,6 @@ FriendRejectService){
       array.splice(index, 1)
     }
   }
-})
-
-angular.module('ppApp')
-.config(function($stateProvider){
-  $stateProvider.state('friends.show', {
-    url: '/:id',
-    templateUrl: 'ui/friends/show/show.html',
-    resolve: { activeFriend : function($stateParams, Restangular){
-      return Restangular.one('friends', $stateParams.id).get();
-    }},
-    controller: 'friendsShowCtrl'
-  })
-})
-.controller('friendsShowCtrl', function(activeFriend, $scope){
-  $scope.activeFriend = activeFriend;
 })
 
 angular.module('ppApp')
