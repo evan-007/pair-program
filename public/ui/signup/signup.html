@@ -4,7 +4,8 @@
       <p>
         <label>Username</label>
         <input type="text" ng-model="signup.username" class='form-control' name='username'
-               require minlength='3' record-availability-validator="/api/v1/validations/username">
+               require minlength='3' record-availability-validator="/api/v1/validations/username"
+               ng-model-options="{ debounce : { 'default' : 500, blur : 0 } }">
       </p>
       <div ng-messages="signupForm.username.$error">
         <div ng-message="required">You did not enter a username</div>
@@ -16,7 +17,8 @@
       <p>
         <label>Email</label>
         <input type="email" ng-model="signup.email" class='form-control' name='email'
-        record-availability-validator="/api/v1/validations/email">
+        record-availability-validator="/api/v1/validations/email"
+        ng-model-options="{ debounce : { 'default' : 500, blur : 0 } }">
       </p>
       <div ng-messages='signupForm.email.$error'>
         <div ng-message='required'>You did not enter an email</div>
