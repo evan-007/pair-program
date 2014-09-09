@@ -10,7 +10,8 @@ Rails.application.routes.draw do
       get '/users/profile', to: 'users#profile'
 
       get '/validations/username', to: 'validations#username'
-       
+      get '/validations/email', to: 'validations#email'
+
       resources :sessions, only: [:create, :destroy]
       resources :languages, only: [:index]
 
