@@ -50738,7 +50738,7 @@ angular.module('growlNotifications.directives')
          * @param $rootScope
          * @returns {GrowlNotifications}
          */
-        this.$get = function ($timeout, $rootScope) {
+        this.$get = ["$timeout", "$rootScope", function ($timeout, $rootScope) {
 
             function GrowlNotifications() {
 
@@ -50810,7 +50810,7 @@ angular.module('growlNotifications.directives')
 
             return new GrowlNotifications();
 
-        };
+        }];
 
         this.$get.$inject = ['$timeout', '$rootScope'];
 
@@ -51133,22 +51133,22 @@ angular.module('cfp.loadingBar', [])
 angular.module('ppApp', ['ngAnimate', 'ui.bootstrap', 'ngCookies', 'google-maps',
                          'ui.router', 'restangular', 'ngMessages', 'ngTagsInput',
                          'growlNotifications', 'ngSanitize', 'angular-loading-bar'])
-.config(function($httpProvider){
+.config(["$httpProvider", function($httpProvider){
   $httpProvider.interceptors.push('SessionInjector');
   $httpProvider.interceptors.push('AuthInterceptor');
-})
-.config(function($urlRouterProvider){
+}])
+.config(["$urlRouterProvider", function($urlRouterProvider){
   $urlRouterProvider.otherwise('/');
-})
-.config(function(RestangularProvider){
+}])
+.config(["RestangularProvider", function(RestangularProvider){
   RestangularProvider.setBaseUrl('/api/v1')
-})
-.config(function(cfpLoadingBarProvider) {
+}])
+.config(["cfpLoadingBarProvider", function(cfpLoadingBarProvider) {
   cfpLoadingBarProvider.includeSpinner = false;
-})
+}])
 
 angular.module('ppApp')
-.factory('AuthInterceptor', function($location, $q){
+.factory('AuthInterceptor', ["$location", "$q", function($location, $q){
   //breaks on google map calls without $q conditions!
   //blog.thesparktree.com/post/75952317665/angularjs-interceptors-globally-handle-401-and-other
   return {
@@ -51164,10 +51164,10 @@ angular.module('ppApp')
       return $q.reject(rejection);
       }
     }
-})
+}])
 
 angular.module('ppApp')
-.factory('CookieHandler', function($cookieStore, growlNotifications){
+.factory('CookieHandler', ["$cookieStore", "growlNotifications", function($cookieStore, growlNotifications){
 	var user = null;
 
 	var CookieHandler = {
@@ -51186,8 +51186,8 @@ angular.module('ppApp')
 	};
 
 	return CookieHandler;
-});
-angular.module('ppApp').factory('SessionInjector', function(CookieHandler){
+}]);
+angular.module('ppApp').factory('SessionInjector', ["CookieHandler", function(CookieHandler){
   return {
     request: function(config) {
       if (CookieHandler.get() !== undefined) {
@@ -51197,10 +51197,10 @@ angular.module('ppApp').factory('SessionInjector', function(CookieHandler){
       return config;
     }
   }
-})
+}])
 
 angular.module('ppApp')
-.factory('SessionService', function(CookieHandler, $http, $location, growlNotifications){
+.factory('SessionService', ["CookieHandler", "$http", "$location", "growlNotifications", function(CookieHandler, $http, $location, growlNotifications){
   return function(authInfo){
     $http.post('api/v1/sessions', authInfo)
     .success(function(data){
@@ -51213,10 +51213,10 @@ angular.module('ppApp')
 			growlNotifications.add('Are you sure that\'s the right password?', 'warning', 2000);
     });
   };
-});
+}]);
 
 angular.module('ppApp')
-.factory('LanguageService', function($http, $q){
+.factory('LanguageService', ["$http", "$q", function($http, $q){
   var LanguageService = {
     set: function(){
       var defer = $q.defer();
@@ -51227,7 +51227,7 @@ angular.module('ppApp')
     }
   }
   return LanguageService;
-})
+}])
 angular.module('ppApp')
 .factory('MessageStream', function(){
   return {
@@ -51236,7 +51236,7 @@ angular.module('ppApp')
 })
 
 angular.module('ppApp')
-.factory('StreamHandler', function(CookieHandler, MessageStream){
+.factory('StreamHandler', ["CookieHandler", "MessageStream", function(CookieHandler, MessageStream){
   var StreamHandler = {
 
     set: function(){
@@ -51264,39 +51264,39 @@ angular.module('ppApp')
   }
 
   return StreamHandler
-})
+}])
 
 angular.module('ppApp')
-.factory('UserService', function($resource){
+.factory('UserService', ["$resource", function($resource){
 	return $resource('/api/v1/users/:id', { id: '@id'})
-});
+}]);
 
-angular.module('ppApp').config(function($stateProvider){
+angular.module('ppApp').config(["$stateProvider", function($stateProvider){
   $stateProvider.state('about', {
     url: '/about',
     templateUrl: 'ui/about/about.html'
   });
-})
+}])
 
-angular.module('ppApp').config(function($stateProvider){
+angular.module('ppApp').config(["$stateProvider", function($stateProvider){
   $stateProvider.state('contact', {
     url: '/contact',
     templateUrl: 'ui/contact/contact.html'
   })
-})
+}])
 
 angular.module('ppApp')
-.config(function($stateProvider){
+.config(["$stateProvider", function($stateProvider){
   $stateProvider.state('friendfinder', {
     url: '/friendfinder',
     templateUrl: 'ui/friendfinder/friendfinder.html',
     controller: 'friendFinderCtrl',
-    resolve: { UserList: function(Restangular){
+    resolve: { UserList: ["Restangular", function(Restangular){
       return Restangular.all('users').getList();
-    }}
+    }]}
   });
-})
-.controller('friendFinderCtrl', function(UserList, $scope, FriendshipService, PublicUserData, growlNotifications){
+}])
+.controller('friendFinderCtrl', ["UserList", "$scope", "FriendshipService", "PublicUserData", "growlNotifications", function(UserList, $scope, FriendshipService, PublicUserData, growlNotifications){
   $scope.users = UserList;
   $scope.totalUsers = $scope.users.length;
   $scope.currentPage = 1;
@@ -51323,10 +51323,10 @@ angular.module('ppApp')
     $scope.totalUsers = $scope.users.length;
     $scope.activeUsers = $scope.users.slice(start, end);
   });
-});
+}]);
 
 angular.module('ppApp')
-.factory('FriendshipService', function($http, $q){
+.factory('FriendshipService', ["$http", "$q", function($http, $q){
   var FriendshipService = {
     getAll: function(){
       var defer = $q.defer();
@@ -51341,10 +51341,10 @@ angular.module('ppApp')
     }
   }
  return FriendshipService;
-});
+}]);
 
 angular.module('ppApp')
-.factory('PublicUserData', function($http, $q){
+.factory('PublicUserData', ["$http", "$q", function($http, $q){
   return function(){
     var defer = $q.defer();
     $http.get('/api/v1/users/').then(function(data){
@@ -51352,10 +51352,10 @@ angular.module('ppApp')
     })
     return defer.promise;
   }
-})
+}])
 
 angular.module('ppApp')
-.config(function($stateProvider){
+.config(["$stateProvider", function($stateProvider){
   $stateProvider.state('friends', {
     url: '/friends',
     abstract: true,
@@ -51365,11 +51365,11 @@ angular.module('ppApp')
     url: '',
     templateUrl: 'ui/friends/friends.html',
     controller: 'friendsCtrl',
-    resolve: { FriendsData: function(FriendshipService){
+    resolve: { FriendsData: ["FriendshipService", function(FriendshipService){
       return FriendshipService.getAll();
-    }}
+    }]}
   })
-})
+}])
 .directive('friendNavbar', function(){
   return {
     restrict: 'E',
@@ -51386,24 +51386,24 @@ angular.module('ppApp')
     },
   }
 })
-.controller('friendsCtrl', function(FriendsData, $scope, $filter){
+.controller('friendsCtrl', ["FriendsData", "$scope", "$filter", function(FriendsData, $scope, $filter){
   $scope.allFriends = FriendsData.friendships;
-})
+}])
 
-angular.module('ppApp').config(function($stateProvider){
+angular.module('ppApp').config(["$stateProvider", function($stateProvider){
   $stateProvider.state('home', {
     url: '/',
     templateUrl: 'ui/home/home.html',
     controller: 'homeCtrl',
-    resolve: { MapUsers: function(Restangular){
+    resolve: { MapUsers: ["Restangular", function(Restangular){
       var map = { map: 'true'}
         return Restangular.all('users').getList(map)
-    }, Languages: function(LanguageService){
+    }], Languages: ["LanguageService", function(LanguageService){
       return LanguageService.set();
-    }
+    }]
     }
   })
-}).controller('homeCtrl', function($scope, $filter, MapUsers, Languages){
+}]).controller('homeCtrl', ["$scope", "$filter", "MapUsers", "Languages", function($scope, $filter, MapUsers, Languages){
   $scope.users = MapUsers;
   $scope.languages = Languages;
   $scope.language = $scope.languages[0];
@@ -51418,10 +51418,10 @@ angular.module('ppApp').config(function($stateProvider){
   $scope.$watch('language', function(language){
     $scope.filteredUsers = $filter("filter")($scope.users, language.name);
   });
-})
+}])
 
 angular.module('ppApp')
-.directive('ppMailbox', function(OneMessageService, PostMessageService, $rootScope){
+.directive('ppMailbox', ["OneMessageService", "PostMessageService", "$rootScope", function(OneMessageService, PostMessageService, $rootScope){
   return {
     restrict: 'E',
     templateUrl: './ui/messages/mailbox.html',
@@ -51431,7 +51431,7 @@ angular.module('ppApp')
     },
     link: function(scope, element, attrs) {
     },
-    controller: function($scope, $rootScope, PostMessageService,
+    controller: ["$scope", "$rootScope", "PostMessageService", "Restangular", "growlNotifications", function($scope, $rootScope, PostMessageService,
       Restangular, growlNotifications) {
         $scope.currentPage = 1;
         $scope.totalMessages = $scope.messages.length;
@@ -51464,12 +51464,12 @@ angular.module('ppApp')
         $scope.newMessage = '';
         $scope.activeMessage = '';
       }
-    }
+    }]
   }
-})
+}])
 
 angular.module('ppApp')
-.factory('MessageGetterService', function($http, $q){
+.factory('MessageGetterService', ["$http", "$q", function($http, $q){
   return function(boxType){
     var defer = $q.defer();
     $http.get('/api/v1/messages?box='+boxType).then(function(data){
@@ -51477,10 +51477,10 @@ angular.module('ppApp')
     });
     return defer.promise;
   }
-})
+}])
 
 angular.module('ppApp')
-.config(function($stateProvider){
+.config(["$stateProvider", function($stateProvider){
   $stateProvider.state('messages', {
     url: '/messages',
     abstract: true,
@@ -51489,19 +51489,19 @@ angular.module('ppApp')
   .state('messages.inbox', {
     url: '',
     templateUrl: 'ui/messages/inbox.html',
-    resolve: {Inbox: function(Restangular){
+    resolve: {Inbox: ["Restangular", function(Restangular){
       return Restangular.all('messages').getList();
-    }},
+    }]},
     controller: 'inboxCtrl'
   })
-})
-.controller('inboxCtrl', function($scope, Inbox){
+}])
+.controller('inboxCtrl', ["$scope", "Inbox", function($scope, Inbox){
   $scope.messages = Inbox;
   $scope.type = 'inbox';
-})
+}])
 
 angular.module('ppApp')
-.factory('OneMessageService', function($http, $q){
+.factory('OneMessageService', ["$http", "$q", function($http, $q){
   return function(id, boxType){
     var defer = $q.defer();
     $http.put('/api/v1/messages/'+id+'?box='+boxType).then(function(data){
@@ -51509,10 +51509,10 @@ angular.module('ppApp')
     });
     return defer.promise;
   }
-})
+}])
 
 angular.module('ppApp')
-.factory('PostMessageService', function(Restangular){
+.factory('PostMessageService', ["Restangular", function(Restangular){
   return function(message){
     var newMessage = {message: {
       receiver_id: message.sender_id,
@@ -51529,20 +51529,20 @@ angular.module('ppApp')
     // });
     // return defer.promise;
   }
-})
+}])
 
 angular.module('ppApp')
-.config(function($stateProvider){
+.config(["$stateProvider", function($stateProvider){
   $stateProvider.state('postings', {
     url: '/postings',
     templateUrl: 'ui/postings/postings.html',
     controller: 'postingsCtrl',
-    resolve: { Postings: function(Restangular){
+    resolve: { Postings: ["Restangular", function(Restangular){
       return Restangular.all('postings').getList();
-    }}
+    }]}
   })
-})
-.controller('postingsCtrl', function($scope, Postings, Restangular){
+}])
+.controller('postingsCtrl', ["$scope", "Postings", "Restangular", function($scope, Postings, Restangular){
   $scope.postings = Postings;
   $scope.totalPostings = Postings.length;
   $scope.currentPage = 1;
@@ -51560,27 +51560,27 @@ angular.module('ppApp')
       $scope.postings = response;
     })
   }
-})
+}])
 
 angular.module('ppApp')
-.config(function($stateProvider){
+.config(["$stateProvider", function($stateProvider){
   $stateProvider.state('profile', {
     url: '/profile',
     templateUrl: 'ui/profile/profile.html',
     controller: 'profileCtrl as profile',
     resolve: {
-      ProfileData: function(ProfileService){
+      ProfileData: ["ProfileService", function(ProfileService){
         return ProfileService();
-      }
+      }]
     }
   });
-})
-.controller('profileCtrl', function(ProfileData){
+}])
+.controller('profileCtrl', ["ProfileData", function(ProfileData){
   this.user = ProfileData;
-})
+}])
 
 angular.module('ppApp')
-.factory('ProfileService', function($http, $q, $location){
+.factory('ProfileService', ["$http", "$q", "$location", function($http, $q, $location){
   return function(){
 
     var defer = $q.defer();
@@ -51589,9 +51589,9 @@ angular.module('ppApp')
     });
     return defer.promise;
   }
-})
+}])
 angular.module('ppApp')
-.controller('authCtrl', function($scope, CookieHandler, MessageStream, StreamHandler){
+.controller('authCtrl', ["$scope", "CookieHandler", "MessageStream", "StreamHandler", function($scope, CookieHandler, MessageStream, StreamHandler){
   $scope.authUser = CookieHandler.get();
   $scope.$watch(function(){
     var user = CookieHandler.get();
@@ -51635,17 +51635,17 @@ angular.module('ppApp')
     StreamHandler.kill()
     console.log('it\s dead, jim')
   }
-})
+}])
 
 angular.module('ppApp')
-.config(function($stateProvider){
+.config(["$stateProvider", function($stateProvider){
   $stateProvider.state('signin', {
     url: '/signin',
     templateUrl: 'ui/signin/signin.html',
     controller: 'signinCtrl as signin'
   });
-})
-.controller('signinCtrl', function($scope, SessionService, $http){
+}])
+.controller('signinCtrl', ["$scope", "SessionService", "$http", function($scope, SessionService, $http){
   $scope.newSession = function(authInfo){
     SessionService(authInfo);
   };
@@ -51654,19 +51654,19 @@ angular.module('ppApp')
     $scope.signin.email = 'test@test.com';
     $scope.signin.password = 'password';
   }
-});
+}]);
 
 angular.module('ppApp')
-.config(function($stateProvider){
+.config(["$stateProvider", function($stateProvider){
   $stateProvider.state('signup', {
     url: '/signup',
     templateUrl: 'ui/signup/signup.html',
     controller: 'signupCtrl as signup',
-    resolve: {Languages: function(LanguageService){
+    resolve: {Languages: ["LanguageService", function(LanguageService){
       return LanguageService.set();
-    }}
+    }]}
   });
-}).controller('signupCtrl', function($scope, $http, SignUpService, Languages, $q){
+}]).controller('signupCtrl', ["$scope", "$http", "SignUpService", "Languages", "$q", function($scope, $http, SignUpService, Languages, $q){
   $scope.submit = function(signup){
     SignUpService(signup);
   };
@@ -51680,10 +51680,10 @@ angular.module('ppApp')
     })
     return defer.promise
   }
-});
+}]);
 
 angular.module('ppApp')
-.factory('SignUpService', function($http, $location, $rootScope, CookieHandler, growlNotifications){
+.factory('SignUpService', ["$http", "$location", "$rootScope", "CookieHandler", "growlNotifications", function($http, $location, $rootScope, CookieHandler, growlNotifications){
   return function(userData){
     var length = userData.languages.length;
     var language_ids = [];
@@ -51705,10 +51705,10 @@ angular.module('ppApp')
       console.log(data);
     });
   }
-})
+}])
 
 angular.module('ppApp')
-.directive('recordAvailabilityValidator', function($http) {
+.directive('recordAvailabilityValidator', ["$http", function($http) {
 
   return {
     require : 'ngModel',
@@ -51719,26 +51719,26 @@ angular.module('ppApp')
       }
     }
   }
-});
+}]);
 
-angular.module('ppApp').config(function($stateProvider){
+angular.module('ppApp').config(["$stateProvider", function($stateProvider){
   $stateProvider.state('friends.pending', {
     url: '/pending',
     templateUrl: 'ui/friends/pending/pending.html',
     controller: 'pendingCtrl',
     resolve: {
-      PendingFriends: function(PendingFriendService){
+      PendingFriends: ["PendingFriendService", function(PendingFriendService){
         return PendingFriendService();
-      }
+      }]
     }
   });
-})
-.controller('pendingCtrl', function(PendingFriends, $scope){
+}])
+.controller('pendingCtrl', ["PendingFriends", "$scope", function(PendingFriends, $scope){
   $scope.pendingFriends = PendingFriends;
-})
+}])
 
 angular.module('ppApp')
-.factory('PendingFriendService', function($http, $q){
+.factory('PendingFriendService', ["$http", "$q", function($http, $q){
   return function(){
     var defer = $q.defer()
     $http.get('/api/v1/friendships?type=pending').then(function(data){
@@ -51746,19 +51746,19 @@ angular.module('ppApp')
     });
     return defer.promise
   }
-})
+}])
 
-angular.module('ppApp').config(function($stateProvider){
+angular.module('ppApp').config(["$stateProvider", function($stateProvider){
   $stateProvider.state('friends.rejected', {
     url: '/rejected',
     templateUrl: 'ui/friends/rejected/rejected.html',
     controller: 'rejectedCtrl',
-    resolve: { Friends: function(RejectedFriendService){
+    resolve: { Friends: ["RejectedFriendService", function(RejectedFriendService){
       return RejectedFriendService();
-    }}
+    }]}
   })
-})
-.controller('rejectedCtrl', function(Friends, FriendApproveService, $scope){
+}])
+.controller('rejectedCtrl', ["Friends", "FriendApproveService", "$scope", function(Friends, FriendApproveService, $scope){
   $scope.friends = Friends.data;
   console.log(Friends)
   $scope.approve = function(friend){
@@ -51772,10 +51772,10 @@ angular.module('ppApp').config(function($stateProvider){
       array.splice(index, 1)
     }
   }
-})
+}])
 
 angular.module('ppApp')
-.factory('RejectedFriendService', function($http, $q){
+.factory('RejectedFriendService', ["$http", "$q", function($http, $q){
   return function(){
     var defer = $q.defer();
     $http.get('api/v1/friendships?type=rejected').then(function(data){
@@ -51783,10 +51783,10 @@ angular.module('ppApp')
     });
     return defer.promise;
   }
-})
+}])
 
 angular.module('ppApp')
-.factory('FriendApproveService', function($http, $q){
+.factory('FriendApproveService', ["$http", "$q", function($http, $q){
   return function(friendId){
     var defer = $q.defer();
 
@@ -51801,10 +51801,10 @@ angular.module('ppApp')
     );
     return defer.promise;
   }
-})
+}])
 
 angular.module('ppApp')
-.factory('FriendRejectService', function($http, $q) {
+.factory('FriendRejectService', ["$http", "$q", function($http, $q) {
   return function(id){
     var defer = $q.defer();
     $http.put('/api/v1/friendships/'+id+'?reject="true"').then(function(data){
@@ -51812,10 +51812,10 @@ angular.module('ppApp')
     });
     return defer.promise;
   }
-})
+}])
 
 angular.module('ppApp')
-.factory('FriendRequestService', function($http, $q){
+.factory('FriendRequestService', ["$http", "$q", function($http, $q){
   return function(){
     var defer = $q.defer();
     $http.get('/api/v1/friendships?type=requests').success(function(data){
@@ -51824,19 +51824,19 @@ angular.module('ppApp')
     });
     return defer.promise;
   }
-})
+}])
 
-angular.module('ppApp').config(function($stateProvider){
+angular.module('ppApp').config(["$stateProvider", function($stateProvider){
   $stateProvider.state('friends.requests', {
     url: '/requests',
     templateUrl: 'ui/friends/requests/requests.html',
     controller: 'requestsCtrl',
-    resolve: { RequestData: function(FriendRequestService){
+    resolve: { RequestData: ["FriendRequestService", function(FriendRequestService){
       return FriendRequestService();
-    }}
+    }]}
   })
-})
-.controller('requestsCtrl', function(RequestData, $scope, FriendApproveService,
+}])
+.controller('requestsCtrl', ["RequestData", "$scope", "FriendApproveService", "FriendRejectService", function(RequestData, $scope, FriendApproveService,
 FriendRejectService){
   $scope.requests = RequestData;
   $scope.approve = function(friend){
@@ -51858,35 +51858,35 @@ FriendRejectService){
       array.splice(index, 1)
     }
   }
-})
+}])
 
 angular.module('ppApp')
-.config(function($stateProvider){
+.config(["$stateProvider", function($stateProvider){
   $stateProvider.state('friends.show', {
     url: '/:id',
     templateUrl: 'ui/friends/show/show.html',
-    resolve: { activeFriend : function($stateParams, Restangular){
+    resolve: { activeFriend : ["$stateParams", "Restangular", function($stateParams, Restangular){
       return Restangular.one('friends', $stateParams.id).get();
-    }},
+    }]},
     controller: 'friendsShowCtrl'
   })
-})
-.controller('friendsShowCtrl', function(activeFriend, $scope){
+}])
+.controller('friendsShowCtrl', ["activeFriend", "$scope", function(activeFriend, $scope){
   $scope.activeFriend = activeFriend;
-})
+}])
 
 angular.module('ppApp')
-.config(function($stateProvider){
+.config(["$stateProvider", function($stateProvider){
   $stateProvider.state('messages.new', {
     url: '/new',
     templateUrl: 'ui/messages/new/new.html',
     controller: 'newMessageCtrl',
-    resolve: { Friends: function(FriendshipService) {
+    resolve: { Friends: ["FriendshipService", function(FriendshipService) {
       return FriendshipService.getAll();
-    }}
+    }]}
   })
-})
-.controller('newMessageCtrl', function(Friends, $scope, Restangular, $location, growlNotifications){
+}])
+.controller('newMessageCtrl', ["Friends", "$scope", "Restangular", "$location", "growlNotifications", function(Friends, $scope, Restangular, $location, growlNotifications){
   $scope.friends = Friends.friendships
 
   $scope.sendMessage = function(message){
@@ -51898,35 +51898,35 @@ angular.module('ppApp')
       $location.path('/messages');
     })
   }
-})
+}])
 
 angular.module('ppApp')
-.config(function($stateProvider){
+.config(["$stateProvider", function($stateProvider){
   $stateProvider.state('messages.sent', {
     url: '/sent',
     templateUrl: 'ui/messages/sent/sent.html',
     controller: 'sentCtrl',
     resolve: {
-      Messages: function(Restangular, $stateParams){
+      Messages: ["Restangular", "$stateParams", function(Restangular, $stateParams){
         var box = { box: 'sentbox'}
         return Restangular.all('messages').getList(box);
-      }
+      }]
     }
   })
-})
-.controller('sentCtrl', function($scope, Messages){
+}])
+.controller('sentCtrl', ["$scope", "Messages", function($scope, Messages){
   $scope.messages = Messages;
   $scope.type = 'sentbox';
 
-})
+}])
 
 angular.module('ppApp')
-.config(function($stateProvider){
+.config(["$stateProvider", function($stateProvider){
   $stateProvider.state('messages.trash',{
     url: '/trash',
     templateUrl: 'ui/messages/trash/trash.html'
   })
-})
+}])
 
 angular.module('ppApp')
 .directive('ppMessageView', function(){
@@ -51937,7 +51937,7 @@ angular.module('ppApp')
       message: '=',
       type: '='
     },
-    controller: function($scope, $rootScope, PostMessageService,
+    controller: ["$scope", "$rootScope", "PostMessageService", "Restangular", "growlNotifications", function($scope, $rootScope, PostMessageService,
       Restangular, growlNotifications) {
         // refactor to other directive
       // $scope.currentPage = 1;
@@ -51973,44 +51973,44 @@ angular.module('ppApp')
         $scope.newMessage = '';
         $scope.activeMessage = '';
       }
-    }
+    }]
   }
 })
 
 angular.module('ppApp')
-.config(function($stateProvider){
+.config(["$stateProvider", function($stateProvider){
   $stateProvider.state('messages.inbox.show', {
     url: '/:id',
-    resolve: {activeMessage: function(Restangular, $stateParams){
+    resolve: {activeMessage: ["Restangular", "$stateParams", function(Restangular, $stateParams){
       var id = $stateParams.id
       return Restangular.one('messages', id).patch()
-    }},
+    }]},
     controller: 'messagesShowCtrl',
     templateUrl: 'ui/messages/view/view.html'
   })
-})
-.controller('messagesShowCtrl', function(activeMessage, $scope){
+}])
+.controller('messagesShowCtrl', ["activeMessage", "$scope", function(activeMessage, $scope){
   $scope.activeMessage = activeMessage.message;
-})
+}])
 
 angular.module('ppApp')
-.config(function($stateProvider){
+.config(["$stateProvider", function($stateProvider){
   $stateProvider.state('postings.new', {
     url: '/new',
     controller: 'newPostingCtrl',
     templateUrl: 'ui/postings/new/new.html'
   })
-})
-.controller('newPostingCtrl', function($scope, $location, Restangular){
+}])
+.controller('newPostingCtrl', ["$scope", "$location", "Restangular", function($scope, $location, Restangular){
   $scope.submitPosting = function(newPosting){
     Restangular.all('postings').post(newPosting).then(function(response){
       $scope.postings.push(response);
       $location.path('/postings');
     });
   }
-})
+}])
 angular.module('ppApp')
-.directive('ppPosting', function(Restangular, $state, $location, growlNotifications){
+.directive('ppPosting', ["Restangular", "$state", "$location", "growlNotifications", function(Restangular, $state, $location, growlNotifications){
   return {
     templateUrl: 'ui/postings/show/ppPosting.html',
     restrict: 'E',
@@ -52061,28 +52061,28 @@ angular.module('ppApp')
         }
       }
     },
-    controller: function($scope, CookieHandler){
+    controller: ["$scope", "CookieHandler", function($scope, CookieHandler){
       var authUser = CookieHandler.get().username;
       $scope.user = authUser;
-    }
+    }]
   }
-})
+}])
 
 angular.module('ppApp')
-.config(function($stateProvider){
+.config(["$stateProvider", function($stateProvider){
   $stateProvider.state('postings.show', {
     url: '/:id',
     controller: 'postingsShowCtrl',
     templateUrl: 'ui/postings/show/show.html',
-    resolve: {Posting: function(Restangular, $stateParams){
+    resolve: {Posting: ["Restangular", "$stateParams", function(Restangular, $stateParams){
       var id = $stateParams.id
       return Restangular.one('postings', id).get()
-    }}
+    }]}
   })
-})
-.controller('postingsShowCtrl', function(Posting, $scope){
+}])
+.controller('postingsShowCtrl', ["Posting", "$scope", function(Posting, $scope){
   $scope.activePosting = Posting;
-})
+}])
 
 angular.module('ppApp')
 .directive('navbar', function(){
@@ -52093,7 +52093,7 @@ angular.module('ppApp')
   }
 })
 //toDo: refactor into directive controller!
-.controller('navCtrl', function(CookieHandler, $location, $scope, StreamHandler){
+.controller('navCtrl', ["CookieHandler", "$location", "$scope", "StreamHandler", function(CookieHandler, $location, $scope, StreamHandler){
   $scope.user = CookieHandler.get();
 
   $scope.$watch(
@@ -52112,10 +52112,10 @@ angular.module('ppApp')
     CookieHandler.delete();
     $location.path('/')
   }
-})
+}])
 
 angular.module('ppApp')
-.directive('viewBody', function(CookieHandler){
+.directive('viewBody', ["CookieHandler", function(CookieHandler){
   return {
     restrict: 'E',
     templateUrl: 'ui/shared/view-body/view-body.html',
@@ -52136,36 +52136,36 @@ angular.module('ppApp')
       );
     }
   }
-})
+}])
 angular.module('ppApp')
-.config(function($stateProvider){
+.config(["$stateProvider", function($stateProvider){
   $stateProvider.state('publicprofile', {
     url: '/users/:id',
     templateUrl: 'ui/users/show/show.html',
-    resolve: { activeUser: function(Restangular, $stateParams){
+    resolve: { activeUser: ["Restangular", "$stateParams", function(Restangular, $stateParams){
       return Restangular.one('users', $stateParams.id).get();
-    }},
+    }]},
     controller: 'publicProfileCtrl'
   })
-})
-.controller('publicProfileCtrl', function($scope, activeUser){
+}])
+.controller('publicProfileCtrl', ["$scope", "activeUser", function($scope, activeUser){
   $scope.activeUser = activeUser;
-})
+}])
 
 angular.module('ppApp')
-.config(function($stateProvider){
+.config(["$stateProvider", function($stateProvider){
   $stateProvider.state('messages.sent.show', {
     url: '/:id',
-    resolve: { activeMessage: function(Restangular, $stateParams){
+    resolve: { activeMessage: ["Restangular", "$stateParams", function(Restangular, $stateParams){
       var id = $stateParams.id;
       var box = {box: 'sentbox'}
       return Restangular.one('messages', id).put(box);
-    }},
+    }]},
     controller: 'messagesSentShowCtrl',
     templateUrl: 'ui/messages/sent/show/show.html'
   })
-})
-.controller('messagesSentShowCtrl', function(activeMessage, $scope){
+}])
+.controller('messagesSentShowCtrl', ["activeMessage", "$scope", function(activeMessage, $scope){
   $scope.activeMessage = activeMessage;
   console.log(activeMessage);
-})
+}])

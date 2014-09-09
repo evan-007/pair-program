@@ -1,7 +1,7 @@
 var gulp = require('gulp');
 var connect = require('gulp-connect');
 var clean = require('gulp-clean');
-var ngmin = require('gulp-ngmin');
+var ngAnnotate = require('gulp-ng-annotate');
 var usemin = require('gulp-usemin');
 var uglify = require('gulp-uglify');
 var minifyCss = require('gulp-minify-css');
@@ -53,8 +53,8 @@ gulp.task('clean', function(){
 });
 
 gulp.task('format-js', function(){
-	return gulp.src(['app/*.js', 'app/**/*.js'])
-	.pipe(ngmin())
+	return gulp.src(['../public/assets/*.js'])
+	.pipe(ngAnnotate())
 	.pipe(gulp.dest('app'));
 });
 
@@ -69,7 +69,7 @@ gulp.task('usemin', function() {
 	gulp.src('./app/index.html')
 	.pipe(usemin({
 		css: [minifyCss(), 'concat', rev()],
-		js: [rev()]
+		js: [ngAnnotate(), uglify(), rev()]
 	}))
 	.pipe(gulp.dest('../public/'));
 });
