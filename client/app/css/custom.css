@@ -48,9 +48,13 @@ body {
 }
 
 .half-rule {
-  width: 25%
+  width: 25%;
 }
 
 .editing {
   border: 2px solid red;
+}
+
+.text-super-muted {
+  color: #e5e5e5;
 }
