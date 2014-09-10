@@ -19,10 +19,11 @@ User.create(username: 'test', email: 'test@test.com', password: 'password',
   username = Faker::Internet.user_name
   email = Faker::Internet.email
   pass = Faker::Internet.password
+  about = Faker::Lorem.sentence(4)
   User.create(username: "#{username}#{n}", email: "#{username}#{n}@faker.com",
-  password: pass, password_confirmation: pass, location: Faker::Address.country)
+  password: pass, password_confirmation: pass, about: about, location: Faker::Address.country)
   #sleep to prevent API rate limit
-  sleep(rand(2))
+  sleep(rand(3))
 end
 
 User.all.each do |user|
