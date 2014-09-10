@@ -410,11 +410,17 @@ angular.module('ppApp')
     }}
   })
 })
-.controller('postingsCtrl', function($scope, Postings, Restangular){
+.controller('postingsCtrl', function($scope, Postings, Restangular, $rootScope){
   $scope.postings = Postings;
   $scope.totalPostings = Postings.length;
   $scope.currentPage = 1;
   $scope.itemsPerPage = 10;
+
+  $rootScope.$on('updatePostings', function(){
+    Restangular.all('postings').getList().then(function(resp){
+      $scope.postings = resp;
+    })
+  })
 
   $scope.$watchGroup(['currentPage','postings'], function(newValue, old){
     var start = ($scope.currentPage - 1) * $scope.itemsPerPage
@@ -876,14 +882,16 @@ angular.module('ppApp')
     templateUrl: 'ui/postings/new/new.html'
   })
 })
-.controller('newPostingCtrl', function($scope, $location, Restangular){
+.controller('newPostingCtrl', function($scope, $location, Restangular, $rootScope){
   $scope.submitPosting = function(newPosting){
     Restangular.all('postings').post(newPosting).then(function(response){
       $scope.postings.push(response);
+      $rootScope.$broadcast('updatePostings');
       $location.path('/postings');
     });
   }
 })
+
 angular.module('ppApp')
 .directive('ppPosting', function(Restangular, $state, $location, growlNotifications){
   return {

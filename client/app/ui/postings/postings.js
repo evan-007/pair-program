@@ -9,11 +9,17 @@ angular.module('ppApp')
     }}
   })
 })
-.controller('postingsCtrl', function($scope, Postings, Restangular){
+.controller('postingsCtrl', function($scope, Postings, Restangular, $rootScope){
   $scope.postings = Postings;
   $scope.totalPostings = Postings.length;
   $scope.currentPage = 1;
   $scope.itemsPerPage = 10;
+
+  $rootScope.$on('updatePostings', function(){
+    Restangular.all('postings').getList().then(function(resp){
+      $scope.postings = resp;
+    })
+  })
 
   $scope.$watchGroup(['currentPage','postings'], function(newValue, old){
     var start = ($scope.currentPage - 1) * $scope.itemsPerPage
