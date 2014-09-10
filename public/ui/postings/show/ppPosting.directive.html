@@ -1,0 +1,12 @@
+<div ng-init='editing = false'>
+  <h4 id='title' ng-model='activePosting.title' ng-show='!editing'>{{activePosting.title}}</h4>
+  <input type='text' ng-model='activePosting.title' ng-show='editing' class='form-control' />
+  <small>User: {{activePosting.user.username}}</small>
+  <h5>{{activePosting.created_at | date : shortDate}}</h5>
+  <p id='body' ng-model='activePosting.body' ng-if='!editing'>{{activePosting.body}}</p>
+  <textarea ng-model='activePosting.body' ng-if='editing' class='form-control'></textarea>
+
+  <button class='btn btn-default' ng-show='user == activePosting.user.username && !editing' ng-click='editing = true; logger();'>Edit</button>
+  <button class='btn btn-default' ng-show='(user == activePosting.user.username) && editing' ng-click='editing = false; updatePosting();'>Save changes</button>
+  <button class='btn btn-danger' ng-show='(user == activePosting.user.username) && editing' ng-click='deletePosting()'>Delete</button>
+</div>
