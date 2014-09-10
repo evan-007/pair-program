@@ -95,7 +95,7 @@ gulp.task('e2e-test', function(){
   // run e2e tests,
   // reset db, kill rails daemon
   runSequence('rails-start', 'connect', 'db-setup', 'protractor',
-              'db-setup', 'rails-kill')
+              'rails-kill')
 })
 
 gulp.task('default', ['connect', 'js', 'watch']);

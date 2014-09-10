@@ -3,7 +3,7 @@ describe('Sign in page', function(){
 		emailInput = element(by.model('signin.email'));
 		passwordInput = element(by.model('signin.password'));
 		submitButton = element(by.name('SigninButton'));
-		alert = element(by.css('.container .userInfo p'));
+		alert = element(by.css('.alert alert-success'));
 
 
 		browser.get('/#signin');
