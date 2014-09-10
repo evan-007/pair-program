@@ -21,6 +21,12 @@ angular.module('ppApp')
     $scope.activePostings = $scope.postings.slice(start, end);
   });
 
+  $scope.allPostings = function(){
+    Restangular.all('postings').getList().then(function(resp){
+      $scope.postings = resp;
+    })
+  }
+
   $scope.myPostings = function(){
     var params = {list: 'true'}
     Restangular.all('postings').getList(params).then(function(response){

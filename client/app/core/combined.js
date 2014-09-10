@@ -422,6 +422,12 @@ angular.module('ppApp')
     $scope.activePostings = $scope.postings.slice(start, end);
   });
 
+  $scope.allPostings = function(){
+    Restangular.all('postings').getList().then(function(resp){
+      $scope.postings = resp;
+    })
+  }
+
   $scope.myPostings = function(){
     var params = {list: 'true'}
     Restangular.all('postings').getList(params).then(function(response){
@@ -881,7 +887,7 @@ angular.module('ppApp')
 angular.module('ppApp')
 .directive('ppPosting', function(Restangular, $state, $location, growlNotifications){
   return {
-    templateUrl: 'ui/postings/show/ppPosting.html',
+    templateUrl: 'ui/postings/show/ppPosting.directive.html',
     restrict: 'E',
     scope: {
       activePosting: '=posting'
