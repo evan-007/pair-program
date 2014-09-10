@@ -14,6 +14,7 @@ describe('Sign in page', function(){
 		submitButton.click();
 		browser.get('/');
 		expect(icon).toExist;
+		browser.manage().deleteAllCookies()
 		// expect(alert.getText()).toMatch(/Logged in as/);
 	})
 })
