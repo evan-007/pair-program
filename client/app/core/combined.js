@@ -416,7 +416,7 @@ angular.module('ppApp')
   $scope.currentPage = 1;
   $scope.itemsPerPage = 10;
 
-  $scope.$watch('currentPage', function(newValue, old){
+  $scope.$watchGroup(['currentPage','postings'], function(newValue, old){
     var start = ($scope.currentPage - 1) * $scope.itemsPerPage
     var end = start + $scope.itemsPerPage
     $scope.activePostings = $scope.postings.slice(start, end);
