@@ -94,6 +94,7 @@ gulp.task('e2e-test', function(){
   // start servers, setup test db,
   // run e2e tests,
   // reset db, kill rails daemon
+	//NOTE, this doesn't actually work for some reason
   runSequence('rails-start', 'connect', 'db-setup', 'protractor',
               'rails-kill')
 })
