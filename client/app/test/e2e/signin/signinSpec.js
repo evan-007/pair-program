@@ -15,6 +15,6 @@ describe('Sign up page', function(){
     passwordConInput.sendKeys('password');
     locationInput.sendKeys('boston');
     submitButton.click();
-    expect(browser.getCurrentUrl()).toMatch('/#/');
+    expect(browser.getCurrentUrl()).toMatch('#/friends');
   });
 });
