@@ -24,8 +24,10 @@ front end. In `client`, run unit tests with `karma start`.
 `cp environment_variables.yml.example environment_variables.yml` and update
 with real info for mailer. If deploying to heroku, this is bypassed and set via `heroku config`.
 
+##Testing
 
-##Integration tests
+Rspec needs and redis running, as does protractor.
+
 Todo: see `gulp e2e-test` task for progress.
 
 ##Deployment
