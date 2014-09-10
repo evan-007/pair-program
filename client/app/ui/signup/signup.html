@@ -1,6 +1,7 @@
 <div class='row'>
   <div class='col-sm-7'>
-    <form novalidate ng-submit="submit(signup)" class='form-horizontal' name='signupForm'>
+    <form novalidate ng-submit="submit(signup)" class='form-horizontal' name='signupForm'
+    ng-init="signup['just_partner?'] = true">
       <p>
         <label>Username</label>
         <input type="text" ng-model="signup.username" class='form-control' name='username'
@@ -52,7 +53,7 @@
         <label><input type='checkbox' ng-model="signup['student?']" />Looking for a mentor?</label>
       </p>
       <p class='checkbox'>
-        <label><input type='checkbox' ng-model="signup['just_partner?']" />Just want to hack with someone?</label>
+        <label><input type='checkbox' ng-checked="signup['just_partner?']" ng-model="signup['just_partner?']" />Just want to hack with someone?</label>
       </p>
       <p>
         <label>About:</label>
