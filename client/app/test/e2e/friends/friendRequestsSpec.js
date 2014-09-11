@@ -36,16 +36,9 @@ describe('Friend requests', function(){
     //check approved friend shows on main friends list
     friendsAll.click();
 
-    allFriends = element.all(by.repeater('friend in friends').column('friend.username')).then(function(array){
-      var results = []
-      var elemLength = array.length
-      for(var n = 0; n < elemLength; n++){
-        array[n].getText().then(function(resp){
-          results.push(resp)
-        })
-      }
-      return results
-    });
+    allFriends = element.all(by.repeater('friend in friends').column('friend.username')).map(function(elem){
+      return elem.getText();
+    })
     expect(allFriends).toContain(approvedRequest)
   })
 })
