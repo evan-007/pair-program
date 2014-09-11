@@ -10,9 +10,12 @@ describe('Adding friends', function(){
   });
 
   it('users can request any user to be their friend', function(){
-    friendIcon = element(by.css('fa fa-search fa-3x'));
+    friendIcon = element(by.name('finder-nav'));
+    firstFriend = element(by.repeater('user in activeUsers').row(0));
+    alert = element(by.css('.alert'));
 
     friendIcon.click();
-    expect(browser.getCurrentUrl()).toMatch('#/friends');
+    firstFriend.click();
+    expect(alert.getText()).toMatch(/sent to/)
   })
 })
