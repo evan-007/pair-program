@@ -25,5 +25,16 @@ describe('Adding friends', function(){
     firstFriend.click();
     expect(firstFriend.getText()).not.toBe(firstUser);
     friendsList.click();
+
+    pendingFriends = element(by.name('friends-pending'));
+
+    pendingFriends.click();
+
+    allPending = element.all(by.repeater('friend in friends'))
+    allPending.last().then(function(elem){
+      elem.findElement(by.binding('friend.username')).then(function(nameElem){
+        expect(nameElem.getText()).toBe(firstUser)
+      })
+    })
   })
 })
