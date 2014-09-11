@@ -41,4 +41,34 @@ describe('Friend requests', function(){
     })
     expect(allFriends).toContain(approvedRequest)
   })
+  it('can be rejected', function(){
+    friendsRequests = element(by.name('friends-requests'));
+    friendsNav = element(by.name('friends-nav'));
+
+    friendsNav.click();
+    friendsRequests.click();
+
+    pendingList = element.all(by.repeater('friend in requests.friendships'));
+
+    firstPending = pendingList.first().then(function(friend){
+      return friend.findElement(by.binding('friend.user.public_user.username')).getText()
+    });
+
+    rejectLink = element.all(by.buttonText('Reject')).first()
+
+    rejectedRequest = firstPending;
+
+    rejectLink.click();
+
+    friendsRejected = element(by.name('friends-rejected'));
+
+    friendsRejected.click();
+
+    rejectedNames = element.all(by.repeater('friend in friends.friendships')
+    .column('friend.user.public_user.username')).map(function(elem){
+      return elem.getText();
+    })
+
+    expect(rejectedNames).toContain(rejectedRequest);
+  })
 })
