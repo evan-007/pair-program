@@ -16,6 +16,7 @@ describe('Adding friends', function(){
     //so bad, refactor to check for notification
 
     friendIcon = element(by.name('finder-nav'));
+    friendsList = element(by.name('friends-nav'));
     firstFriend = element(by.repeater('user in activeUsers').row(0));
 
     friendIcon.click();
@@ -23,5 +24,6 @@ describe('Adding friends', function(){
 
     firstFriend.click();
     expect(firstFriend.getText()).not.toBe(firstUser);
+    friendsList.click();
   })
 })
