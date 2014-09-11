@@ -1,9 +1,10 @@
-describe('Sign in page', function(){
 
+describe('Sign in page', function(){
+	
 	afterEach(function(){
 		browser.manage().deleteAllCookies();
 	});
-	
+
 	it('should allow users to signin', function(){
 		emailInput = element(by.model('signin.email'));
 		passwordInput = element(by.model('signin.password'));
@@ -19,7 +20,7 @@ describe('Sign in page', function(){
 		submitButton.click();
 		browser.get('/');
 		expect(icon).toExist;
+		//clear login session
 		browser.manage().deleteAllCookies()
-		// expect(alert.getText()).toMatch(/Logged in as/);
 	})
 })
