@@ -1,5 +1,6 @@
 var helper = require('../helpers/signinHelper')
 
+
 describe('Adding friends', function(){
   beforeEach(function(){
     helper.login();
@@ -9,7 +10,7 @@ describe('Adding friends', function(){
     browser.manage().deleteAllCookies();
   });
 
-  it('users can request any user to be their friend', function(){
+  it('users can make friend requests', function(){
     //get find growl-notifications to test for alert
     //checks that first user is dropped from
     //user list when friend request is sent.
@@ -20,7 +21,10 @@ describe('Adding friends', function(){
     firstFriend = element(by.repeater('user in activeUsers').row(0));
 
     friendIcon.click();
-    var firstUser = firstFriend.getText();
+    var firstUser = firstFriend.findElement(by.binding('user.username')).then(function(elem){
+      return elem.getText();
+    });
+    // .getText();
 
     firstFriend.click();
     expect(firstFriend.getText()).not.toBe(firstUser);
