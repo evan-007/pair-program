@@ -16,12 +16,12 @@ describe('Adding friends', function(){
     //so bad, refactor to check for notification
 
     friendIcon = element(by.name('finder-nav'));
-    userName = element(by.repeater('user in activeUsers').row(0))
+    firstFriend = element(by.repeater('user in activeUsers').row(0));
 
     friendIcon.click();
-    var firstUser = userName.getText();
+    var firstUser = firstFriend.getText();
 
     firstFriend.click();
-    expect(userName.getText()).not.toBe(firstUser);
+    expect(firstFriend.getText()).not.toBe(firstUser);
   })
 })
