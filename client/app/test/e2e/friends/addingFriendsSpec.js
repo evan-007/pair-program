@@ -12,7 +12,7 @@ describe('Adding friends', function(){
   it('users can request any user to be their friend', function(){
     friendIcon = element(by.name('finder-nav'));
     firstFriend = element(by.repeater('user in activeUsers').row(0));
-    alert = element(by.css('.alert'));
+    alert = element(by.name('growl'));
 
     friendIcon.click();
     firstFriend.click();
