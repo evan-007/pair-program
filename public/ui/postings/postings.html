@@ -1,8 +1,8 @@
 <div class='row'>
   <ul class='list-unstyled'>
-    <li class='btn btn-primary' ng-click='myPostings(); mine = !mine' ng-show='!mine'>My Postings</li>
-    <li class='btn btn-primary' ng-click='allPostings(); mine = !mine' ng-show='mine'>All Postings</li>
-    <a ui-sref='postings.new'><li class='btn btn-default'>New Posting</li></a>
+    <li name='my-postings' class='btn btn-primary' ng-click='myPostings(); mine = !mine' ng-show='!mine'>My Postings</li>
+    <li name='all-postings' class='btn btn-primary' ng-click='allPostings(); mine = !mine' ng-show='mine'>All Postings</li>
+    <a name='new-posting' ui-sref='postings.new'><li class='btn btn-default'>New Posting</li></a>
   </ul>
 </div>
 <div class='row'>
