@@ -19,7 +19,6 @@ describe('Friend requests', function(){
 
     friendsNav.click();
 
-
     friendsRequests.click();
 
     pendingList = element.all(by.repeater('friend in requests.friendships'));
@@ -70,5 +69,33 @@ describe('Friend requests', function(){
     })
 
     expect(rejectedNames).toContain(rejectedRequest);
+  })
+  it('rejected friends can be approved again', function(){
+
+    friendsNav = element(by.name('friends-nav'));
+    friendsNav.click();
+
+    friendsRejected = element(by.name('friends-rejected'));
+    friendsRejected.click();
+
+    rejectedFriendFirst = element.all(by.repeater('friend in friends.friendships')).first().then(function(elem){
+      return elem.findElement(by.binding('friend.user.public_user.username')).getText();
+    });
+
+    reapprovedFriend = rejectedFriendFirst
+
+    reApproveButton = element.all(by.buttonText('Approve')).first();
+
+    reApproveButton.click();
+
+    friendsAll = element(by.name('friends-all'));
+
+    friendsAll.click();
+
+    allFriends = element.all(by.repeater('friend in friends').column('friend.username')).map(function(elem){
+      return elem.getText();
+    })
+
+    expect(allFriends).toContain(reapprovedFriend);
   })
 })
