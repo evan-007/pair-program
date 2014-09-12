@@ -1,6 +1,6 @@
 <div ng-init='editing = false'>
   <h4 id='title' ng-model='activePosting.title' ng-show='!editing'>{{activePosting.title}}</h4>
-  <input type='text' ng-model='activePosting.title' ng-show='editing' class='form-control' />
+  <input name='edit-title' type='text' ng-model='activePosting.title' ng-show='editing' class='form-control' />
   <small>User: {{activePosting.user.username}}</small>
   <h5>{{activePosting.created_at | date : shortDate}}</h5>
   <p id='body' ng-model='activePosting.body' ng-if='!editing'>{{activePosting.body}}</p>

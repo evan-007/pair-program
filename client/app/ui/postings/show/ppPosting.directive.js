@@ -1,5 +1,5 @@
 angular.module('ppApp')
-.directive('ppPosting', function(Restangular, $state, $location, growlNotifications){
+.directive('ppPosting', function(Restangular, $rootScope, $state, $location, growlNotifications){
   return {
     templateUrl: 'ui/postings/show/ppPosting.directive.html',
     restrict: 'E',

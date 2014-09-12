@@ -60,7 +60,7 @@ gulp.task('format-js', function(){
 
 gulp.task('js', function(){
   return gulp.src(['!./app/bower_components/**/*', '!./app/core/combined.js',
-   '!./app/**/*Spec.js', './app/core/app.js', './app/**/*.js'])
+   '!./app/**/*Spec.js', '!./app/test/**', './app/core/app.js', './app/**/*.js'])
   .pipe(concat('combined.js'))
   .pipe(gulp.dest('./app/core/'));
 });
