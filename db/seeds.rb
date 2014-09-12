@@ -57,6 +57,6 @@ for n in 11..21
   User.find(n).sent_messages.create(receiver_id: User.first.id, title: "Message from #{User.find(n).username}", body: 'hellohello')
 end
 
-(1..10).each do |n|
+(1..5).each do |n|
   Posting.create(user: User.find(n), title: "Posting #{n}", body: "filler content #{n}")
 end
