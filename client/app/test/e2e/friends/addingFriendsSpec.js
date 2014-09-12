@@ -34,11 +34,15 @@ describe('Adding friends', function(){
 
     pendingFriends.click();
 
-    allPending = element.all(by.repeater('friend in friends'))
-    allPending.last().then(function(elem){
-      elem.findElement(by.binding('friend.username')).then(function(nameElem){
-        expect(nameElem.getText()).toBe(firstUser)
-      })
+    allPending = element.all(by.repeater('friend in friends').column('friend.username')).map(function(elem){
+      return elem.getText();
     })
+
+    expect(allPending).toContain(firstUser)
+    // allPending.last().then(function(elem){
+    //   elem.findElement(by.binding('friend.username')).then(function(nameElem){
+    //     expect(nameElem.getText()).toBe(firstUser)
+    //   })
+    // })
   })
 })

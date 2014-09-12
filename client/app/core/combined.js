@@ -904,7 +904,9 @@ angular.module('ppApp')
       //edit functionality here or in ng-click?
       scope.updatePosting = function(){
         //restangular object!
-        scope.activePosting.put()
+        scope.activePosting.put().then(function(){
+          $rootScope.$broadcast('updatePostings')
+        })
       }
 
       scope.deletePosting = function(){
