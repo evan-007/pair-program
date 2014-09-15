@@ -58,7 +58,15 @@ describe('Postings', function(){
     expect(postingsList).toContain(newTitle);
   })
 
-  xit('users cannot edit other\'s postings', function(){
+  it('users cannot edit other\'s postings', function(){
+
+
+    postingsMain.click();
+    firstPosting = element.all(by.repeater('posting in activePostings')).first();
+    firstPosting.click();
+
+    editButton = element(by.buttonText('Edit'));
+    expect(editButton.isPresent()).toEqual(false);
 
   })
 })
