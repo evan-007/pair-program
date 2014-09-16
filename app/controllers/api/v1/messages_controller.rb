@@ -18,7 +18,7 @@ module Api
         else
           @message = current_user.sent_messages.find(params[:id])
         end
-        @message.update(read?: true)
+        @message.request!
         render json: @message, status: 200, serializer: MessageSerializer
       end
 
