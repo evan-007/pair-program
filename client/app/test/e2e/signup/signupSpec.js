@@ -22,9 +22,10 @@ describe('Sign up page', function(){
 
     expect(browser.getCurrentUrl()).toMatch('#/friends');
   });
-  iit('cannot be submited with invalid information', function(){
+  it('cannot be submited with invalid information', function(){
     //assumes seed data creates user 'test'
     nameInput.sendKeys('test');
+
     expect(submitButton.getAttribute('disabled')).toBeTruthy();
   })
 });
