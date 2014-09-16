@@ -5,10 +5,16 @@ class Message < ActiveRecord::Base
 
   belongs_to :sender, class_name: 'User'
   belongs_to :receiver, class_name: 'User'
-  
+
   workflow do
     state :unread do
       event :request, transitions_to: :read
+      event :trash, transitions_to: :trashed
     end
+    state :read do
+      event :trash, transitions_to: :trashed
+      event :request, transitions_to: :read
+    end
+    state :trashed
   end
 end

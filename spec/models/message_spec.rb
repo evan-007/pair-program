@@ -15,4 +15,28 @@ RSpec.describe Message, :type => :model do
   it 'starts with workflow_state unread' do
     expect(@message.workflow_state).to eq 'unread'
   end
+
+  context 'state :unread' do
+    it 'changes state to :read' do
+      @message.request!
+      expect(@message.workflow_state).to eq 'read'
+    end
+    it 'changes state to :trashed' do
+      @message.trash!
+      expect(@message.workflow_state).to eq 'trashed'
+    end
+  end
+  context 'state :read' do
+    before do
+      @message.request!
+    end
+    it 'changes state to :trashed' do
+      @message.trash!
+      expect(@message.workflow_state).to eq 'trashed'
+    end
+    it 'can be requested again' do
+      @message.request!
+      expect(@message.workflow_state).to eq 'read'
+    end
+  end
 end
