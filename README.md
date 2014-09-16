@@ -43,3 +43,7 @@ If deploy does not show `index.html` and returns `status 404`, set
 `config.serve_static_assets = true` in `production.rb` (Rails 4 default is `false`).
 
 Don't forget `heroku run rake db:migrate db:seed` after deploying.
+
+##Issues
+Angular-google-maps and the $async validations need different versions of angular?
+wtf
