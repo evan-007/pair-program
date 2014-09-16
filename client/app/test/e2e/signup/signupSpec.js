@@ -24,8 +24,10 @@ describe('Sign up page', function(){
   });
   it('cannot be submited with invalid information', function(){
     //assumes seed data creates user 'test'
+    error = element(by.id('signupForm-invalid'))
     nameInput.sendKeys('test');
 
     expect(submitButton.getAttribute('disabled')).toBeTruthy();
+    expect(error.isDisplayed()).toBeTruthy();
   })
 });
