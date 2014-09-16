@@ -21,7 +21,7 @@ describe('Adding friends', function(){
     firstFriend = element(by.repeater('user in activeUsers').row(0));
 
     friendIcon.click();
-    var firstUser = firstFriend.findElement(by.binding('user.username')).then(function(elem){
+    var firstUser = firstFriend.element(by.binding('user.username')).then(function(elem){
       return elem.getText();
     });
     // .getText();

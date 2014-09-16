@@ -1,4 +1,4 @@
-<div ng-init='editing = false'>
+<div ng-init='editing = false' ng-cloak>
   <h4 id='title' ng-model='activePosting.title' ng-show='!editing'>{{activePosting.title}}</h4>
   <input name='edit-title' type='text' ng-model='activePosting.title' ng-show='editing' class='form-control' />
   <small>User: {{activePosting.user.username}}</small>

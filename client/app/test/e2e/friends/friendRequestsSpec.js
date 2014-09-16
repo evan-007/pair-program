@@ -24,7 +24,7 @@ describe('Friend requests', function(){
     pendingList = element.all(by.repeater('friend in requests.friendships'));
 
     firstPending = pendingList.first().then(function(friend){
-      return friend.findElement(by.binding('friend.user.public_user.username')).getText()
+      return friend.element(by.binding('friend.user.public_user.username')).getText()
     });
 
     //approve first friend and store username to check later
@@ -50,7 +50,7 @@ describe('Friend requests', function(){
     pendingList = element.all(by.repeater('friend in requests.friendships'));
 
     firstPending = pendingList.first().then(function(friend){
-      return friend.findElement(by.binding('friend.user.public_user.username')).getText()
+      return friend.element(by.binding('friend.user.public_user.username')).getText()
     });
 
     rejectLink = element.all(by.buttonText('Reject')).first()
@@ -79,7 +79,7 @@ describe('Friend requests', function(){
     friendsRejected.click();
 
     rejectedFriendFirst = element.all(by.repeater('friend in friends.friendships')).first().then(function(elem){
-      return elem.findElement(by.binding('friend.user.public_user.username')).getText();
+      return elem.element(by.binding('friend.user.public_user.username')).getText();
     });
 
     reapprovedFriend = rejectedFriendFirst

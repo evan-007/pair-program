@@ -34,9 +34,9 @@ describe('Postings', function(){
     expect(postingsList).toContain(newTitle);
   })
 
-  xit('users can edit their own postings', function(){
+  it('users can edit their own postings', function(){
     postingsMain.click();
-    lastPosting = element.all(by.repeater('posting in activePostings')).last();
+    lastPosting = element.all(by.repeater('posting in activePostings').column('posting.title')).last();
 
     lastPosting.click();
     editButton = element(by.buttonText('Edit'))
@@ -58,15 +58,15 @@ describe('Postings', function(){
     expect(postingsList).toContain(newTitle);
   })
 
-  xit('users cannot edit other\'s postings', function(){
+  it('users cannot edit other\'s postings', function(){
 
 
     postingsMain.click();
-    firstPosting = element.all(by.repeater('posting in activePostings')).first();
+    firstPosting = element.all(by.repeater('posting in activePostings').column('posting.title')).first();
     firstPosting.click();
 
     editButton = element(by.buttonText('Edit'));
-    expect(editButton.isPresent()).toEqual(false);
+    expect(editButton.isDisplayed()).toEqual(false);
 
   })
 
@@ -75,7 +75,7 @@ describe('Postings', function(){
     postingsMain.click();
 
     //depends on previous test!
-    lastPosting = element.all(by.repeater('posting in activePostings')).last();
+    lastPosting = element.all(by.repeater('posting in activePostings').column('posting.title')).last();
     lastTitle = lastPosting.getText();
     lastPosting.click();
 
