@@ -910,10 +910,11 @@ angular.module('ppApp')
       }
 
       scope.deletePosting = function(){
-        scope.activePosting.remove();
-        $location.path('/postings');
-        growlNotifications.add('Posting removed!')
-        //todo remove posting from parent scope
+        scope.activePosting.remove().then(function(){
+          $rootScope.$broadcast('updatePostings');
+          $location.path('/postings');
+          growlNotifications.add('Posting removed!');
+        });
       }
 
       scope.logger = function(){
