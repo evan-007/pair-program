@@ -4,20 +4,16 @@ describe('Sign in page', function(){
 		browser.manage().deleteAllCookies();
 	});
 
-	it('should allow users to signin', function(){
+	iit('should allow users to signin', function(){
 		emailInput = element(by.model('signin.email'));
 		passwordInput = element(by.model('signin.password'));
-
 		submitButton = element(by.name('SigninButton'));
 		icon = element(by.css('.fa.fa-newspaper-o.fa-3x'));
-
 
 		browser.get('/#signin');
 		emailInput.sendKeys('test@test.com');
 		passwordInput.sendKeys('password');
 		submitButton.click();
 		expect(icon.isPresent()).toBe(true);
-		browser.manage().deleteAllCookies()
-		// expect(alert.getText()).toMatch(/Logged in as/);
 	})
 })
