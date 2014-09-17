@@ -64,9 +64,8 @@ describe('Friend requests', function(){
 
     expect(rejectedNames).toContain(rejectedRequest);
   })
-  it('rejected friends can be approved again', function(){
+  iit('rejected friends can be approved again', function(){
 
-    friendsNav = element(by.name('friends-nav'));
     friendsNav.click();
 
     friendsRejected = element(by.name('friends-rejected'));
