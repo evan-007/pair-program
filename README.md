@@ -37,8 +37,6 @@ Deploy to heroku with `heroku create` `git push heroku master`. Be sure that
 ` commented out in production and `protect_from_forgery with: :null_session` is
 set. Also set the heroku domain in `config/app_config.yml` to allow CORS.
 
-todo: change `app_config.yml` to use an env variable for `client/origin`
-
 If deploy does not show `index.html` and returns `status 404`, set
 `config.serve_static_assets = true` in `production.rb` (Rails 4 default is `false`).
 
@@ -47,3 +45,23 @@ Don't forget `heroku run rake db:migrate db:seed` after deploying.
 ##Issues
 Angular-google-maps and the $async validations need different versions of angular?
 wtf
+
+
+##To do
+
+change `app_config.yml` to use an env variable for `client/origin`
+
+update client `messages` to reflect using `workflow_state` to track `read?` and
+NOT a db column.
+
+create migration to drop `read?` from messages table
+
+remove old client services / refactor all to restangular
+
+add unit tests to client
+
+Add 'viewing deleted messages' feature to client / API
+
+Fix broken CSS
+
+Fix broken maps
