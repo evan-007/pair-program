@@ -29,11 +29,11 @@ User.all.each do |user|
   user.update(languages: user_languages)
 end
 
-for n in 3..10
+for n in 3..9
   User.first.friendships.create(friend_id: User.find(n).id)
 end
 
-User.first.friendships.take(4).each do |f|
+User.first.friendships.take(2).each do |f|
   f.approve!
 end
 

@@ -30,9 +30,14 @@ Angular unit tests: `cd client && karma start` !!work in progress!!
 
 End-to-end tests with protractor are run against `port 3000` and the rails app.
 Any changes to the client need to be added to the build first: `gulp build`.
-To run protractor, `rails s` and in a new terminal window `cd client && protractor protractorConfig.js`
+To run protractor, `cd client && gulp e2e-test`. If tests fail, the rails daemon may need to be
+killed manually with `gulp rails-kill`.
 
-Todo: Fix gulp task for running protractor in one command.
+
+##Seed Data
+
+`rake db:seed` uses minimal nonsense data to keep e2e tests speedy. Use `rake seed_data` to add
+more meaningful Faker data. Clear DB before running either.
 
 ##Deployment
 
