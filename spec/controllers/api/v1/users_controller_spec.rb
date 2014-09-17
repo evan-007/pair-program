@@ -64,7 +64,7 @@ RSpec.describe Api::V1::UsersController, :type => :controller do
           post :update, id: @user.id, user: attributes_for(:user, username: 'santa')
           data = JSON.parse(response.body)
           expect(response.status).to be 200
-          expect(data["user"]["username"]).to eq 'santa'
+          expect(data["user_profile"]["username"]).to eq 'santa'
         end
       end
       context 'with invalid params' do
