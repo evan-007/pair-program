@@ -24,9 +24,15 @@ with real info for mailer. If deploying to heroku, this is bypassed and set via 
 
 ##Testing
 
-Rspec needs and redis running, as does protractor.
+Rails unit tests: `rspec`
 
-Todo: see `gulp e2e-test` task for progress.
+Angular unit tests: `cd client && karma start` !!work in progress!!
+
+End-to-end tests with protractor are run against `port 3000` and the rails app.
+Any changes to the client need to be added to the build first: `gulp build`.
+To run protractor, `rails s` and in a new terminal window `cd client && protractor protractorConfig.js`
+
+Todo: Fix gulp task for running protractor in one command.
 
 ##Deployment
 
