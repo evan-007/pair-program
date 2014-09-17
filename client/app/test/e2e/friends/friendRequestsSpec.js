@@ -14,17 +14,15 @@ describe('Friend requests', function(){
 
   var approvedRequest, rejectedRequest;
 
-  iit('can be approved', function(){
-
+  it('can be approved', function(){
     friendsAll = element(by.name('friends-all'));
     pendingList = element.all(by.repeater('friend in requests.friendships'));
     firstPending = element.all(by.repeater('friend in requests.friendships')
       .column('friend.user.public_user.username')).first();
+    approvalLink = element.all(by.buttonText('Approve')).first()
 
     friendsNav.click();
     friendsRequests.click();
-
-    approvalLink = element.all(by.buttonText('Approve')).first()
     approvedRequest = firstPending.getText();
     approvalLink.click();
     friendsAll.click();
@@ -35,25 +33,16 @@ describe('Friend requests', function(){
 
     expect(allFriends).toContain(approvedRequest)
   })
-  iit('can be rejected', function(){
-    friendsNav.click();
-    friendsRequests.click();
+  it('can be rejected', function(){
     firstPending = element.all(by.repeater('friend in requests.friendships')
       .column('friend.user.public_user.username')).first();
-
-    // pendingList = element.all(by.repeater('friend in requests.friendships'));
-    // firstPending = pendingList.first().then(function(friend){
-    //   return friend.element(by.binding('friend.user.public_user.username')).getText()
-    // });
-
+    friendsRejected = element(by.name('friends-rejected'));
     rejectLink = element.all(by.buttonText('Reject')).first()
 
+    friendsNav.click();
+    friendsRequests.click();
     rejectedRequest = firstPending.getText();
-
     rejectLink.click();
-
-    friendsRejected = element(by.name('friends-rejected'));
-
     friendsRejected.click();
 
     rejectedNames = element.all(by.repeater('friend in friends.friendships')
@@ -63,25 +52,17 @@ describe('Friend requests', function(){
 
     expect(rejectedNames).toContain(rejectedRequest);
   })
-  iit('rejected friends can be approved again', function(){
-
-    friendsNav.click();
-
+  it('rejected friends can be approved again', function(){
     friendsRejected = element(by.name('friends-rejected'));
-    friendsRejected.click();
-
-    rejectedFriendFirst = element.all(by.repeater('friend in friends.friendships')).first().then(function(elem){
-      return elem.element(by.binding('friend.user.public_user.username')).getText();
-    });
-
-    reapprovedFriend = rejectedFriendFirst
-
+    rejectedFriendFirst = element.all(by.repeater('friend in friends.friendships')
+      .column('friend.user.public_user.username')).first();
     reApproveButton = element.all(by.buttonText('Approve')).first();
-
-    reApproveButton.click();
-
     friendsAll = element(by.name('friends-all'));
 
+    friendsNav.click();
+    friendsRejected.click();
+    reapprovedFriend = rejectedFriendFirst.getText();
+    reApproveButton.click();
     friendsAll.click();
 
     allFriends = element.all(by.repeater('friend in friends').column('friend.username')).map(function(elem){
