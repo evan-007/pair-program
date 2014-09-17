@@ -10,7 +10,7 @@ describe('Adding friends', function(){
     browser.manage().deleteAllCookies();
   });
 
-  iit('users can make friend requests', function(){
+  it('users can make friend requests', function(){
 
     friendIcon = element(by.name('finder-nav'));
     friendsList = element(by.name('friends-nav'));
