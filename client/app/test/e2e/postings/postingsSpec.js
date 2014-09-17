@@ -35,20 +35,18 @@ describe('Postings', function(){
   })
 
   iit('users can edit their own postings', function(){
-    postingsMain.click();
     lastPosting = element.all(by.repeater('posting in activePostings').column('posting.title')).last();
-
-    lastPosting.click();
-    editButton = element(by.buttonText('Edit'))
-
-    editButton.click();
-
+    editButton = element(by.buttonText('Edit'));
+    titleInput = element(by.name('edit-title'));
+    saveButton = element(by.buttonText('Save changes'));
     newTitle = 'edited title'
 
-    titleInput = element(by.name('edit-title'));
+    postingsMain.click();
+    lastPosting.click();
+    editButton.click();
     titleInput.clear();
     titleInput.sendKeys(newTitle);
-    element(by.buttonText('Save changes')).click();
+    saveButton.click();
 
     postingsList = element.all(by.repeater('posting in activePostings').column('posting.title'))
     .map(function(elem){
