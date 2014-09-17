@@ -5,8 +5,10 @@ angular.module('ppApp')
     templateUrl: 'ui/profile/profile.html',
     controller: 'profileCtrl as profile',
     resolve: {
-      ProfileData: function(ProfileService){
-        return ProfileService();
+      ProfileData: function(Restangular, CookieHandler){
+        var id = CookieHandler.get().id
+        var params = {profile: 'true'}
+        return Restangular.one('users', id).get(params)
       }
     }
   });

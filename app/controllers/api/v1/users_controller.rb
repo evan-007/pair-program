@@ -32,14 +32,14 @@ module Api
         end
 	    end
 
-      def profile
-        @user = current_user
-        render json: @user, serializer: UserProfileSerializer, status: 200
-      end
-
       def show
-        @user = User.find(params[:id])
-        render json: @user, root: false, serializer: PublicUserSerializer, status: 200
+        if params[:profile].present?
+          @user = current_user
+          render json: @user, root: false, serializer: UserProfileSerializer, status: 200
+        else
+          @user = User.find(params[:id])
+          render json: @user, root: false, serializer: PublicUserSerializer, status: 200
+        end
       end
 
     	private

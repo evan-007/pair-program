@@ -106,33 +106,6 @@ RSpec.describe Api::V1::UsersController, :type => :controller do
 		end
 	end
 
-
-  describe 'GET #profile' do
-    before do
-      @user = create(:user)
-    end
-
-    context 'as an authorized user' do
-      before do
-        request.headers["username"] = @user.username
-        request.headers["token"] = @user.token
-      end
-      it 'returns user information' do
-        get :profile
-        data = JSON.parse(response.body)
-        expect(response.status).to be 200
-        expect(data["user_profile"]["username"]).to eq @user.username
-        expect(data["user_profile"]["token"]).to eq nil
-      end
-    end
-
-    context 'as an unauthorized user' do
-      it 'returns status unauthorized' do
-        get :profile, id: @user.id
-        expect(response.status).to be 401
-      end
-    end
-  end
 	describe 'GET show' do
 		context 'as an authorized user' do
 			before do
@@ -140,12 +113,23 @@ RSpec.describe Api::V1::UsersController, :type => :controller do
 				request.headers["username"] = @user.username
 				request.headers["token"] = @user.token
 			end
-			it 'returns a user\'s profile' do
-				@user2 = create(:user)
-				get :show, id: @user2.id
-				data = JSON.parse(response.body)
-				expect(response.status).to eq 200
-				expect(data["username"]).to eq @user2.username
+			context 'with no params' do
+				it 'returns a user\'s profile' do
+					@user2 = create(:user)
+					get :show, id: @user2.id
+					data = JSON.parse(response.body)
+					expect(response.status).to eq 200
+					expect(data["username"]).to eq @user2.username
+				end
+			end
+			context 'with params :profile' do
+				#needs better description!
+				it 'returns all user info' do
+					get :show, {id: @user.id, profile: 'true'}
+					data = JSON.parse(response.body)
+					expect(response.status).to eq 200
+					expect(data["email"]).to eq @user.email
+				end
 			end
 		end
 	end
