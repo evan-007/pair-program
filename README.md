@@ -28,10 +28,14 @@ Rails unit tests: `rspec`
 
 Angular unit tests: `cd client && karma start` !!work in progress!!
 
-End-to-end tests with protractor are run against `port 3000` and the rails app.
-Any changes to the client need to be added to the build first: `gulp build`.
-To run protractor, `cd client && gulp e2e-test`. If tests fail, the rails daemon may need to be
-killed manually with `gulp rails-kill`.
+To run protractor, `cd client && gulp e2e-test`.
+
+Protractor is run against `port 3000` and the client build. `gulp e2e-test` will generate a new build,
+start rails via a daemon, seed/reset the dev db, run protractor tests, and kill the rails daemon.
+If tests fail, the rails daemon may need to be killed manually with `gulp rails-kill`.
+
+For protractor debugging, it's probably easier to run `rails s` and pick and choose which protractor specs to run
+via `protractor protractorConfig.js --specs app/tests/e2e/path/to/test.js`.
 
 
 ##Seed Data
