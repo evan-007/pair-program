@@ -13,14 +13,14 @@ describe('Postings', function(){
 
   var newTitle;
 
-  it('users can add postings', function(){
-    postingsMain.click();
-    element(by.name('new-posting')).click();
-
+  iit('users can add postings', function(){
     titleInput = element(by.model('posting.title'));
     bodyInput = element(by.model('posting.body'));
     submitButton = element(by.buttonText('Submit'));
+    newPostingLink = element(by.name('new-posting'));
 
+    postingsMain.click();
+    newPostingLink.click();
     titleInput.sendKeys('this is my new post');
     bodyInput.sendKeys('this is the body of the posting');
     newTitle = 'this is my new post';
@@ -34,7 +34,7 @@ describe('Postings', function(){
     expect(postingsList).toContain(newTitle);
   })
 
-  it('users can edit their own postings', function(){
+  iit('users can edit their own postings', function(){
     postingsMain.click();
     lastPosting = element.all(by.repeater('posting in activePostings').column('posting.title')).last();
 
@@ -58,7 +58,7 @@ describe('Postings', function(){
     expect(postingsList).toContain(newTitle);
   })
 
-  it('users cannot edit other\'s postings', function(){
+  iit('users cannot edit other\'s postings', function(){
 
 
     postingsMain.click();
@@ -70,7 +70,7 @@ describe('Postings', function(){
 
   })
 
-  it('users can delete their own postings', function(){
+  iit('users can delete their own postings', function(){
 
     postingsMain.click();
 
