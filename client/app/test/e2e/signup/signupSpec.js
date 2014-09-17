@@ -10,8 +10,8 @@ describe('Sign up page', function(){
 
     browser.get('/#/signup');
   });
-  it('should allow users to register a new account', function(){
 
+  it('should allow users to register a new account', function(){
 
     nameInput.sendKeys('asdfasdf');
     emailInput.sendKeys('asdfasdf@gmail.com');
@@ -22,6 +22,7 @@ describe('Sign up page', function(){
 
     expect(browser.getCurrentUrl()).toMatch('#/friends');
   });
+
   it('cannot be submited with invalid information', function(){
     //assumes seed data creates user 'test'
     error = element(by.id('signupForm-invalid'))
