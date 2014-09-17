@@ -26,7 +26,7 @@ module Api
       def update
         @user = current_user
         if @user.update(user_params)
-          render json: @user, status: 200
+          render json: @user, status: 200, serializer: UserProfileSerializer
         else
           render nothing: true, status: 406
         end

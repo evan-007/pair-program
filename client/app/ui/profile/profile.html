@@ -22,5 +22,5 @@
   </div>
 
   <button ng-show='!editing' ng-click='editing = !editing'>Edit Profile</button>
-  <button ng-show='editing' ng-click='editing = !editing; saveChanges();'>Save Changes</button>
+  <button ng-show='editing' ng-click='editing = !editing; profile.saveChanges(profile.user);'>Save Changes</button>
 </div>

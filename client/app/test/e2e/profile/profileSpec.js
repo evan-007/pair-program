@@ -31,7 +31,7 @@ describe('User profiles', function(){
     postingsNav.click();
     menu.click();
     profileLink.click();
-    expect(usernameDisplay.getText()).toEqual(newName);
 
+    expect(usernameDisplay.getText()).toEqual(newName+"'s page");
   })
 });

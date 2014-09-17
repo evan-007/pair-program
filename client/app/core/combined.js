@@ -457,9 +457,21 @@ angular.module('ppApp')
     }
   });
 })
-.controller('profileCtrl', function(ProfileData){
+.controller('profileCtrl', function(ProfileData, Restangular, CookieHandler){
   this.user = ProfileData;
-})
+
+  this.saveChanges = function(user){
+    this.user.save().then(function(response){
+      // update cookie with new info
+      // in case username changes for auth.
+      var name = response.user.username
+      var authtoken = response.user.token
+      var data = {username: name, token: authtoken}
+      CookieHandler.set(data)
+      console.log(CookieHandler.get())
+    })
+  }
+});
 
 angular.module('ppApp')
 .controller('authCtrl', function($scope, CookieHandler, MessageStream, StreamHandler){
