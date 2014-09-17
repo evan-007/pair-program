@@ -4,6 +4,8 @@ describe('Friend requests', function(){
 
   beforeEach(function(){
     helper.login();
+    friendsNav = element(by.name('friends-nav'));
+    friendsRequests = element(by.name('friends-requests'));
   });
 
   afterEach(function(){
@@ -12,13 +14,10 @@ describe('Friend requests', function(){
 
   var approvedRequest, rejectedRequest;
 
-  it('can be approved', function(){
-    friendsNav = element(by.name('friends-nav'));
-    friendsRequests = element(by.name('friends-requests'));
+  iit('can be approved', function(){
+
     friendsAll = element(by.name('friends-all'));
-
     friendsNav.click();
-
     friendsRequests.click();
 
     pendingList = element.all(by.repeater('friend in requests.friendships'));
@@ -31,24 +30,19 @@ describe('Friend requests', function(){
     approvalLink = element.all(by.buttonText('Approve')).first()
     approvedRequest = firstPending;
     approvalLink.click();
-
     //check approved friend shows on main friends list
     friendsAll.click();
-
     allFriends = element.all(by.repeater('friend in friends').column('friend.username')).map(function(elem){
       return elem.getText();
     })
+
     expect(allFriends).toContain(approvedRequest)
   })
-  it('can be rejected', function(){
-    friendsRequests = element(by.name('friends-requests'));
-    friendsNav = element(by.name('friends-nav'));
-
+  iit('can be rejected', function(){
     friendsNav.click();
     friendsRequests.click();
 
     pendingList = element.all(by.repeater('friend in requests.friendships'));
-
     firstPending = pendingList.first().then(function(friend){
       return friend.element(by.binding('friend.user.public_user.username')).getText()
     });
