@@ -12,16 +12,16 @@ languages.each do |l|
 end
 
 User.create(username: 'test', email: 'test@test.com', password: 'password',
-  password_confirmation: 'password', location: 'Paris France', languages: [Language.first, Language.last])
+  password_confirmation: 'password', languages: [Language.first, Language.last])
 
-#depends on active network for geocoding
-50.times do |n|
+# no location to speed up seeding
+22.times do |n|
   username = Faker::Internet.user_name
   email = Faker::Internet.email
   pass = Faker::Internet.password
   about = Faker::Lorem.sentence(4)
   User.create(username: "#{username}#{n}", email: "#{username}#{n}@faker.com",
-  password: pass, password_confirmation: pass, about: about, location: Faker::Address.country)
+  password: pass, password_confirmation: pass, about: about)
   #sleep to prevent API rate limit
   sleep(rand(3))
 end

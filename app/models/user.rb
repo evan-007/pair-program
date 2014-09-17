@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
   has_many :received_messages, class_name: 'Message', foreign_key: 'receiver_id'
   has_many :postings, dependent: :destroy
 
-  after_validation :geocode
+  after_validation :geocode, if: ->(obj){ obj.location.present? and obj.location_changed? }
   after_validation :ensure_token
   after_validation :generate_gravatar
 
