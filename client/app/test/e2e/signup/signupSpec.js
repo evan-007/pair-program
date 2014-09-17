@@ -11,7 +11,12 @@ describe('Sign up page', function(){
     browser.get('/#/signup');
   });
 
+  afterEach(function(){
+    browser.manage().deleteAllCookies();
+  })
+
   it('should allow users to register a new account', function(){
+    alert = element(by.css('.alert.alert-success'));
 
     nameInput.sendKeys('asdfasdf');
     emailInput.sendKeys('asdfasdf@gmail.com');
@@ -30,5 +35,5 @@ describe('Sign up page', function(){
 
     expect(submitButton.getAttribute('disabled')).toBeTruthy();
     expect(error.isDisplayed()).toBeTruthy();
-  })
+  });
 });
