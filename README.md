@@ -14,8 +14,6 @@ Redis is required by SideKiq and runs via `config/initializers/redis.rb`.
 
 Install redis: `brew install redis`.
 
-Requires a restart of `rails server` for any code changes to take effect.
-
 Rails api lives in the rails app as usual, the angular app is in `client`.
 `cd client && bower install && npm install` to install dependencies for the
 front end. In `client`, run unit tests with `karma start`.
@@ -62,6 +60,10 @@ add unit tests to client
 
 Add 'viewing deleted messages' feature to client / API
 
-Fix broken CSS
+Add 'editing user profiles' feature to client / API
+
+Fix broken CSS / make design not look like trash
 
 Fix broken maps
+
+Finish setup on non-heroku server (create DB + add env variables)
