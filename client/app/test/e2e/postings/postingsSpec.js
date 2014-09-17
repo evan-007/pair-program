@@ -13,7 +13,7 @@ describe('Postings', function(){
 
   var newTitle;
 
-  iit('users can add postings', function(){
+  it('users can add postings', function(){
     titleInput = element(by.model('posting.title'));
     bodyInput = element(by.model('posting.body'));
     submitButton = element(by.buttonText('Submit'));
@@ -34,7 +34,7 @@ describe('Postings', function(){
     expect(postingsList).toContain(newTitle);
   })
 
-  iit('users can edit their own postings', function(){
+  it('users can edit their own postings', function(){
     lastPosting = element.all(by.repeater('posting in activePostings').column('posting.title')).last();
     editButton = element(by.buttonText('Edit'));
     titleInput = element(by.name('edit-title'));
@@ -56,31 +56,25 @@ describe('Postings', function(){
     expect(postingsList).toContain(newTitle);
   })
 
-  iit('users cannot edit other\'s postings', function(){
-
+  it('users cannot edit other\'s postings', function(){
+    firstPosting = element.all(by.repeater('posting in activePostings').column('posting.title')).first();
+    editButton = element(by.buttonText('Edit'));
 
     postingsMain.click();
-    firstPosting = element.all(by.repeater('posting in activePostings').column('posting.title')).first();
     firstPosting.click();
 
-    editButton = element(by.buttonText('Edit'));
     expect(editButton.isDisplayed()).toEqual(false);
-
   })
 
-  iit('users can delete their own postings', function(){
+  it('users can delete their own postings', function(){
+    lastPosting = element.all(by.repeater('posting in activePostings').column('posting.title')).last();
+    editButton = element(by.buttonText('Edit'));
+    deleteButton = element(by.buttonText('Delete'));
 
     postingsMain.click();
-
-    //depends on previous test!
-    lastPosting = element.all(by.repeater('posting in activePostings').column('posting.title')).last();
     lastTitle = lastPosting.getText();
     lastPosting.click();
-
-    editButton = element(by.buttonText('Edit'));
     editButton.click();
-
-    deleteButton = element(by.buttonText('Delete'));
     deleteButton.click();
 
     titles = element.all(by.repeater('posting in activePostings').column('posting.title')).map(function(elem){
