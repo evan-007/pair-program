@@ -462,17 +462,6 @@ angular.module('ppApp')
 })
 
 angular.module('ppApp')
-.factory('ProfileService', function($http, $q, $location){
-  return function(){
-
-    var defer = $q.defer();
-    $http.get('/api/v1/users/profile/').success(function(data){
-      defer.resolve(data.user_profile);
-    });
-    return defer.promise;
-  }
-})
-angular.module('ppApp')
 .controller('authCtrl', function($scope, CookieHandler, MessageStream, StreamHandler){
   $scope.authUser = CookieHandler.get();
   $scope.$watch(function(){
