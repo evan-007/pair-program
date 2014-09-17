@@ -4,7 +4,7 @@ describe('Sign in page', function(){
 		browser.manage().deleteAllCookies();
 	});
 
-	iit('should allow users to signin', function(){
+	it('should allow users to signin', function(){
 		emailInput = element(by.model('signin.email'));
 		passwordInput = element(by.model('signin.password'));
 		submitButton = element(by.name('SigninButton'));
