@@ -17,21 +17,18 @@ describe('Friend requests', function(){
   iit('can be approved', function(){
 
     friendsAll = element(by.name('friends-all'));
+    pendingList = element.all(by.repeater('friend in requests.friendships'));
+    firstPending = element.all(by.repeater('friend in requests.friendships')
+      .column('friend.user.public_user.username')).first();
+
     friendsNav.click();
     friendsRequests.click();
 
-    pendingList = element.all(by.repeater('friend in requests.friendships'));
-
-    firstPending = pendingList.first().then(function(friend){
-      return friend.element(by.binding('friend.user.public_user.username')).getText()
-    });
-
-    //approve first friend and store username to check later
     approvalLink = element.all(by.buttonText('Approve')).first()
-    approvedRequest = firstPending;
+    approvedRequest = firstPending.getText();
     approvalLink.click();
-    //check approved friend shows on main friends list
     friendsAll.click();
+
     allFriends = element.all(by.repeater('friend in friends').column('friend.username')).map(function(elem){
       return elem.getText();
     })
@@ -41,15 +38,17 @@ describe('Friend requests', function(){
   iit('can be rejected', function(){
     friendsNav.click();
     friendsRequests.click();
+    firstPending = element.all(by.repeater('friend in requests.friendships')
+      .column('friend.user.public_user.username')).first();
 
-    pendingList = element.all(by.repeater('friend in requests.friendships'));
-    firstPending = pendingList.first().then(function(friend){
-      return friend.element(by.binding('friend.user.public_user.username')).getText()
-    });
+    // pendingList = element.all(by.repeater('friend in requests.friendships'));
+    // firstPending = pendingList.first().then(function(friend){
+    //   return friend.element(by.binding('friend.user.public_user.username')).getText()
+    // });
 
     rejectLink = element.all(by.buttonText('Reject')).first()
 
-    rejectedRequest = firstPending;
+    rejectedRequest = firstPending.getText();
 
     rejectLink.click();
 
