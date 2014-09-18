@@ -8,8 +8,8 @@ module Api
       end
 
       def show
-        @user = current_user.friends.find(params[:id])
-        render json: @user, root: false, status: 200, serializer: ApprovedFriendSerializer
+        @friend = @user.friends.find(params[:id])
+        render json: @friend, root: false, status: 200, serializer: ApprovedFriendSerializer
       end
     end
   end
