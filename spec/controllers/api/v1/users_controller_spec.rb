@@ -48,15 +48,14 @@ RSpec.describe Api::V1::UsersController, :type => :controller do
 
     context 'with current_user' do
       before do
-        request.headers["access_token"] = @user.username
-				request.headers["uid"] = @user.uid
+        new_auth_header = @user.create_new_auth_token
+				request.headers.merge!(new_auth_header)
       end
       context 'with valid params' do
         it 'updates the user' do
           post :update, id: @user.id, user: attributes_for(:user, username: 'santa')
-          data = JSON.parse(response.body)
           expect(response.status).to be 200
-          expect(data["user_profile"]["username"]).to eq 'santa'
+          expect(json["user_profile"]["username"]).to eq 'santa'
         end
       end
       context 'with invalid params' do
@@ -78,23 +77,23 @@ RSpec.describe Api::V1::UsersController, :type => :controller do
 		end
 		context 'with params[:map]' do
 			it 'renders all users' do
+				@user = create(:user)
 				get :index, { map: 'true' }
 				expect(response.status).to be 200
-				expect(json.length).to eq 4
+				expect(json.length).to eq 5
 			end
 		end
 		context 'no params' do
 			before do
 				@user = create(:user)
-				request.headers["access_token"] = @user.username
-				request.headers["uid"] = @user.uid
+				new_auth_header = @user.create_new_auth_token
+				request.headers.merge!(new_auth_header)
 			end
 	    it 'renders an array of all non-friends' do
 	      #this is a terrible test
 	      get :index
-	      data = JSON.parse(response.body)
 	      expect(response.status).to be 200
-	      expect(data.length).to eq 2
+	      expect(json.length).to eq 4
 	    end
 	  end
 	end
@@ -103,25 +102,23 @@ RSpec.describe Api::V1::UsersController, :type => :controller do
 		context 'as an authorized user' do
 			before do
 				@user = create(:user)
-				request.headers["access_token"] = @user.username
-				request.headers["uid"] = @user.uid
+				new_auth_header = @user.create_new_auth_token
+				request.headers.merge!(new_auth_header)
+				@user2 = create(:user)
 			end
 			context 'with no params' do
 				it 'returns a user\'s profile' do
-					@user2 = create(:user)
-					get :show, id: @user2.id
-					data = JSON.parse(response.body)
+					get :show, {id: @user2.id}
 					expect(response.status).to eq 200
-					expect(data["username"]).to eq @user2.username
+					expect(json['username']).to eq @user2.username
 				end
 			end
 			context 'with params :profile' do
 				#needs better description!
 				it 'returns all user info' do
 					get :show, {id: @user.id, profile: 'true'}
-					data = JSON.parse(response.body)
 					expect(response.status).to eq 200
-					expect(data["email"]).to eq @user.email
+					expect(json["email"]).to eq @user.email
 				end
 			end
 		end

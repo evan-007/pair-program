@@ -1,7 +1,7 @@
 module Api
   module V1
     class UsersController < ApplicationController
-      before_action :signed_in?, only: [:update]
+      before_action :signed_in?, only: [:update, :show]
       def index
         if params[:map].present?
           @users = User.includes(:languages)
@@ -34,11 +34,10 @@ module Api
 
       def show
         if params[:profile].present?
-          @user = current_user
           render json: @user, root: false, serializer: UserProfileSerializer, status: 200
         else
-          @user = User.find(params[:id])
-          render json: @user, root: false, serializer: PublicUserSerializer, status: 200
+          @profile = User.find(params[:id])
+          render json: @profile, root: false, serializer: PublicUserSerializer, status: 200
         end
       end
 
