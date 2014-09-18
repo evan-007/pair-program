@@ -24,11 +24,21 @@ describe('Viewing messages', function(){
     expect(messageTitle.isDisplayed()).toBeTruthy();
   });
 
-  it('users can read message in their sentbox', function(){
+  it('users can read messages in their sentbox', function(){
     sentboxLink = element(by.name('messages-sent'));
 
     messagesNav.click();
     sentboxLink.click();
+    messagesList.first().click();
+
+    expect(messageTitle.isDisplayed()).toBeTruthy();
+  })
+
+  it('users can read messages in their trash', function(){
+    trashLink = element(by.name('messages-trash'));
+
+    messagesNav.click();
+    trashLink.click();
     messagesList.first().click();
 
     expect(messageTitle.isDisplayed()).toBeTruthy();

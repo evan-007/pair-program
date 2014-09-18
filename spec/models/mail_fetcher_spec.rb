@@ -27,7 +27,12 @@ RSpec.describe MailFetcher, type: :model do
       end
     end
     context 'type == trash' do
-      it 'gets the user\'s trashed messages'
+      it 'gets the user\'s trashed messages' do
+        @type = 'trash'
+        @message = create(:message, sender_id: @user2.id, receiver_id: @user.id)
+        @message.trash!
+        expect(MailFetcher.new(@type, @user.id).get).to eq [@message]
+      end
     end
   end
 end
