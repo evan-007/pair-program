@@ -25,10 +25,12 @@ class ApplicationController < ActionController::Base
 
   private
   #is current_user secure? no check for token? assumes signed_in is called first
-    # def current_user
-    # 	@current_user ||= User.find_by(username: request.headers["username"])
-    # end
-    # helper_method :current_user
+    def signed_in?
+      unless @user
+        render nothing: true, status: 401
+      end
+    end
+    helper_method :signed_in?
     #
     # def signed_in?
     #  @user = User.find_by(username: request.headers["username"])

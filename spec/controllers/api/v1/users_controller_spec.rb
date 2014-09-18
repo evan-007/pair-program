@@ -48,8 +48,8 @@ RSpec.describe Api::V1::UsersController, :type => :controller do
 
     context 'with current_user' do
       before do
-        request.headers["username"] = @user.username
-        request.headers["token"] = @user.token
+        request.headers["access_token"] = @user.username
+				request.headers["uid"] = @user.uid
       end
       context 'with valid params' do
         it 'updates the user' do
@@ -86,8 +86,8 @@ RSpec.describe Api::V1::UsersController, :type => :controller do
 		context 'no params' do
 			before do
 				@user = create(:user)
-				request.headers["username"] = @user.username
-				request.headers["token"] = @user.token
+				request.headers["access_token"] = @user.username
+				request.headers["uid"] = @user.uid
 			end
 	    it 'renders an array of all non-friends' do
 	      #this is a terrible test
@@ -103,8 +103,8 @@ RSpec.describe Api::V1::UsersController, :type => :controller do
 		context 'as an authorized user' do
 			before do
 				@user = create(:user)
-				request.headers["username"] = @user.username
-				request.headers["token"] = @user.token
+				request.headers["access_token"] = @user.username
+				request.headers["uid"] = @user.uid
 			end
 			context 'with no params' do
 				it 'returns a user\'s profile' do
