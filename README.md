@@ -68,10 +68,11 @@ remove old client services / refactor all to restangular
 
 add unit tests to client
 
-Add 'viewing deleted messages' feature to client / API
-- inbox/sent message don't contain trashed messages???
+Check inbox/sent message don't contain trashed messages???
 
 Add 'editing user profiles' feature to client / API: add $async validations on username/email
+
+change protractor tests to test for alerts! figure out how to not wait for $timeout
 
 Fix broken CSS / make design not look like trash
 
