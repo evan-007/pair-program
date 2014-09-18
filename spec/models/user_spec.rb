@@ -28,10 +28,6 @@ RSpec.describe User, type: :model do
     expect(@user.gravatar_hash).to_not eq nil
   end
 
-  it 'should have a token' do
-    expect(@user.token).to_not eq nil
-  end
-
   describe ':friend_ids' do
     it 'returns an array of all approved friendship user ids' do
       @user2 = create(:user)

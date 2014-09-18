@@ -94,6 +94,8 @@ Setup CI for jasmine/protractor
 
 Fix rails env settings for devise emailer: prod/test/dev.rb
 
+validate signup with angular errors on pw less than 8 char
+
 ##Contributing
 
 Do it!
