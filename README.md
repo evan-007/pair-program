@@ -69,6 +69,7 @@ remove old client services / refactor all to restangular
 add unit tests to client
 
 Add 'viewing deleted messages' feature to client / API
+- inbox/sent message don't contain trashed messages???
 
 Add 'editing user profiles' feature to client / API: add $async validations on username/email
 

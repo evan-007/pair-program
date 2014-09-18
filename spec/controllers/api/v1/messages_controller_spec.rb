@@ -39,7 +39,15 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
         end
       end
       context 'trashbox params' do
-        it 'returns users trash'
+        it 'returns users trash' do
+          @user2 = create(:user)
+          @user2.sent_messages.create(receiver_id: @user.id, title: 'call me', body: 'blablabla')
+          @user2.sent_messages.first.trash!
+          get :index, {box: 'trash'}
+          data = JSON.parse(response.body)
+          expect(response.status).to eq 200
+          expect(data[0]["title"]).to eq 'call me'
+        end
       end
     end
   end
