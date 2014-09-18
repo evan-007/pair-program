@@ -1,17 +1,21 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::MessagesController, type: :controller do
+  after do
+    #wtf login messes up DB
+    # error unable to send a command while another is in progress
+    sleep 2
+  end
   describe 'GET index' do
     context 'with current user' do
       before do
-        @user = create(:user)
-        request.headers["token"] = @user.token
-        request.headers["username"] = @user.username
+        @user1 = create(:user)
+        @user2 = create(:user)
+        @user2.sent_messages.create(receiver_id: @user1.id, title: 'call me', body: 'blablabla')
+        sign_in @user1
       end
       context 'inbox params' do
         it 'returns the users inbox' do
-          @user2 = create(:user)
-          @user2.sent_messages.create(receiver_id: @user.id, title: 'call me', body: 'blablabla')
           get :index, {box: 'inbox'}
           data = JSON.parse(response.body)
           expect(response.status).to eq 200
@@ -20,8 +24,6 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
       end
       context 'no params' do
         it 'returns the users inbox' do
-          @user2 = create(:user)
-          @user2.sent_messages.create(receiver_id: @user.id, title: 'call me', body: 'blablabla')
           get :index
           data = JSON.parse(response.body)
           expect(response.status).to eq 200
@@ -30,8 +32,7 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
       end
       context 'sentbox params'do
         it 'returns users sentbox' do
-          @user2 = create(:user)
-          @user.sent_messages.create(receiver_id: @user2.id, body: 'email me', title: 'some subject')
+          @user1.sent_messages.create(receiver_id: @user2.id, body: 'email me', title: 'some subject')
           get :index, {box: 'sentbox'}
           data = JSON.parse(response.body)
           expect(response.status).to eq 200
@@ -40,8 +41,6 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
       end
       context 'trashbox params' do
         it 'returns users trash' do
-          @user2 = create(:user)
-          @user2.sent_messages.create(receiver_id: @user.id, title: 'call me', body: 'blablabla')
           @user2.sent_messages.first.trash!
           get :index, {box: 'trash'}
           data = JSON.parse(response.body)
@@ -54,12 +53,11 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
   describe 'GET :update' do
     context 'with a current user' do
       before do
-        @user = create(:user)
-        request.headers["token"] = @user.token
-        request.headers["username"] = @user.username
+        @user1 = create(:user)
         @user2 = create(:user)
-        @user2.sent_messages.create(receiver_id: @user.id, title: 'call me', body: 'blablabla')
-        @id = @user.received_messages.first.id
+        @user2.sent_messages.create(receiver_id: @user1.id, title: 'call me', body: 'blablabla')
+        @id = @user1.received_messages.first.id
+        sign_in @user1
       end
       context 'params[:box] == inbox' do
         it 'returns one message from inbox' do
@@ -71,7 +69,7 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
       end
       context 'params[:box] == sentbox' do
         before do
-          @user.sent_messages.create(receiver_id: @user2.id, title: 'hellohowareyou', body: 'blblababalba')
+          @user1.sent_messages.create(receiver_id: @user2.id, title: 'hellohowareyou', body: 'blblababalba')
           @id = @user2.received_messages.last.id
         end
         it 'returns one message from sentbox' do
@@ -83,7 +81,7 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
       end
       context 'params[:box] == trash' do
         before do
-          @message = @user.received_messages.last
+          @message = @user1.received_messages.last
           @message.trash!
         end
         it 'returns one message from trash' do
@@ -94,29 +92,29 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
         end
       end
       it 'sets the message to read?: true' do
-        expect(@user.received_messages.first.read?).to eq false
+        expect(@user1.received_messages.first.read?).to eq false
         get :update, id: @id
-        expect(@user.received_messages.first.read?).to eq true
+        expect(@user1.received_messages.first.read?).to eq true
       end
     end
   end
   describe 'POST create' do
     context 'with current user' do
       before do
-        @user = create(:user)
-        request.headers["token"] = @user.token
-        request.headers["username"] = @user.username
+        @user1 = create(:user)
+         @user1
       end
       context 'two users are friends' do
         before do
           @user2 = create(:user)
-          @friendship = Friendship.create(user_id: @user.id, friend_id: @user2.id)
+          @friendship = Friendship.create(user_id: @user1.id, friend_id: @user2.id)
           @friendship.approve!
         end
         it 'creates a new message' do
           post :create, message: attributes_for(:message, receiver_id: @user2.id)
           data = JSON.parse(response.body)
           expect(response.status).to eq 200
+          puts response
           expect(data["message"]["receiver_name"]).to eq @user2.username
         end
       end
@@ -127,22 +125,6 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
           expect(response.status).to eq 401
         end
       end
-    end
-  end
-  describe 'GET count' do
-    context 'with a current user' do
-      before do
-        @user = create(:user)
-        request.headers["token"] = @user.token
-        request.headers["username"] = @user.username
-      end
-      it 'returns a count of unread user messages'# do
-      #   @user2 = create(:user)
-      #   3.times { create(:message, sender_id: @user2.id, receiver_id: @user.id) }
-      #   get :count
-      #   expect(response.body).to eq '3'
-      #   expect(response.status).to eq 200
-      # end
     end
   end
 end

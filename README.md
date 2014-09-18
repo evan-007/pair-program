@@ -99,6 +99,10 @@ validate signup with angular errors on pw less than 8 char
 remove depreciated(?) FriendsController + routes + tests????
 replaced by FriendshipsControllet???
 
+dump sessions controller???
+
+onboarding
+
 ##Contributing
 
 Do it!
