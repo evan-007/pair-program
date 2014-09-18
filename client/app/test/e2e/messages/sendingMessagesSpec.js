@@ -28,7 +28,19 @@ describe('New messages', function(){
     expect(browser.getCurrentUrl()).toBe('http://localhost:3000/#/messages');
   });
 
-  xit('users can send messages in response to postings', function(){
+  it('users can send messages in response to postings', function(){
+    postingsNav = element(by.name('postings-nav'));
+    allPostings = element.all(by.repeater('posting in activePostings').column('posting.title'))
+    newMessageButton = element(by.buttonText('Message'));
+    messageBodyInput = element(by.model('newMessage.body'))
+    messageSubmit = element(by.buttonText('Send'));
 
+    postingsNav.click();
+    allPostings.first().click();
+    newMessageButton.click();
+    messageBodyInput.sendKeys('hi i wanna code with you');
+    messageSubmit.click();
+
+    expect(browser.getCurrentUrl()).toBe('http://localhost:3000/#/postings');
   });
 });

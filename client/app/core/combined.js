@@ -755,6 +755,22 @@ FriendRejectService){
 
 angular.module('ppApp')
 .config(function($stateProvider){
+  $stateProvider.state('friends.show', {
+    url: '/:id',
+    templateUrl: 'ui/friends/show/show.html',
+    resolve: { activeFriend : function($stateParams, Restangular){
+      return Restangular.one('friends', $stateParams.id).get();
+    }},
+    controller: 'friendsShowCtrl'
+  })
+})
+.controller('friendsShowCtrl', function(activeFriend, $scope){
+  $scope.activeUser = activeFriend;
+  console.log($scope.activeUser["just_partner?"])
+})
+
+angular.module('ppApp')
+.config(function($stateProvider){
   $stateProvider.state('messages.new', {
     url: '/new',
     templateUrl: 'ui/messages/new/new.html',
@@ -944,22 +960,6 @@ angular.module('ppApp')
 })
 .controller('postingsShowCtrl', function(Posting, $scope){
   $scope.activePosting = Posting;
-})
-
-angular.module('ppApp')
-.config(function($stateProvider){
-  $stateProvider.state('friends.show', {
-    url: '/:id',
-    templateUrl: 'ui/friends/show/show.html',
-    resolve: { activeFriend : function($stateParams, Restangular){
-      return Restangular.one('friends', $stateParams.id).get();
-    }},
-    controller: 'friendsShowCtrl'
-  })
-})
-.controller('friendsShowCtrl', function(activeFriend, $scope){
-  $scope.activeUser = activeFriend;
-  console.log($scope.activeUser["just_partner?"])
 })
 
 angular.module('ppApp')

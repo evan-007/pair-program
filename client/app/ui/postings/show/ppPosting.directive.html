@@ -1,4 +1,4 @@
-<div ng-init='editing = false' ng-cloak>
+<div ng-init='editing = false; messaging = false' ng-cloak>
   <h4 id='title' ng-model='activePosting.title' ng-show='!editing'>{{activePosting.title}}</h4>
   <input name='edit-title' type='text' ng-model='activePosting.title' ng-show='editing' class='form-control' />
   <small>User: {{activePosting.user.username}}</small>
@@ -9,4 +9,21 @@
   <button class='btn btn-default' ng-show='user == activePosting.user.username && !editing' ng-click='editing = true'>Edit</button>
   <button class='btn btn-default' ng-show='(user == activePosting.user.username) && editing' ng-click='editing = false; updatePosting();'>Save changes</button>
   <button class='btn btn-danger' ng-show='(user == activePosting.user.username) && editing' ng-click='deletePosting()'>Delete</button>
+  <button class='btn btn-primary'ng-show='(user !==activePosting.user.username) && !messaging' ng-click='messaging = !messaging'>Message</button>
+  <div ng-show='messaging'>
+    <p>
+      <label>To</label>
+      <input type="text" class='form-control' disabled ng-model='activePosting.user.username'>
+    </p>
+    <p>
+      <label>Subject</label>
+      <input type="text" class='form-control' disabled ng-model='activePosting.title'>
+    </p>
+    <p>
+      <label>Body</label>
+      <textarea ng-model='newMessage.body' cols="30" rows="10" class='form-control'></textarea>
+    </p>
+    <button class='btn btn-primary' ng-click='sendMessage()'>Send</button>
+    <button class='btn btn-danger' ng-click='messaging = !messaging'>Cancel</button>
+  </div>
 </div>
