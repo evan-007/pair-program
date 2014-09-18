@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  include DeviseTokenAuth::Concerns::User
   validates :username, presence: true, uniqueness: true
 	validates :email, presence: true, uniqueness: true
 	has_secure_password
