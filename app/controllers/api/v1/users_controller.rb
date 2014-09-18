@@ -1,13 +1,12 @@
 module Api
   module V1
     class UsersController < ApplicationController
-      before_action :signed_in?, only: [:update, :profile]
 
       def index
         if params[:map].present?
           @users = User.includes(:languages)
-        elsif current_user
-          @users = User.includes(:languages).find(current_user.not_friends)
+        elsif @user
+          @users = User.includes(:languages).find(@user.not_friends)
         end
         render json: @users, root: false, each_serializer: PublicUserSerializer, status: 200
       end

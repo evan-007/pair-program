@@ -92,6 +92,8 @@ Finish about page
 
 Setup CI for jasmine/protractor
 
+Fix rails env settings for devise emailer: prod/test/dev.rb
+
 ##Contributing
 
 Do it!
