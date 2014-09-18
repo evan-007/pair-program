@@ -4,7 +4,7 @@ module Api
       include ActionController::Live
 
       before_action :signed_in?, :get_box, except: [:count]
-      before_action :can_message?, only: [:create]
+      before_action :get_reply, :can_message?, only: [:create]
 
       def index
         @messages = MailFetcher.new(@box, current_user.id).get
@@ -67,9 +67,16 @@ module Api
         end
 
         def can_message?
-          if FriendVerifier.new.check(current_user, params[:message][:receiver_id]) == false
+          if FriendVerifier.new.check(current_user, params[:message][:receiver_id], @reply, params[:posting_id]) == false
             render nothing: true, status: 401
           end
+        end
+
+        def get_reply
+          if params[:reply].blank? or params[:reply] != 'true'
+            params[:reply] = 'false'
+          end
+          @reply = params[:reply]
         end
     end
   end
