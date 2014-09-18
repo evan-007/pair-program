@@ -64,9 +64,6 @@ wtf
 
 change `app_config.yml` to use an env variable for `client/origin`
 
-update client `messages` to reflect using `workflow_state` to track `read?` and
-NOT a db column.
-
 create migration to drop `read?` from messages table
 
 remove old client services / refactor all to restangular
@@ -88,6 +85,8 @@ upgrade to growl notifications v2, change notification css
 Finish contact page
 
 Finish about page
+
+Setup CI for jasmine/protractor
 
 ##Contributing
 

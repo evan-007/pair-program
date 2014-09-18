@@ -24,7 +24,7 @@ angular.module('ppApp')
       $scope.readMessage = function(message) {
         //set client read to true
         //http request takes care of server side update
-        message.read = true;
+        message.workflow_state = 'read';
       }
 
       $scope.reply = function(message){

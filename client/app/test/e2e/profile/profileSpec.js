@@ -15,9 +15,9 @@ describe('User profiles', function(){
     editButton = element(by.buttonText('Edit Profile'));
     saveButton = element(by.buttonText('Save Changes'))
     usernameInput = element(by.model('profile.user.username'));
-    usernameDisplay = element(by.binding('profile.user.username'));
     newName = 'my name is name'
     postingsNav = element(by.name('postings-nav'));
+    usernameDisplay = element(by.css('h2'));
 
     menu.click();
     profileLink.click();
@@ -31,7 +31,6 @@ describe('User profiles', function(){
     postingsNav.click();
     menu.click();
     profileLink.click();
-
-    expect(usernameDisplay.getText()).toEqual(newName+"'s page");
+    expect(usernameDisplay.getText()).toEqual(newName);
   })
 });
