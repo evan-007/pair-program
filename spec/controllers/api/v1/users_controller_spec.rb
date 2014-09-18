@@ -48,8 +48,7 @@ RSpec.describe Api::V1::UsersController, :type => :controller do
 
     context 'with current_user' do
       before do
-        new_auth_header = @user.create_new_auth_token
-				request.headers.merge!(new_auth_header)
+				sign_in(@user)
       end
       context 'with valid params' do
         it 'updates the user' do

@@ -1,8 +1,6 @@
 module SessionHelpers
 	def sign_in(user)
-		visit new_session_path
-		fill_in 'Email', with: user.email
-		fill_in 'Password', with: user.password
-		click_button 'Sign in'
+		new_auth_header = user.create_new_auth_token
+		request.headers.merge!(new_auth_header)
 	end
 end
