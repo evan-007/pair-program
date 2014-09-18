@@ -8,7 +8,7 @@ angular.module('ppApp')
       type: '='
     },
     controller: function($scope, $rootScope, PostMessageService,
-      Restangular, growlNotifications) {
+      Restangular, growlNotifications, $location) {
         // refactor to other directive
       // $scope.currentPage = 1;
       // $scope.totalMessages = $scope.messages.length;
@@ -42,6 +42,12 @@ angular.module('ppApp')
         growlNotifications.add('Message sent to '+message.sender_name, 'success', 2000)
         $scope.newMessage = '';
         $scope.activeMessage = '';
+      }
+      $scope.trash = function(message){
+        var params = {trash: 'true'}
+        Restangular.one('messages', message.id).patch(params).then(function(){
+          $location.path('/messages');
+        })
       }
     }
   }

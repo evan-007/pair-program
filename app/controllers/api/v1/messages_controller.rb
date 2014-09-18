@@ -14,7 +14,11 @@ module Api
       #use update instead of show to handle read? updates on show
       def update
         @message = MailFetcher.new(@box, current_user.id).get_one(params[:id])
-        @message.request!
+        if params[:trash].present?
+          @message.trash!
+        else
+          @message.request!
+        end
         render json: @message, status: 200, serializer: MessageSerializer
       end
 

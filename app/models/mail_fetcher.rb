@@ -6,7 +6,7 @@ class MailFetcher
 
   def get
     if @type == 'inbox'
-      User.find(@user_id).received_messages
+      User.find(@user_id).received_messages.where.not(workflow_state: 'trashed')
     elsif @type == 'sentbox'
       User.find(@user_id).sent_messages
     elsif @type == 'trash'

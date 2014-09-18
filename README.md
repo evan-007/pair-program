@@ -72,6 +72,10 @@ Check inbox/sent message don't contain trashed messages???
 
 Add 'editing user profiles' feature to client / API: add $async validations on username/email
 
+refactor signin helper to be use signin instead of login for consistency
+
+messages: parent state list is refreshed on message send, read, and DELETE
+
 change protractor tests to test for alerts! figure out how to not wait for $timeout
 
 refactor FriendVerifier: new name - MessageVerifier? MessageGuard? break methods into smaller pieces
