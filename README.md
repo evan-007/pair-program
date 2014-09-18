@@ -64,8 +64,6 @@ wtf
 
 change `app_config.yml` to use an env variable for `client/origin`
 
-create migration to drop `read?` from messages table
-
 remove old client services / refactor all to restangular
 
 add unit tests to client
