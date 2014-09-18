@@ -6,16 +6,16 @@ module Api
 
       def index
         if @type == "all"
-          @friends = User.find(current_user.friend_ids)
+          @friends = User.find(@user.friend_ids)
           render json: @friends, status: 200, each_serializer: PublicUserSerializer
         elsif @type == 'requests'
-          @requests = current_user.inverse_friendships.where(workflow_state: 'unapproved')
+          @requests = @user.inverse_friendships.where(workflow_state: 'unapproved')
           render json: @requests, status: 200, each_serializer: UnapprovedFriendshipSerializer
         elsif @type == 'pending'
-          @pending = User.find(current_user.pending_friends)
+          @pending = User.find(@user.pending_friends)
           render json: @pending, status: 200, each_serializer: PublicUserSerializer
         elsif @type == 'rejected'
-          @rejects = current_user.inverse_friendships.where(workflow_state: 'rejected')
+          @rejects = @user.inverse_friendships.where(workflow_state: 'rejected')
           render json: @rejects, status: 200, each_serializer: UnapprovedFriendshipSerializer
         else
           render nothing: true, status: 400
@@ -23,7 +23,7 @@ module Api
       end
 
       def create
-        @friendship = current_user.friendships.build(friendship_params)
+        @friendship = @user.friendships.build(friendship_params)
         if @friendship.save
           render json: @friendship, status: 200, serializer: FriendSerializer
         else
@@ -33,14 +33,14 @@ module Api
 
       def update
         if params[:approve].present?
-          @request = current_user.inverse_friendships.find(params[:id])
+          @request = @user.inverse_friendships.find(params[:id])
           if @request.approve!
             render json: @request, status: 200
           else
             render nothing: true, status: 400
           end
         elsif params[:reject].present?
-          @request = current_user.inverse_friendships.find(params[:id])
+          @request = @user.inverse_friendships.find(params[:id])
           if @request.reject!
             render json: @request, status: 200
           else

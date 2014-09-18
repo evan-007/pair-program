@@ -96,6 +96,9 @@ Fix rails env settings for devise emailer: prod/test/dev.rb
 
 validate signup with angular errors on pw less than 8 char
 
+remove depreciated(?) FriendsController + routes + tests????
+replaced by FriendshipsControllet???
+
 ##Contributing
 
 Do it!

@@ -9,8 +9,7 @@ RSpec.describe Api::V1::FriendshipsController, type: :controller do
   describe 'POST #create' do
     context 'with a current user' do
       before do
-        request.headers["token"] = @user1.token
-        request.headers["username"] = @user1.username
+        sign_in @user1
       end
       context 'with valid params' do
         it 'creates a new friendship' do
@@ -48,8 +47,7 @@ RSpec.describe Api::V1::FriendshipsController, type: :controller do
     end
     context 'with a current user' do
       before do
-        request.headers["token"] = @user1.token
-        request.headers["username"] = @user1.username
+        sign_in @user1
       end
       context 'with params[:type] == "all"' do
         it 'returns an array of friends' do
@@ -122,8 +120,7 @@ RSpec.describe Api::V1::FriendshipsController, type: :controller do
     end
     context 'with a current user' do
       before do
-        request.headers["token"] = @user1.token
-        request.headers["username"] = @user1.username
+        sign_in @user1
       end
       context 'with params[:approve]' do
         it 'approves the friendship request' do
