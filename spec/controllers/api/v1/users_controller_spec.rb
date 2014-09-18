@@ -87,22 +87,22 @@ RSpec.describe Api::V1::UsersController, :type => :controller do
 		context 'with params[:map]' do
 			it 'renders all users' do
 				get :index, { map: 'true' }
-				data = JSON.parse(response.body)
 				expect(response.status).to be 200
-				expect(data.length).to eq 4
+				expect(json.length).to eq 4
 			end
 		end
 		context 'no params' do
 			before do
-				@friendship = create(:friendship, user_id: @user1.id, friend_id: @user2.id)
-				request.headers["token"] = @user1.token
-				request.headers["username"] = @user1.username
+				@user = create(:user)
+				request.headers["username"] = @user.username
+				request.headers["token"] = @user.token
 			end
 	    it 'renders an array of all non-friends' do
 	      #this is a terrible test
 	      get :index
+	      data = JSON.parse(response.body)
 	      expect(response.status).to be 200
-	      expect(json.length).to eq 2
+	      expect(data.length).to eq 2
 	    end
 	  end
 	end
