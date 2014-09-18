@@ -75,7 +75,7 @@ add unit tests to client
 
 Add 'viewing deleted messages' feature to client / API
 
-Add 'editing user profiles' feature to client / API
+Add 'editing user profiles' feature to client / API: add $async validations on username/email
 
 Fix broken CSS / make design not look like trash
 
