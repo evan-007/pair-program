@@ -13,7 +13,7 @@ angular.module('ppApp')
     }
   });
 })
-.controller('profileCtrl', function(ProfileData, Restangular, CookieHandler){
+.controller('profileCtrl', function(ProfileData, Restangular, CookieHandler, $scope){
   this.user = ProfileData;
 
   this.saveChanges = function(user){
@@ -27,6 +27,16 @@ angular.module('ppApp')
       var data = {username: name, token: authtoken, id: userId}
       CookieHandler.set(data)
       console.log(CookieHandler.get())
+    });
+  }
+
+  this.refresh = function(id){
+    // smells
+    // can do without $scope?
+    var id = CookieHandler.get().id
+    var params = {profile: 'true'}
+    Restangular.one('users', id).get(params).then(function(resp){
+      $scope.profile.user = resp;
     })
   }
 });

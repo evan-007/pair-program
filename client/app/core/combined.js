@@ -457,18 +457,30 @@ angular.module('ppApp')
     }
   });
 })
-.controller('profileCtrl', function(ProfileData, Restangular, CookieHandler){
+.controller('profileCtrl', function(ProfileData, Restangular, CookieHandler, $scope){
   this.user = ProfileData;
 
   this.saveChanges = function(user){
     this.user.save().then(function(response){
       // update cookie with new info
       // in case username changes for auth.
+      // smelly, must be better solution
       var name = response.user.username
+      var userId = response.user.id
       var authtoken = response.user.token
-      var data = {username: name, token: authtoken}
+      var data = {username: name, token: authtoken, id: userId}
       CookieHandler.set(data)
       console.log(CookieHandler.get())
+    });
+  }
+
+  this.refresh = function(id){
+    // smells
+    // can do without $scope?
+    var id = CookieHandler.get().id
+    var params = {profile: 'true'}
+    Restangular.one('users', id).get(params).then(function(resp){
+      $scope.profile.user = resp;
     })
   }
 });
