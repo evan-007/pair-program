@@ -85,8 +85,7 @@ RSpec.describe Api::V1::UsersController, :type => :controller do
 		context 'no params' do
 			before do
 				@user = create(:user)
-				new_auth_header = @user.create_new_auth_token
-				request.headers.merge!(new_auth_header)
+				sign_in @user
 			end
 	    it 'renders an array of all non-friends' do
 	      #this is a terrible test
@@ -101,8 +100,7 @@ RSpec.describe Api::V1::UsersController, :type => :controller do
 		context 'as an authorized user' do
 			before do
 				@user = create(:user)
-				new_auth_header = @user.create_new_auth_token
-				request.headers.merge!(new_auth_header)
+				sign_in @user
 				@user2 = create(:user)
 			end
 			context 'with no params' do
