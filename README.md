@@ -85,6 +85,9 @@ Finish setup on non-heroku server (create DB + add env variables)
 
 upgrade to growl notifications v2, change notification css
 
+Finish contact page
+
+Finish about page
 
 ##Contributing
 

@@ -1,1 +1,18 @@
-<p>This is the about view</p>
+<div>
+  <h2>FAQs</h2>
+  <h5>Click on a question, get answers</h5>
+  <hr>
+  <div ng-init='q1 = hide'>
+    <p ng-show='q1 == hide' ng-click='q1 = !hide'>What is this site?</p>
+    <p ng-show='q1 == !hide' ng-click='q1 = hide'>What is this site?</p>
+    <p ng-show='q1 == !hide'>blablabal</p>
+  </div>
+  <div ng-init='q2 = hide'>
+    <p ng-show='q2 == hide' ng-click='q2 = !hide'>How do I use it?</p>
+    <p ng-show='q2 == !hide' ng-click='q2 = hide'>How do I use it?</p>
+    <p ng-show='q2 == !hide'>blablabal</p>
+  </div>
+</div>
+
+<hr>
+<p>Built by <a href="http://evanlloyd.me">evan</a></p>
