@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
   validates :username, presence: true, uniqueness: true
 	validates :email, presence: true, uniqueness: true
-	has_secure_password
+  #password must be 8 char
 
   geocoded_by :location
 
@@ -17,17 +17,19 @@ class User < ActiveRecord::Base
   has_many :postings, dependent: :destroy
 
   after_validation :geocode, if: ->(obj){ obj.location.present? and obj.location_changed? }
-  after_validation :ensure_token
   after_validation :generate_gravatar
+  after_validation :ensure_uid
 
   attr_reader :language_tokens
 
-  def language_tokens=(tokens)
-    self.language_ids = Language.ids_from_tokens(tokens)
+  def ensure_uid
+    if self.uid.blank?
+      self.uid = generate_uid
+    end
   end
 
-  def ensure_token
-    self.token = generate_token
+  def language_tokens=(tokens)
+    self.language_ids = Language.ids_from_tokens(tokens)
   end
 
   #store hashed email in db so don't have to send all user emails
@@ -82,11 +84,10 @@ class User < ActiveRecord::Base
   end
 
   private
-
-    def generate_token
+    def generate_uid
       loop do
-        token = SecureRandom.uuid
-        break token unless User.where(token: token).first
+        uid = SecureRandom.uuid
+        break uid unless User.where(uid: uid).first
       end
     end
 end

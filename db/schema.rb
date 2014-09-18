@@ -78,7 +78,7 @@ ActiveRecord::Schema.define(version: 20140918175830) do
     t.string   "confirm_success_url"
     t.string   "unconfirmed_email"
     t.string   "name"
-    t.string   "nickname"
+    t.string   "username"
     t.string   "image"
     t.text     "about"
     t.string   "gravatar_hash"
