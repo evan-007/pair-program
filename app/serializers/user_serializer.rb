@@ -1,4 +1,4 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :username, :token, :id
+  attributes :username, :id
   has_many :languages
 end
