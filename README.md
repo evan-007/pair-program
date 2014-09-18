@@ -74,6 +74,8 @@ Add 'editing user profiles' feature to client / API: add $async validations on u
 
 change protractor tests to test for alerts! figure out how to not wait for $timeout
 
+refactor FriendVerifier: new name - MessageVerifier? MessageGuard? break methods into smaller pieces
+
 Fix broken CSS / make design not look like trash
 
 Fix broken maps

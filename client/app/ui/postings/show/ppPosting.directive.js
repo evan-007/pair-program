@@ -16,7 +16,7 @@ angular.module('ppApp')
         var id = $stateParams.id;
         var params = {reply: 'true', posting_id: id}
         Restangular.all('messages').post(newMessage, params).then(function(){
-          $location.path('#/postings');
+          $location.path('/postings');
         })
       }
       scope.updatePosting = function(){
