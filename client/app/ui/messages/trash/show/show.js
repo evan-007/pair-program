@@ -11,6 +11,6 @@ angular.module('ppApp')
     templateUrl: 'ui/messages/trash/show/show.html'
   })
 })
-.controller('messagesSentShowCtrl', function(activeMessage, $scope){
+.controller('messagesTrashShowCtrl', function(activeMessage, $scope){
   $scope.activeMessage = activeMessage;
 })
