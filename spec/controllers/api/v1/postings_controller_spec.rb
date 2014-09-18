@@ -5,8 +5,7 @@ RSpec.describe Api::V1::PostingsController, type: :controller do
 
     before do
       @user = create(:user)
-      request.headers["username"] = @user.username
-      request.headers["token"] = @user.token
+      sign_in @user
     end
 
     describe 'GET :index' do
@@ -16,8 +15,7 @@ RSpec.describe Api::V1::PostingsController, type: :controller do
         end
         it 'returns all Postings' do
           get :index
-          data = JSON.parse(response.body)
-          expect(data.length).to eq 5
+          expect(json.length).to eq 5
         end
       end
       context 'with "list" params' do
@@ -28,8 +26,7 @@ RSpec.describe Api::V1::PostingsController, type: :controller do
         end
         it 'returns a user\'s postings' do
           get :index, {list: 'true'}
-          data = JSON.parse(response.body)
-          expect(data.length).to eq 2
+          expect(json.length).to eq 2
         end
       end
     end
@@ -40,9 +37,8 @@ RSpec.describe Api::V1::PostingsController, type: :controller do
       end
       it 'renders 1 Posting' do
         get :show, id: @posting.id
-        data = JSON.parse(response.body)
-        expect(data["title"]).to eq @posting.title
         expect(response.status).to eq 200
+        expect(json["title"]).to eq @posting.title
       end
     end
 
@@ -50,7 +46,6 @@ RSpec.describe Api::V1::PostingsController, type: :controller do
       context 'with valid params' do
         it 'creates a Posting' do
           post :create, posting: attributes_for(:posting)
-          data = JSON.parse(response.body)
           expect(@user.postings.size).to eq 1
           expect(response.status).to eq 201
         end
@@ -85,9 +80,8 @@ RSpec.describe Api::V1::PostingsController, type: :controller do
       context 'with valid params' do
         it 'updates the post' do
           put :update, id: @posting.id, posting: attributes_for(:posting, title: 'new title')
-          data = JSON.parse(response.body)
           expect(response.status).to eq 200
-          expect(data["posting"]["title"]).to eq 'new title'
+          expect(json["posting"]["title"]).to eq 'new title'
         end
       end
       context 'with invalid params' do

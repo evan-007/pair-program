@@ -7,7 +7,7 @@ module Api
 
       def index
         if params[:list].present?
-          @postings = current_user.postings
+          @postings = @user.postings
         else
           @postings = Posting.all
         end
@@ -19,7 +19,7 @@ module Api
       end
 
       def create
-        @posting = current_user.postings.build(posting_params)
+        @posting = @user.postings.build(posting_params)
         if @posting.save
           render json: @posting, root: false, status: 201
         else
@@ -53,7 +53,7 @@ module Api
         end
 
         def get_user_posting
-          @posting = current_user.postings.find(params[:id])
+          @posting = @user.postings.find(params[:id])
         end
     end
   end
