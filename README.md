@@ -68,8 +68,6 @@ remove old client services / refactor all to restangular
 
 add unit tests to client
 
-Check inbox/sent message don't contain trashed messages???
-
 Add 'editing user profiles' feature to client / API: add $async validations on username/email
 
 refactor signin helper to be use signin instead of login for consistency
