@@ -13,4 +13,14 @@ class MailFetcher
       User.find(@user_id).received_messages.where(workflow_state: 'trashed')
     end
   end
+
+  def get_one(id)
+    if @type == 'inbox'
+      User.find(@user_id).received_messages.find(id)
+    elsif @type == 'sentbox'
+      User.find(@user_id).sent_messages.find(id)
+    elsif @type =='trash'
+      User.find(@user_id).received_messages.where(workflow_state: 'trashed').find(id)
+    end
+  end
 end

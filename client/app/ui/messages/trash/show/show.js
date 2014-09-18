@@ -1,14 +1,14 @@
 angular.module('ppApp')
 .config(function($stateProvider){
-  $stateProvider.state('messages.sent.show', {
+  $stateProvider.state('messages.trash.show', {
     url: '/:id',
     resolve: { activeMessage: function(Restangular, $stateParams){
       var id = $stateParams.id;
-      var box = {box: 'sentbox'}
+      var box = {box: 'trash'}
       return Restangular.one('messages', id).put(box);
     }},
-    controller: 'messagesSentShowCtrl',
-    templateUrl: 'ui/messages/sent/show/show.html'
+    controller: 'messagesTrashShowCtrl',
+    templateUrl: 'ui/messages/trash/show/show.html'
   })
 })
 .controller('messagesSentShowCtrl', function(activeMessage, $scope){
