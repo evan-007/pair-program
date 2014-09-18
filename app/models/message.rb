@@ -15,6 +15,9 @@ class Message < ActiveRecord::Base
       event :trash, transitions_to: :trashed
       event :request, transitions_to: :read
     end
-    state :trashed
+    state :trashed do
+      #smell
+      event :request, transitions_to: :trashed
+    end
   end
 end

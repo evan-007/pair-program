@@ -61,11 +61,37 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
         @user2.sent_messages.create(receiver_id: @user.id, title: 'call me', body: 'blablabla')
         @id = @user.received_messages.first.id
       end
-      it 'returns one message' do
-        get :update, id: @id
-        data = JSON.parse(response.body)
-      expect(response.status).to eq 200
-        expect(data["message"]["title"]).to eq 'call me'
+      context 'params[:box] == inbox' do
+        it 'returns one message from inbox' do
+          get :update, id: @id
+          data = JSON.parse(response.body)
+          expect(response.status).to eq 200
+          expect(data["message"]["title"]).to eq 'call me'
+        end
+      end
+      context 'params[:box] == sentbox' do
+        before do
+          @user.sent_messages.create(receiver_id: @user2.id, title: 'hellohowareyou', body: 'blblababalba')
+          @id = @user2.received_messages.last.id
+        end
+        it 'returns one message from sentbox' do
+          get :update, {id: @id, box: 'sentbox'}
+          data = JSON.parse(response.body)
+          expect(response.status).to eq 200
+          expect(data["message"]["title"]).to eq 'hellohowareyou'
+        end
+      end
+      context 'params[:box] == trash' do
+        before do
+          @message = @user.received_messages.last
+          @message.trash!
+        end
+        it 'returns one message from trash' do
+          get :update, {id: @message.id, box: 'trash'}
+          data = JSON.parse(response.body)
+          expect(response.status).to eq 200
+          expect(data["message"]["workflow_state"]).to eq 'trashed'
+        end
       end
       it 'sets the message to read?: true' do
         expect(@user.received_messages.first.read?).to eq false
