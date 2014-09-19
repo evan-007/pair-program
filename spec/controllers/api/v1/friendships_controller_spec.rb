@@ -46,23 +46,20 @@ RSpec.describe Api::V1::FriendshipsController, type: :controller do
     end
     context 'with a current user' do
       before do
-        request.headers["token"] = @user1.token
-        request.headers["username"] = @user1.username
+        sign_in @user1
       end
       context 'with params[:type] == "all"' do
         it 'returns an array of friends' do
           get :index, { type: 'all' }
-          data = JSON.parse(response.body)
           expect(response.status).to eq 200
-          expect(data["friendships"].length).to eq 2
+          expect(json["friendships"].length).to eq 2
         end
       end
       context 'without params[:type]' do
         it 'returns an array of friends' do
           get :index
-          data = JSON.parse(response.body)
           expect(response.status).to eq 200
-          expect(data["friendships"].length).to eq 2
+          expect(json["friendships"].length).to eq 2
         end
       end
       context 'with params[:type] == "requests"' do
@@ -72,10 +69,9 @@ RSpec.describe Api::V1::FriendshipsController, type: :controller do
         end
         it 'returns all friend requests' do
           get :index, type: 'requests'
-          data = JSON.parse(response.body)
           expect(response.status).to eq 200
           #so bad, refactor serializer
-          expect(data["friendships"][0]["user"]["public_user"]["username"]).to eq @user4.username
+          expect(json["friendships"][0]["user"]["public_user"]["username"]).to eq @user4.username
         end
       end
       context 'with params[:type] == "pending"' do
@@ -85,9 +81,8 @@ RSpec.describe Api::V1::FriendshipsController, type: :controller do
         end
         it 'returns pending friendship requests made by the user' do
           get :index, type: 'pending'
-          data = JSON.parse(response.body)
           expect(response.status).to eq 200
-          expect(data["friendships"].length).to eq 1
+          expect(json["friendships"].length).to eq 1
         end
       end
       context 'with params[:type] == "rejected"' do
@@ -98,10 +93,9 @@ RSpec.describe Api::V1::FriendshipsController, type: :controller do
         end
         it 'returns friendship requests the user rejected' do
           get :index, type: 'rejected'
-          data = JSON.parse(response.body)
           expect(response.status).to eq 200
           #sooooo bad
-          expect(data["friendships"][0]["user"]["public_user"]["username"]).to eq @user6.username
+          expect(json["friendships"][0]["user"]["public_user"]["username"]).to eq @user6.username
         end
       end
     end
@@ -120,16 +114,14 @@ RSpec.describe Api::V1::FriendshipsController, type: :controller do
     end
     context 'with a current user' do
       before do
-        request.headers["token"] = @user1.token
-        request.headers["username"] = @user1.username
+        sign_in @user1
       end
       context 'with params[:approve]' do
         it 'approves the friendship request' do
           expect(@friendship.workflow_state).to eq 'unapproved'
           put :update, id: @friendship.id, approve: 'true'
-          data = JSON.parse(response.body)
           expect(response.status).to eq 200
-          expect(data["workflow_state"]).to eq 'approved'
+          expect(json["workflow_state"]).to eq 'approved'
           #reload to get new state
           @friendship.reload
           expect(@friendship.workflow_state).to eq 'approved'
@@ -139,9 +131,8 @@ RSpec.describe Api::V1::FriendshipsController, type: :controller do
         it 'rejects the friend request' do
           expect(@friendship.workflow_state).to eq 'unapproved'
           put :update, id: @friendship.id, reject: 'true'
-          data = JSON.parse(response.body)
           expect(response.status).to eq 200
-          expect(data["workflow_state"]).to eq 'rejected'
+          expect(json["workflow_state"]).to eq 'rejected'
           @friendship.reload
           expect(@friendship.workflow_state).to eq 'rejected'
         end
