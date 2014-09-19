@@ -1,6 +1,7 @@
 angular.module('ppApp', ['ngAnimate', 'ui.bootstrap', 'ngCookies', 'google-maps',
                          'ui.router', 'restangular', 'ngMessages', 'ngTagsInput',
-                         'growlNotifications', 'ngSanitize', 'angular-loading-bar'])
+                         'growlNotifications', 'ngSanitize', 'angular-loading-bar',
+                         'ng-token-auth'])
 .config(function($httpProvider){
   $httpProvider.interceptors.push('SessionInjector');
   $httpProvider.interceptors.push('AuthInterceptor');
