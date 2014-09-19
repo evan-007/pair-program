@@ -9,15 +9,13 @@ RSpec.describe Api::V1::FriendshipsController, type: :controller do
   describe 'POST #create' do
     context 'with a current user' do
       before do
-        request.headers["token"] = @user1.token
-        request.headers["username"] = @user1.username
+        sign_in @user1
       end
       context 'with valid params' do
         it 'creates a new friendship' do
           expect(@user1.friends).to eq []
           post :create, friendship: attributes_for(:friendship, friend_id: @user2.id)
-          data = JSON.parse(response.body)
-          expect(data["friend"]["username"]).to eq @user2.username
+          expect(json["friend"]["username"]).to eq @user2.username
           expect(response.status).to eq 200
         end
       end

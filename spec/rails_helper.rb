@@ -27,9 +27,10 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
 
   #sign_in(user) helper
-  config.include SessionHelpers, type: :feature
+  config.include TestHelpers
 
   config.include FactoryGirl::Syntax::Methods
+
 
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and
