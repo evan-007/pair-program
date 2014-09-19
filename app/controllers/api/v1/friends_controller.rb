@@ -3,7 +3,7 @@ module Api
     class FriendsController < ApplicationController
       before_action :signed_in?
       def index
-        @users = User.find(current_user.friend_ids)
+        @users = User.find(@user.friend_ids)
         render json: @users, status: 200, each_serializer: PublicUserSerializer
       end
 
