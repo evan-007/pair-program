@@ -568,11 +568,9 @@ angular.module('ppApp')
 }).controller('signupCtrl', function($scope, $http, SignUpService, Languages, $q, $auth){
   $scope.submit = function(signup){
     signup.language_ids = [];
-    console.log(signup)
     signup.languages.map(function(language){
       signup.language_ids.push(language.id)
     })
-    console.log(signup)
     $auth.submitRegistration(signup).then(function(resp){
       console.log(resp);
     });
