@@ -12,6 +12,9 @@ class ApplicationController < ActionController::Base
   before_filter :set_cors_headers
   before_filter :cors_preflight
 
+  before_action :configure_permitted_parameters, if: :devise_controller?
+
+
   def set_cors_headers
     headers['Access-Control-Allow-Origin'] = AppConfig.client['origin']
     headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
@@ -30,4 +33,11 @@ class ApplicationController < ActionController::Base
       end
     end
     helper_method :signed_in?
+
+  protected
+
+    def configure_permitted_parameters
+      devise_parameter_sanitizer.for(:sign_up) << [:username, :just_partner?, :about,
+        :mentor?, :student?, language_tokens: [], languages: [], language_ids:[]]
+    end
 end

@@ -5,27 +5,14 @@
       <p>
         <label>Username</label>
         <input type="text" ng-model="signup.username" class='form-control' name='username'
-               require minlength='3' record-availability-validator="/api/v1/validations/username"
-               ng-model-options="{ debounce : { 'default' : 500, blur : 0 } }">
+               require minlength='3'>
       </p>
-      <div ng-messages="signupForm.username.$error">
-        <div ng-message="required">You did not enter a username</div>
-        <div ng-message="minlength">Username must be at least 4 characters</div>
-        <div ng-message="recordLoading">Checking database...</div>
-        <div ng-message="recordAvailable">The username is already in use...</div>
-      </div>
 
       <p>
         <label>Email</label>
-        <input type="email" ng-model="signup.email" class='form-control' name='email'
-        record-availability-validator="/api/v1/validations/email"
-        ng-model-options="{ debounce : { 'default' : 500, blur : 0 } }">
+        <input type="email" ng-model="signup.email" class='form-control' name='email'>
       </p>
-      <div ng-messages='signupForm.email.$error'>
-        <div ng-message='required'>You did not enter an email</div>
-        <div ng-message='email'>Email is not in the correct format</div>
-        <div ng-message='recordAvailable'>Email is in use!</div>
-      </div>
+
       <p>
         <label>Password</label>
         <input type="password" ng-model="signup.password" class='form-control'>
@@ -45,6 +32,8 @@
           <auto-complete source='getLanguages($query)' min-length='1'>
           </auto-complete>
         </tags-input>
+        {{signup.languages}}
+        {{signup.language_tokens}}
       </p>
       <p class='checkbox'>
         <label><input type='checkbox' ng-model="signup['mentor?']" />Interested in mentoring?</label>

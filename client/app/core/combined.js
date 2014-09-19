@@ -538,6 +538,25 @@ angular.module('ppApp')
 
 angular.module('ppApp')
 .config(function($stateProvider){
+  $stateProvider.state('signin', {
+    url: '/signin',
+    templateUrl: 'ui/signin/signin.html',
+    controller: 'signinCtrl as signin'
+  });
+})
+.controller('signinCtrl', function($scope, SessionService, $http){
+  $scope.newSession = function(authInfo){
+    SessionService(authInfo);
+  };
+
+  $scope.useTest = function(){
+    $scope.signin.email = 'test@test.com';
+    $scope.signin.password = 'password';
+  }
+});
+
+angular.module('ppApp')
+.config(function($stateProvider){
   $stateProvider.state('signup', {
     url: '/signup',
     templateUrl: 'ui/signup/signup.html',
@@ -546,9 +565,17 @@ angular.module('ppApp')
       return LanguageService.set();
     }}
   });
-}).controller('signupCtrl', function($scope, $http, SignUpService, Languages, $q){
+}).controller('signupCtrl', function($scope, $http, SignUpService, Languages, $q, $auth){
   $scope.submit = function(signup){
-    SignUpService(signup);
+    signup.language_ids = [];
+    console.log(signup)
+    signup.languages.map(function(language){
+      signup.language_ids.push(language.id)
+    })
+    console.log(signup)
+    $auth.submitRegistration(signup).then(function(resp){
+      console.log(resp);
+    });
   };
   $scope.languages = Languages;
 
@@ -598,25 +625,6 @@ angular.module('ppApp')
         return $http.get(apiUrl, {params: {attr: value}})
       }
     }
-  }
-});
-
-angular.module('ppApp')
-.config(function($stateProvider){
-  $stateProvider.state('signin', {
-    url: '/signin',
-    templateUrl: 'ui/signin/signin.html',
-    controller: 'signinCtrl as signin'
-  });
-})
-.controller('signinCtrl', function($scope, SessionService, $http){
-  $scope.newSession = function(authInfo){
-    SessionService(authInfo);
-  };
-
-  $scope.useTest = function(){
-    $scope.signin.email = 'test@test.com';
-    $scope.signin.password = 'password';
   }
 });
 

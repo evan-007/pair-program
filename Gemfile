@@ -14,7 +14,7 @@ gem 'spring',        group: :development
 # gem 'bcrypt', '~> 3.1.7'
 
 #token auth
-gem 'devise_token_auth'
+gem 'devise_token_auth', '0.1.27.beta3'
 gem 'devise'
 gem 'omniauth'
 

@@ -1,10 +1,11 @@
 Rails.application.routes.draw do
-  mount_devise_token_auth_for 'User', at: '/auth'
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
 
   namespace :api do
     namespace :v1 do
+      mount_devise_token_auth_for 'User', at: '/auth'
+
       resources :users, only: [:index, :create, :update, :show]
 
       get '/users/validator', to: 'users#validator'

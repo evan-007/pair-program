@@ -8,9 +8,17 @@ angular.module('ppApp')
       return LanguageService.set();
     }}
   });
-}).controller('signupCtrl', function($scope, $http, SignUpService, Languages, $q){
+}).controller('signupCtrl', function($scope, $http, SignUpService, Languages, $q, $auth){
   $scope.submit = function(signup){
-    SignUpService(signup);
+    signup.language_ids = [];
+    console.log(signup)
+    signup.languages.map(function(language){
+      signup.language_ids.push(language.id)
+    })
+    console.log(signup)
+    $auth.submitRegistration(signup).then(function(resp){
+      console.log(resp);
+    });
   };
   $scope.languages = Languages;
 
