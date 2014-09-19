@@ -82,6 +82,8 @@ Fix broken CSS / make design not look like trash
 
 Fix broken maps
 
+edit Posting view needs cancel button
+
 Finish setup on non-heroku server (create DB + add env variables)
 
 upgrade to growl notifications v2, change notification css
