@@ -1,5 +1,5 @@
 angular.module('ppApp', ['ngAnimate', 'ui.bootstrap', 'ngCookies', 'google-maps',
-                         'ui.router', 'restangular', 'ngMessages', 'ngTagsInput',
+                         'ui.router', 'restangular',  'ngTagsInput',
                          'growlNotifications', 'ngSanitize', 'angular-loading-bar',
                          'ng-token-auth'])
 .config(function($httpProvider){
@@ -15,3 +15,8 @@ angular.module('ppApp', ['ngAnimate', 'ui.bootstrap', 'ngCookies', 'google-maps'
 .config(function(cfpLoadingBarProvider) {
   cfpLoadingBarProvider.includeSpinner = false;
 })
+.config(function($authProvider) {
+  $authProvider.configure({
+      apiUrl: '/api/v1'
+  });
+});

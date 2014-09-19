@@ -1,6 +1,7 @@
 angular.module('ppApp', ['ngAnimate', 'ui.bootstrap', 'ngCookies', 'google-maps',
-                         'ui.router', 'restangular', 'ngMessages', 'ngTagsInput',
-                         'growlNotifications', 'ngSanitize', 'angular-loading-bar'])
+                         'ui.router', 'restangular',  'ngTagsInput',
+                         'growlNotifications', 'ngSanitize', 'angular-loading-bar',
+                         'ng-token-auth'])
 .config(function($httpProvider){
   $httpProvider.interceptors.push('SessionInjector');
   $httpProvider.interceptors.push('AuthInterceptor');
@@ -14,6 +15,11 @@ angular.module('ppApp', ['ngAnimate', 'ui.bootstrap', 'ngCookies', 'google-maps'
 .config(function(cfpLoadingBarProvider) {
   cfpLoadingBarProvider.includeSpinner = false;
 })
+.config(function($authProvider) {
+  $authProvider.configure({
+      apiUrl: '/api/v1'
+  });
+});
 
 angular.module('ppApp')
 .factory('AuthInterceptor', function($location, $q){
@@ -532,25 +538,6 @@ angular.module('ppApp')
 
 angular.module('ppApp')
 .config(function($stateProvider){
-  $stateProvider.state('signin', {
-    url: '/signin',
-    templateUrl: 'ui/signin/signin.html',
-    controller: 'signinCtrl as signin'
-  });
-})
-.controller('signinCtrl', function($scope, SessionService, $http){
-  $scope.newSession = function(authInfo){
-    SessionService(authInfo);
-  };
-
-  $scope.useTest = function(){
-    $scope.signin.email = 'test@test.com';
-    $scope.signin.password = 'password';
-  }
-});
-
-angular.module('ppApp')
-.config(function($stateProvider){
   $stateProvider.state('signup', {
     url: '/signup',
     templateUrl: 'ui/signup/signup.html',
@@ -611,6 +598,25 @@ angular.module('ppApp')
         return $http.get(apiUrl, {params: {attr: value}})
       }
     }
+  }
+});
+
+angular.module('ppApp')
+.config(function($stateProvider){
+  $stateProvider.state('signin', {
+    url: '/signin',
+    templateUrl: 'ui/signin/signin.html',
+    controller: 'signinCtrl as signin'
+  });
+})
+.controller('signinCtrl', function($scope, SessionService, $http){
+  $scope.newSession = function(authInfo){
+    SessionService(authInfo);
+  };
+
+  $scope.useTest = function(){
+    $scope.signin.email = 'test@test.com';
+    $scope.signin.password = 'password';
   }
 });
 
