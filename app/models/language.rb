@@ -6,7 +6,7 @@ class Language < ActiveRecord::Base
 
   def self.tokens(query)
     languages = self.where("name ILIKE ?", "%#{query}%")
-    languages << {id: "<<<#{query}>>>", name: "New:\"#{query}\"", text: "New:\"#{query}\"" }
+    # languages << {id: "<<<#{query}>>>", name: "New:\"#{query}\"", text: "New:\"#{query}\"" }
   end
 
   def self.ids_from_tokens(tokens)
