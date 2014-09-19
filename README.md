@@ -94,6 +94,8 @@ Finish about page
 
 Setup CI for jasmine/protractor
 
+Firebase for realtime updates on message/friend stuff
+
 ##Contributing
 
 Do it!
