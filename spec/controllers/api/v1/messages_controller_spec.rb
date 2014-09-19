@@ -94,6 +94,7 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
       it 'sets the message to read?: true' do
         expect(@user1.received_messages.first.read?).to eq false
         get :update, id: @id
+        sleep 2
         expect(@user1.received_messages.first.read?).to eq true
       end
     end
@@ -102,7 +103,7 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
     context 'with current user' do
       before do
         @user1 = create(:user)
-         @user1
+        sign_in @user1
       end
       context 'two users are friends' do
         before do
@@ -114,7 +115,6 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
           post :create, message: attributes_for(:message, receiver_id: @user2.id)
           data = JSON.parse(response.body)
           expect(response.status).to eq 200
-          puts response
           expect(data["message"]["receiver_name"]).to eq @user2.username
         end
       end
