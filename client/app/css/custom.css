@@ -58,3 +58,10 @@ body {
 .text-super-muted {
   color: #e5e5e5;
 }
+
+.growl-notifications {
+  position: fixed;
+  top: 50px;
+  right: 50%;
+  z-index: 1000;
+}
