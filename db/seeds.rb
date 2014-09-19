@@ -11,8 +11,10 @@ languages.each do |l|
   Language.create(name: l)
 end
 
-User.create(username: 'test', email: 'test@test.com', password: 'password',
+@user = User.create(username: 'test', email: 'test@test.com', password: 'password',
   password_confirmation: 'password', languages: [Language.first, Language.last])
+# skip email validations on test user
+@user.confirm!
 
 # no location to speed up seeding
 15.times do |n|
