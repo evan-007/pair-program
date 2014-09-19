@@ -17,6 +17,6 @@ angular.module('ppApp', ['ngAnimate', 'ui.bootstrap', 'ngCookies', 'google-maps'
 })
 .config(function($authProvider) {
   $authProvider.configure({
-      apiUrl: '/api/v1'
+      apiUrl: 'http://localhost:3000'
   });
 });

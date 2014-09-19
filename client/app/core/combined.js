@@ -17,7 +17,7 @@ angular.module('ppApp', ['ngAnimate', 'ui.bootstrap', 'ngCookies', 'google-maps'
 })
 .config(function($authProvider) {
   $authProvider.configure({
-      apiUrl: '/api/v1'
+      apiUrl: 'http://localhost:3000'
   });
 });
 
@@ -407,49 +407,6 @@ angular.module('ppApp')
 
 angular.module('ppApp')
 .config(function($stateProvider){
-  $stateProvider.state('postings', {
-    url: '/postings',
-    templateUrl: 'ui/postings/postings.html',
-    controller: 'postingsCtrl',
-    resolve: { Postings: function(Restangular){
-      return Restangular.all('postings').getList();
-    }}
-  })
-})
-.controller('postingsCtrl', function($scope, Postings, Restangular, $rootScope){
-  $scope.postings = Postings;
-  $scope.totalPostings = Postings.length;
-  $scope.currentPage = 1;
-  $scope.itemsPerPage = 10;
-
-  $rootScope.$on('updatePostings', function(){
-    Restangular.all('postings').getList().then(function(resp){
-      $scope.postings = resp;
-    })
-  })
-
-  $scope.$watchGroup(['currentPage','postings'], function(newValue, old){
-    var start = ($scope.currentPage - 1) * $scope.itemsPerPage
-    var end = start + $scope.itemsPerPage
-    $scope.activePostings = $scope.postings.slice(start, end);
-  });
-
-  $scope.allPostings = function(){
-    Restangular.all('postings').getList().then(function(resp){
-      $scope.postings = resp;
-    })
-  }
-
-  $scope.myPostings = function(){
-    var params = {list: 'true'}
-    Restangular.all('postings').getList(params).then(function(response){
-      $scope.postings = response;
-    })
-  }
-})
-
-angular.module('ppApp')
-.config(function($stateProvider){
   $stateProvider.state('profile', {
     url: '/profile',
     templateUrl: 'ui/profile/profile.html',
@@ -627,6 +584,49 @@ angular.module('ppApp')
     }
   }
 });
+
+angular.module('ppApp')
+.config(function($stateProvider){
+  $stateProvider.state('postings', {
+    url: '/postings',
+    templateUrl: 'ui/postings/postings.html',
+    controller: 'postingsCtrl',
+    resolve: { Postings: function(Restangular){
+      return Restangular.all('postings').getList();
+    }}
+  })
+})
+.controller('postingsCtrl', function($scope, Postings, Restangular, $rootScope){
+  $scope.postings = Postings;
+  $scope.totalPostings = Postings.length;
+  $scope.currentPage = 1;
+  $scope.itemsPerPage = 10;
+
+  $rootScope.$on('updatePostings', function(){
+    Restangular.all('postings').getList().then(function(resp){
+      $scope.postings = resp;
+    })
+  })
+
+  $scope.$watchGroup(['currentPage','postings'], function(newValue, old){
+    var start = ($scope.currentPage - 1) * $scope.itemsPerPage
+    var end = start + $scope.itemsPerPage
+    $scope.activePostings = $scope.postings.slice(start, end);
+  });
+
+  $scope.allPostings = function(){
+    Restangular.all('postings').getList().then(function(resp){
+      $scope.postings = resp;
+    })
+  }
+
+  $scope.myPostings = function(){
+    var params = {list: 'true'}
+    Restangular.all('postings').getList(params).then(function(response){
+      $scope.postings = response;
+    })
+  }
+})
 
 angular.module('ppApp').config(function($stateProvider){
   $stateProvider.state('friends.pending', {
