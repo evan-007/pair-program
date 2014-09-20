@@ -84,6 +84,8 @@ Fix broken maps
 
 edit Posting view needs cancel button
 
+update cors to use devise_token_auth approach
+
 Finish setup on non-heroku server (create DB + add env variables)
 
 upgrade to growl notifications v2, change notification css
