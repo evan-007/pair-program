@@ -631,7 +631,7 @@ angular.module('ppApp')
             setAsLoading(false);
             setAsAvailable(false);
           });
-
+        console.log(value)
         return value;
       })
     }

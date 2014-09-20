@@ -6,8 +6,9 @@
         <label>Username</label>
         <input type="text" ng-model="signup.username" class='form-control' name='username'
                require minlength='3' record-availability-validator="/api/v1/validations/username"
-               ng-model-options="{ debounce : { 'default' : 1500, blur : 0 } }">
+               ng-model-options="{ debounce : { 'default' : 500, blur : 0 } }">
       </p>
+      {{signup}}
       <div ng-messages="signupForm.username.$error">
         <div ng-message="required">You did not enter a username</div>
         <div ng-message="minlength">Username must be at least 4 characters</div>
@@ -65,6 +66,5 @@
       </p>
       <p id='signupForm-invalid' ng-show='signupForm.$invalid'>Opps, please check the form again</p>
     </form>
-    {{signup}}
   </div>
 </div>
