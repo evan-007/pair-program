@@ -608,7 +608,7 @@ angular.module('ppApp')
     link : function(scope, element, attrs, ngModel) {
       var apiUrl = attrs.recordAvailabilityValidator;
       ngModel.$asyncValidators.recordAvailable = function(value) {
-        return $http.get(apiUrl, {params: {username: value}})
+        return $http.get(apiUrl, {params: {attr: value}})
       }
     }
   }
