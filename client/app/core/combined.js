@@ -607,33 +607,9 @@ angular.module('ppApp')
     require : 'ngModel',
     link : function(scope, element, attrs, ngModel) {
       var apiUrl = attrs.recordAvailabilityValidator;
-
-      function setAsLoading(bool) {
-        ngModel.$setValidity('recordLoading', !bool);
+      ngModel.$asyncValidators.recordAvailable = function(value) {
+        return $http.get(apiUrl, {params: {username: value}})
       }
-
-      function setAsAvailable(bool) {
-        ngModel.$setValidity('recordAvailable', bool);
-      }
-
-      ngModel.$parsers.push(function(value) {
-        if(!value || value.length == 0) return;
-
-        setAsLoading(true);
-        setAsAvailable(false);
-
-        $http.get(apiUrl, { params: {attr : value }} )
-          .success(function(response) {
-            setAsLoading(false);
-            setAsAvailable(true);
-          })
-          .error(function() {
-            setAsLoading(false);
-            setAsAvailable(false);
-          });
-        console.log(value)
-        return value;
-      })
     }
   }
 });
@@ -866,25 +842,7 @@ angular.module('ppApp')
     },
     controller: function($scope, $rootScope, PostMessageService,
       Restangular, growlNotifications, $location) {
-        // refactor to other directive
-      // $scope.currentPage = 1;
-      // $scope.totalMessages = $scope.messages.length;
-      // $scope.itemsPerPage = 10;
-      // $scope.$watch('currentPage', function(newValue, oldValue){
-      //   var start = (($scope.currentPage -1) * $scope.itemsPerPage)
-      //   var end = start + $scope.itemsPerPage
-      //   $scope.showMessages = $scope.messages.slice(start, end);
-      // });
 
-      $scope.getMessage = function(id, type, message) {
-        message.read = true;
-        $scope.activeMessage = '';
-        $scope.newMessage = '';
-        var box = {box: type}
-        Restangular.one('messages', id).patch(box).then(function(response){
-          $scope.activeMessage = response.message;
-        })
-      }
       $scope.reply = function(message){
         $scope.newMessage = message;
         $scope.activeMessage = '';

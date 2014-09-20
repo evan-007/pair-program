@@ -80,7 +80,7 @@ refactor FriendVerifier: new name - MessageVerifier? MessageGuard? break methods
 
 Fix broken CSS / make design not look like trash
 
-Fix broken maps
+Fix broken maps - wait for 1.3 support
 
 edit Posting view needs cancel button
 
