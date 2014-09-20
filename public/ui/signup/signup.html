@@ -8,6 +8,7 @@
                require minlength='3' record-availability-validator="/api/v1/validations/username"
                ng-model-options="{ debounce : { 'default' : 500, blur : 0 } }">
       </p>
+      {{signup}}
       <div ng-messages="signupForm.username.$error">
         <div ng-message="required">You did not enter a username</div>
         <div ng-message="minlength">Username must be at least 4 characters</div>
