@@ -63,6 +63,10 @@ wtf
 ##To do
 
 change `app_config.yml` to use an env variable for `client/origin`
+update cors to use devise_token_auth approach
+
+Protractor refactor signin helper to be use signin instead of login for consistency
+change protractor tests to test for alerts! figure out how to not wait for $timeout
 
 remove old client services / refactor all to restangular
  -- put restangular in services! stop using it bare in resolves
@@ -71,13 +75,10 @@ add unit tests to client
 
 Add 'editing user profiles' feature to client / API: add $async validations on username/email
 
-refactor signin helper to be use signin instead of login for consistency
-
 messages: parent state list is refreshed on message send, read, and DELETE
  -- requires refactoring inbox directive to not be in a directive?
  -- listener won't update scope that's passed into directive ?
 
-change protractor tests to test for alerts! figure out how to not wait for $timeout
 
 refactor FriendVerifier: new name - MessageVerifier? MessageGuard? break methods into smaller pieces
 
@@ -85,15 +86,11 @@ Fix broken CSS / make design not look like trash
 
 Fix broken maps - wait for 1.3 support
 
-update cors to use devise_token_auth approach
-
 Finish setup on non-heroku server (create DB + add env variables)
-
-upgrade to growl notifications v2, change notification css
 
 Finish contact page
 
-Finish about page
+Finish about/Faq page
 
 Setup CI for jasmine/protractor
 
