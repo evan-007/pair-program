@@ -65,6 +65,7 @@ wtf
 change `app_config.yml` to use an env variable for `client/origin`
 
 remove old client services / refactor all to restangular
+ -- put restangular in services! stop using it bare in resolves
 
 add unit tests to client
 
@@ -73,6 +74,8 @@ Add 'editing user profiles' feature to client / API: add $async validations on u
 refactor signin helper to be use signin instead of login for consistency
 
 messages: parent state list is refreshed on message send, read, and DELETE
+ -- requires refactoring inbox directive to not be in a directive?
+ -- listener won't update scope that's passed into directive ?
 
 change protractor tests to test for alerts! figure out how to not wait for $timeout
 

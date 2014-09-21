@@ -26,6 +26,12 @@ angular.module('ppApp')
         })
       }
 
+      scope.refreshPosting = function(){
+        Restangular.one('postings', $stateParams.id).get().then(function(resp){
+          scope.activePosting = resp;
+        })
+      }
+
       scope.deletePosting = function(){
         scope.activePosting.remove().then(function(){
           $rootScope.$broadcast('updatePostings');

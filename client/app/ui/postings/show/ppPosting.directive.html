@@ -8,6 +8,7 @@
 
   <button class='btn btn-default' ng-show='user == activePosting.user.username && !editing' ng-click='editing = true'>Edit</button>
   <button class='btn btn-default' ng-show='(user == activePosting.user.username) && editing' ng-click='editing = false; updatePosting();'>Save changes</button>
+  <button class='btn btn-warning' ng-show='(user == activePosting.user.username) && editing' ng-click='editing = false; refreshPosting()'>Cancel</button>
   <button class='btn btn-danger' ng-show='(user == activePosting.user.username) && editing' ng-click='deletePosting()'>Delete</button>
   <button class='btn btn-primary'ng-show='(user !==activePosting.user.username) && !messaging' ng-click='messaging = !messaging'>Message</button>
   <div ng-show='messaging'>
