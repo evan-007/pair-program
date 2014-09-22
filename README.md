@@ -82,6 +82,8 @@ messages: parent state list is refreshed on message send, read, and DELETE
 
 refactor FriendVerifier: new name - MessageVerifier? MessageGuard? break methods into smaller pieces
 
+non-friends can reply to Postings messages!!!!
+
 Fix broken CSS / make design not look like trash
 
 Fix broken maps - wait for 1.3 support
@@ -90,7 +92,7 @@ Finish setup on non-heroku server (create DB + add env variables)
 
 Finish contact page
 
-Finish about/Faq page
+Finish about/Faq page - refactor faqs into directive
 
 Setup CI for jasmine/protractor
 
