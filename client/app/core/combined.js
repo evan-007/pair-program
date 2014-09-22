@@ -146,6 +146,18 @@ angular.module('ppApp').config(function($stateProvider){
   });
 })
 
+angular.module('ppApp')
+.directive('ppFaq', function(){
+  return {
+    restrict: 'E',
+    templateUrl: './ui/about/faq.html',
+    scope: {
+      question: '='
+    },
+    transclude: true
+  }
+})
+
 angular.module('ppApp').config(function($stateProvider){
   $stateProvider.state('contact', {
     url: '/contact',

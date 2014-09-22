@@ -1,0 +1,11 @@
+<div ng-init='answer = hide'>
+  <p ng-show='answer == hide' ng-click="answer = !hide" class='faq-question'>
+    {{question}}
+  </p>
+  <p ng-show='answer == !hide' ng-click="answer = hide" class='faq-question'>
+    {{question}}
+  </p>
+  <div ng-show='answer == !hide' class='faq-answer'>
+    <ng-transclude></ng-transclude>
+  </div>
+</div>

@@ -2,45 +2,43 @@
   <h2>FAQs</h2>
   <h5>Click on a question, get answers</h5>
   <hr>
-  <div ng-init='q1 = hide'>
-    <p ng-show='q1 == hide' ng-click='q1 = !hide'>What is this site?</p>
-    <p ng-show='q1 == !hide' ng-click='q1 = hide'>What is this site?</p>
-    <p ng-show='q1 == !hide'>It's a place to find pair programming partners. Want
+
+  <pp-faq question="'What is this site?'">
+    <p>It's a place to find pair programming partners. Want
     to build a project with someone else? Want to pay it forward and help someone out?
     Need a mentor? We help you find like-minded developers.</p>
-  </div>
-  <div ng-init='q2 = hide'>
-    <p ng-show='q2 == hide' ng-click='q2 = !hide'>How do I use it?</p>
-    <p ng-show='q2 == !hide' ng-click='q2 = hide'>How do I use it?</p>
-    <div ng-show='q2 == !hide'>
-      <p><a ui-sref='signup'>Signup</a> for an account
+  </pp-faq>
+
+  <pp-faq question="'How do I use it?'">
+    <p>
+      <a ui-sref='signup'>Signup</a> for an account
       and you'll be able to submit <a ui-sref='postings'>Posts</a> which are
       mini-proposals telling people what you want to work on. Anyone who's interested
-      can message you directly and then you can organize from there.</p>
-
-      <p>You can also look around in the <a href="">Friend Finder</a> for people
+      can message you directly and then you can organize from there.
+    </p>
+    <p>
+      You can also look around in the <a href="">Friend Finder</a> for people
       who work on the same kind of stuff. You'll have to send them a friend request,
-      but after you'll be able to message each other and figure out what you wanna work on.</p>
-    </div>
-  </div>
+      but after you'll be able to message each other and figure out what you wanna work on.
+    </p>
+  </pp-faq>
 
-  <div ng-init='q3 = hide'>
-    <p ng-show='q3 == hide' ng-click='q3 = !hide'>What about my privacy?!?!?</p>
-    <p ng-show='q3 == !hide' ng-click='q3 = hide'>What about my privacy?!?!?</p>
-    <div ng-show='q3 ==!hide'>
-      <p>You need to submit your email to signup, but other users, even friends,
-        will never have access to any of your personal information
-      </p>
-      <p>If you want to put your website/github/email address in your profile or posting,
-        go ahead! Just be aware that all registered members will be able to see it.
-      </p>
-    </div>
-  </div>
-  <div ng-init='q4 = hide'>
-    <p ng-show='q4 == hide' ng-click='q4 = !hide'>You're missing a language from the list!</p>
-    <p ng-show='q4 == !hide' ng-click='q4 = hide'>You're missing a language from the list!</p>
-    <p ng-show='q4 == !hide'>Sorry! Contact us and we'll add it.</p>
-  </div>
+  <pp-faq question="'What about my privacy?'">
+    <p>
+      You need to submit your email to signup, but other users, even friends,
+      will never have access to any of your personal information.
+    </p>
+    <p>
+      If you want to put your website/github/email address in your profile or posting,
+      go ahead! Just be aware that all registered members will be able to see it.
+    </p>
+  </pp-faq>
+
+  <pp-faq question="'You\'re missing a language from the list!'">
+    <p>
+      Sorry! Contact us and we'll add it.
+    </p>
+  </pp-faq>
 </div>
 
 <hr>
