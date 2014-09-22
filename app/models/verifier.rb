@@ -19,7 +19,9 @@ class Verifier
     if reply == 'false'
       self.friend(id1, id2)
     elsif reply == 'true'
-      self.active_post(id1, posting_id)
+      ## what happens when id1 created the post
+      ## and is replying to id2's message?
+      self.active_post(id2, posting_id)
     else
       false
     end

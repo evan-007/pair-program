@@ -35,7 +35,7 @@ RSpec.describe Verifier, type: :model do
       @user = create(:user)
       @user2 = create(:user)
       @friendship = create(:friendship, friend_id: @user2.id, user_id: @user.id)
-      @posting = @user.postings.create(title: 'this is the title', body: 'here is the body')
+      @posting = @user2.postings.create(title: 'this is the title', body: 'here is the body')
     end
     it 'calls #friend when reply == false' do
       expect(Verifier.new.message_guard(@user.id, @user2.id, 'false')).to eq true
