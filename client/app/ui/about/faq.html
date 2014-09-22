@@ -1,9 +1,10 @@
 <div ng-init='answer = hide'>
   <p ng-show='answer == hide' ng-click="answer = !hide" class='faq-question'>
-    {{question}}
+    {{question}}    <i class='fa fa-arrow-circle-o-down'></i>
   </p>
+
   <p ng-show='answer == !hide' ng-click="answer = hide" class='faq-question'>
-    {{question}}
+    {{question}}    <i class='fa fa-arrow-circle-o-up'></i>
   </p>
   <div ng-show='answer == !hide' class='faq-answer'>
     <ng-transclude></ng-transclude>
