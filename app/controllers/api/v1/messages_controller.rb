@@ -71,7 +71,7 @@ module Api
         end
 
         def can_message?
-          if MessageGuard.new.check(current_user, params[:message][:receiver_id], @reply, params[:posting_id]) == false
+          if Verifier.new.message_guard(current_user, params[:message][:receiver_id], @reply, params[:posting_id]) == false
             render nothing: true, status: 401
           end
         end
