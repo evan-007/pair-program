@@ -55,11 +55,6 @@ If deploy does not show `index.html` and returns `status 404`, set
 
 Don't forget `heroku run rake db:migrate db:seed` after deploying.
 
-##Issues
-Angular-google-maps and the $async validations need different versions of angular?
-wtf
-
-
 ##To do
 
 change `app_config.yml` to use an env variable for `client/origin`
@@ -91,8 +86,6 @@ Fix broken maps - wait for 1.3 support
 Finish setup on non-heroku server (create DB + add env variables)
 
 Finish contact page
-
-Finish about/Faq page - refactor faqs into directive
 
 Setup CI for jasmine/protractor
 
