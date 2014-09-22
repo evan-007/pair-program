@@ -74,8 +74,7 @@ messages: parent state list is refreshed on message send, read, and DELETE
  -- requires refactoring inbox directive to not be in a directive?
  -- listener won't update scope that's passed into directive ?
 
-
-refactor FriendVerifier: new name - MessageVerifier? MessageGuard? break methods into smaller pieces
+refactor MessageGuard: new name - MessageVerifier? MessageGuard? break methods into smaller pieces
 
 non-friends can reply to Postings messages!!!!
 

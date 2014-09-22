@@ -1,4 +1,4 @@
-class FriendVerifier
+class MessageGuard
 
   def check(id1, id2, reply, *id)
     if reply == 'false'
