@@ -1,9 +1,9 @@
 body {
-  background-color: #E5F2FF;
+  /* background-color: #E5F2FF; */
 }
 
 .well {
-  background-color: #FFFFFF;
+  /* background-color: #FFFFFF; */
 }
 
 .animate-view {
@@ -78,4 +78,13 @@ body {
 
 .huge {
   font-size: 3em;
+}
+
+.home-white {
+  background-color: #FFF;
+}
+
+.home-blue {
+  color: #314D63;
+  background-color: #fefefe;
 }

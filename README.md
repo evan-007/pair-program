@@ -73,6 +73,8 @@ messages: parent state list is refreshed on message send, read, and DELETE
  -- listener won't update scope that's passed into directive ?
 
 Fix broken CSS / make design not look like trash
+ -- uses bootstrap theme: `http://bootswatch.com/spacelab/`
+ -- theme is committed to git and bootstrap is NOT a bower dependency
 
 Fix broken maps. Using `develop` branch of angular-google-maps. See weird `'angular-google-maps'.ng()` in `app.js`
 Working on commit `e38208e60c0415d758`. So unstable. Careful until official 1.3 support role out.
