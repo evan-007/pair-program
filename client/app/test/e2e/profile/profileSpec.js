@@ -14,23 +14,23 @@ describe('User profiles', function(){
     profileLink = element(by.id('profile-link'));
     editButton = element(by.buttonText('Edit Profile'));
     saveButton = element(by.buttonText('Save Changes'))
-    usernameInput = element(by.model('profile.user.username'));
-    newName = 'my name is name'
+    useraboutInput = element(by.model('profile.user.about'));
+    newAbout = 'I just wanna learn ruby'
     postingsNav = element(by.name('postings-nav'));
-    usernameDisplay = element(by.css('h2'));
+    userAboutDisplay = element(by.css('p'));
 
     menu.click();
     profileLink.click();
     editButton.click();
-    expect(usernameInput.isDisplayed()).toBeTruthy();
-    usernameInput.clear();
-    usernameInput.sendKeys(newName);
+    expect(useraboutInput.isDisplayed()).toBeTruthy();
+    useraboutInput.clear();
+    useraboutInput.sendKeys(newAbout);
 
     //save and reload profile to verify new name
     saveButton.click();
     postingsNav.click();
     menu.click();
     profileLink.click();
-    expect(usernameDisplay.getText()).toEqual(newName);
+    expect(userAboutDisplay.getText()).toEqual(newAbout);
   })
 });
