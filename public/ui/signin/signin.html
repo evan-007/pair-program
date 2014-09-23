@@ -1,18 +1,20 @@
-<div class='row'>
-  <div class='col-md-5'>
-    <p><button ng-click='useTest()' class='btn btn-warning'>Use test account</button></p>
-    <form nonvalidate ng-submit="newSession(signin)">
-      <p>
-        <label>Email</label>
-        <input type="email" ng-model="signin.email" class='form-control'>
-      </p>
-      <p>
-        <label>Password</label>
-        <input type="password" ng-model="signin.password" class='form-control'>
-      </p>
-      <p>
-        <input type="submit" name='SigninButton' value="Sign in" class='btn btn-primary'>
-      </p>
-    </form>
+<div class='container'>
+  <div class='row'>
+    <div class='col-md-5'>
+      <p><button ng-click='useTest()' class='btn btn-warning'>Use test account</button></p>
+      <form nonvalidate ng-submit="newSession(signin)">
+        <p>
+          <label>Email</label>
+          <input type="email" ng-model="signin.email" class='form-control'>
+        </p>
+        <p>
+          <label>Password</label>
+          <input type="password" ng-model="signin.password" class='form-control'>
+        </p>
+        <p>
+          <input type="submit" name='SigninButton' value="Sign in" class='btn btn-primary'>
+        </p>
+      </form>
+    </div>
   </div>
 </div>
