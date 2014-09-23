@@ -5,17 +5,15 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
     context 'with current user' do
       before do
         @user = create(:user)
-        request.headers["token"] = @user.token
-        request.headers["username"] = @user.username
+        sign_in @user
       end
       context 'inbox params' do
         it 'returns the users inbox' do
           @user2 = create(:user)
           @user2.sent_messages.create(receiver_id: @user.id, title: 'call me', body: 'blablabla')
           get :index, {box: 'inbox'}
-          data = JSON.parse(response.body)
           expect(response.status).to eq 200
-          expect(data[0]["title"]).to eq 'call me'
+          expect(json[0]["title"]).to eq 'call me'
         end
       end
       context 'no params' do
@@ -23,9 +21,8 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
           @user2 = create(:user)
           @user2.sent_messages.create(receiver_id: @user.id, title: 'call me', body: 'blablabla')
           get :index
-          data = JSON.parse(response.body)
           expect(response.status).to eq 200
-          expect(data[0]["title"]).to eq 'call me'
+          expect(json[0]["title"]).to eq 'call me'
         end
       end
       context 'sentbox params'do
@@ -33,9 +30,8 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
           @user2 = create(:user)
           @user.sent_messages.create(receiver_id: @user2.id, body: 'email me', title: 'some subject')
           get :index, {box: 'sentbox'}
-          data = JSON.parse(response.body)
           expect(response.status).to eq 200
-          expect(data[0]["title"]).to eq 'some subject'
+          expect(json[0]["title"]).to eq 'some subject'
         end
       end
       context 'trashbox params' do
@@ -44,9 +40,8 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
           @user2.sent_messages.create(receiver_id: @user.id, title: 'call me', body: 'blablabla')
           @user2.sent_messages.first.trash!
           get :index, {box: 'trash'}
-          data = JSON.parse(response.body)
           expect(response.status).to eq 200
-          expect(data[0]["title"]).to eq 'call me'
+          expect(json[0]["title"]).to eq 'call me'
         end
       end
     end
@@ -55,8 +50,7 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
     context 'with a current user' do
       before do
         @user = create(:user)
-        request.headers["token"] = @user.token
-        request.headers["username"] = @user.username
+        sign_in @user
         @user2 = create(:user)
         @user2.sent_messages.create(receiver_id: @user.id, title: 'call me', body: 'blablabla')
         @id = @user.received_messages.first.id
@@ -64,9 +58,8 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
       context 'params[:box] == inbox' do
         it 'returns one message from inbox' do
           get :update, id: @id
-          data = JSON.parse(response.body)
           expect(response.status).to eq 200
-          expect(data["message"]["title"]).to eq 'call me'
+          expect(json["message"]["title"]).to eq 'call me'
         end
       end
       context 'params[:box] == sentbox' do
@@ -76,9 +69,8 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
         end
         it 'returns one message from sentbox' do
           get :update, {id: @id, box: 'sentbox'}
-          data = JSON.parse(response.body)
           expect(response.status).to eq 200
-          expect(data["message"]["title"]).to eq 'hellohowareyou'
+          expect(json["message"]["title"]).to eq 'hellohowareyou'
         end
       end
       context 'params[:box] == trash' do
@@ -88,9 +80,8 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
         end
         it 'returns one message from trash' do
           get :update, {id: @message.id, box: 'trash'}
-          data = JSON.parse(response.body)
           expect(response.status).to eq 200
-          expect(data["message"]["workflow_state"]).to eq 'trashed'
+          expect(json["message"]["workflow_state"]).to eq 'trashed'
         end
       end
       it 'sets the message to read?: true' do
@@ -104,8 +95,7 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
     context 'with current user' do
       before do
         @user = create(:user)
-        request.headers["token"] = @user.token
-        request.headers["username"] = @user.username
+        sign_in @user
       end
       context 'two users are friends' do
         before do
@@ -115,9 +105,8 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
         end
         it 'creates a new message' do
           post :create, message: attributes_for(:message, receiver_id: @user2.id)
-          data = JSON.parse(response.body)
           expect(response.status).to eq 200
-          expect(data["message"]["receiver_name"]).to eq @user2.username
+          expect(json["message"]["receiver_name"]).to eq @user2.username
         end
         context 'is a Posting reply' do
           before do
