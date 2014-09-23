@@ -26,6 +26,18 @@ class Verifier
     end
   end
 
+  def second_message?
+    # checks if sender of new message has already received a message from
+    # receiver of new message
+    # used to handle cases when sender is replying to a message sent in
+    # response to sender's posting.. ug
+    if User.find(@receiver_id).sent_messages.where(receiver_id: @sender_id).first
+      true
+    else
+      false
+    end
+  end
+
   def message_guard
     # use strings, not booleans because JSON input
     if @reply == 'false'
@@ -35,7 +47,7 @@ class Verifier
       ## and is replying to id2's message?
       self.active_post
     else
-      false
+      second_message?
     end
   end
 end

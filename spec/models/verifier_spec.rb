@@ -35,6 +35,21 @@ RSpec.describe Verifier, type: :model do
     end
   end
 
+  describe '#second_message?' do
+    before do
+      @sender = create(:user)
+      @receiver = create(:user)
+    end
+    it 'returns true if sender has received a message from receiver' do
+      @message = @receiver.sent_messages.create(title: 'hi bro', body: 'lets talk about python',
+        receiver_id: @sender.id)
+      expect(Verifier.new(receiver_id: @receiver.id, sender_id: @sender.id).second_message?).to eq true
+    end
+    it 'returns false if sender hasn\'t received a message from receiver' do
+      expect(Verifier.new(receiver_id: @receiver.id, sender_id: @sender.id).second_message?).to eq false
+    end
+  end
+
   describe '#message_guard' do
     before do
       @user = create(:user)
@@ -49,6 +64,13 @@ RSpec.describe Verifier, type: :model do
     it 'calls #active_post when reply == "true"' do
       expect(Verifier.new(sender_id: @user.id, receiver_id: @user2.id, reply: 'true',
       posting_id: @posting.id).message_guard).to eq true
+    end
+    # terrible description
+    it 'calls #second_message as a last resort' do
+     @user2.sent_messages.create(title: 'hi bro', body: 'lets talk about python',
+       receiver_id: @user.id)
+      expect(Verifier.new(receiver_id: @user2.id,
+        sender_id: @user.id).message_guard).to eq true
     end
   end
 end

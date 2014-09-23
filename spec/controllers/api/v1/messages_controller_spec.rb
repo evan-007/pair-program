@@ -132,6 +132,16 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
             expect(json['message']['from_posting?']).to eq true
           end
         end
+        context 'message is a reply to a message from a posting' do
+          before do
+            @user2 = create(:user)
+            # @user2 sends a message to @user
+            @message = @user2.sent_messages.create(title: 'lets code', body: 'ima message blabla',
+            from_posting: true)
+          it 'creates a new message' do
+
+          end
+        end
       end
       context 'two users are not friends' do
         it 'does not create a new message' do
