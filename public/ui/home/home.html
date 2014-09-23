@@ -26,10 +26,15 @@
       Pair program in:<select ng-model="language" ng-options="l.name for l in languages">
       </select>
     </p>
-    <google-map center="map.center" zoom="map.zoom" draggable='true' options='map.options' ng-cloak>
+    <ui-gmap-google-map center="map.center" zoom="map.zoom" draggable='true' options='map.options' ng-cloak>
+      <ui-gmap-markers models="filteredUsers" coords="'self'">
+
+      </ui-gmap-markers>
+    </ui-gmap-google-map>
+    <!-- <google-map center="map.center" zoom="map.zoom" draggable='true' options='map.options' ng-cloak>
       <markers models="filteredUsers" coords="'self'">
         <windows>
           <p  ng-non-bindable>{{username}}</p>
         </windows>
       </markers>
-    </google-map>
+    </google-map> -->
