@@ -11,7 +11,7 @@ angular.module('ppApp').config(function($stateProvider){
     }
     }
   })
-}).controller('homeCtrl', function($scope, $filter, MapUsers, Languages){
+}).controller('homeCtrl', function($scope, $filter, $interval, MapUsers, Languages){
   $scope.users = MapUsers;
   $scope.languages = Languages;
   $scope.language = $scope.languages[0];
@@ -26,4 +26,22 @@ angular.module('ppApp').config(function($stateProvider){
   $scope.$watch('language', function(language){
     $scope.filteredUsers = $filter("filter")($scope.users, language.name);
   });
+
+  // ask Thomas: where does this really belong?
+  // in a service probably?
+  var counter = 0;
+  var getNextLanguage = function(){
+    limit = $scope.languages.length - 1;
+    $scope.language = $scope.languages[counter];
+    if(counter == limit) {
+      counter = 0
+    }
+    else {
+      counter++
+    }
+  }
+
+  $interval(function(){
+    getNextLanguage()
+  }, 3000)
 })
