@@ -275,12 +275,14 @@ angular.module('ppApp').config(function($stateProvider){
     url: '/',
     templateUrl: 'ui/home/home.html',
     controller: 'homeCtrl',
-    resolve: { MapUsers: function(Restangular){
+    resolve: {
+      MapUsers: function(Restangular){
       var map = { map: 'true'}
         return Restangular.all('users').getList(map)
-    }, Languages: function(LanguageService){
+      },
+    Languages: function(LanguageService){
       return LanguageService.set();
-    }
+      }
     }
   })
 }).controller('homeCtrl', function($scope, $filter, $interval, MapUsers, Languages){
