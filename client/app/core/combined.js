@@ -293,7 +293,6 @@ angular.module('ppApp').config(function($stateProvider){
           longitude: 0
       },
       zoom: 2,
-      options: {mapTypeId: google.maps.MapTypeId.SATELLITE }
   };
   $scope.$watch('language', function(language){
     $scope.filteredUsers = $filter("filter")($scope.users, language.name);

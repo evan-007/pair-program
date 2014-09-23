@@ -88,3 +88,25 @@ body {
   color: #314D63;
   background-color: #fefefe;
 }
+
+.lander-blue {
+  background-color: #2b3e50;
+  color: #ebebeb;
+}
+
+
+.lander-blue h3 {
+  color: #ebebeb;
+}
+
+.lede-item {
+  margin-bottom: 3em;
+}
+
+.lede-item p {
+  font-size: 1.5em;
+}
+
+.title {
+  font-size: 3em;
+}
