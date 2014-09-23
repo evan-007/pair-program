@@ -88,7 +88,11 @@ Finish contact page
 
 Setup CI for jasmine/protractor
 
+##Wishlist
+
 Firebase for realtime updates on message/friend stuff
+
+Add a dashboard view for user login with stats, random tips or something
 
 ##Contributing
 

@@ -74,7 +74,7 @@ angular.module('ppApp')
     .success(function(data){
       CookieHandler.set(data.user);
       growlNotifications.add('Logged in as '+data.user.username, 'success', 2000);
-      $location.path('/friends')
+      $location.path('/postings')
     })
 		.error(function(){
       $location.path('/signin')
