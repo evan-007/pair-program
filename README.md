@@ -68,8 +68,6 @@ remove old client services / refactor all to restangular
 
 add unit tests to client
 
-Add 'editing user profiles' feature to client / API: add $async validations on username/email
-
 messages: parent state list is refreshed on message send, read, and DELETE
  -- requires refactoring inbox directive to not be in a directive?
  -- listener won't update scope that's passed into directive ?
