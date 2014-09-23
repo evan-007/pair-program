@@ -1,4 +1,4 @@
-angular.module('ppApp', ['ngAnimate', 'ui.bootstrap', 'ngCookies', 'google-maps',
+angular.module('ppApp', ['ngAnimate', 'ui.bootstrap', 'ngCookies', 'google-maps'.ns(),
                          'ui.router', 'restangular', 'ngMessages', 'ngTagsInput',
                          'growlNotifications', 'ngSanitize', 'angular-loading-bar'])
 .config(function($httpProvider){
