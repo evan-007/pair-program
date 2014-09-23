@@ -54,23 +54,27 @@ RSpec.describe Verifier, type: :model do
     before do
       @user = create(:user)
       @user2 = create(:user)
-      @friendship = create(:friendship, friend_id: @user2.id, user_id: @user.id)
       @posting = @user2.postings.create(title: 'this is the title', body: 'here is the body')
     end
-    it 'calls #friend when reply == "false"' do
-      expect(Verifier.new(sender_id: @user.id, receiver_id: @user2.id, reply: 'false',
-       posting_id: @posting.id).message_guard).to eq true
+    context 'reply == false' do
+      it 'calls #friend' do
+        @friendship = create(:friendship, friend_id: @user2.id, user_id: @user.id)
+
+        expect(Verifier.new(sender_id: @user.id, receiver_id: @user2.id, reply: 'false',
+         posting_id: @posting.id).message_guard).to eq true
+      end
+      # soooo bad
+      it 'calls #second_message if #friend returns false' do
+       @user2.sent_messages.create(title: 'hi bro', body: 'lets talk about python',
+         receiver_id: @user.id)
+
+        expect(Verifier.new(receiver_id: @user2.id,
+          sender_id: @user.id, reply: 'false').message_guard).to eq true
+      end
     end
     it 'calls #active_post when reply == "true"' do
       expect(Verifier.new(sender_id: @user.id, receiver_id: @user2.id, reply: 'true',
       posting_id: @posting.id).message_guard).to eq true
-    end
-    # terrible description
-    it 'calls #second_message as a last resort' do
-     @user2.sent_messages.create(title: 'hi bro', body: 'lets talk about python',
-       receiver_id: @user.id)
-      expect(Verifier.new(receiver_id: @user2.id,
-        sender_id: @user.id).message_guard).to eq true
     end
   end
 end

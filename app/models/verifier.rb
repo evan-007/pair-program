@@ -41,13 +41,14 @@ class Verifier
   def message_guard
     # use strings, not booleans because JSON input
     if @reply == 'false'
-      self.friend
+      # controller sets reply to either true or false
+      # default is false so check for second_message
+      # if users aren't friends. smells
+      self.friend ? true : self.second_message?
     elsif @reply == 'true'
-      ## what happens when id1 created the post
-      ## and is replying to id2's message?
       self.active_post
     else
-      second_message?
+      false
     end
   end
 end
