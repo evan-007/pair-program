@@ -1,5 +1,6 @@
 class Message < ActiveRecord::Base
   include Workflow
+
   validates :title, presence: true
   validates :body, presence: true
 

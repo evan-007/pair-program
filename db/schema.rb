@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 20140923125143) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "workflow_state"
-    t.boolean  "from_posting?",  default: false
+    t.boolean  "from_posting",   default: false
   end
 
   create_table "postings", force: true do |t|

@@ -24,6 +24,9 @@ module Api
 
       def create
         @message = current_user.sent_messages.build(message_params)
+        if params[:reply] == 'true'
+          @message.from_posting = true
+        end
         if @message.save
           render json: @message, status: 200, serializer: MessageSerializer
         else

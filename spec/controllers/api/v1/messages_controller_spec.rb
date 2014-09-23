@@ -119,6 +119,19 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
           expect(response.status).to eq 200
           expect(data["message"]["receiver_name"]).to eq @user2.username
         end
+        context 'is a Posting reply' do
+          before do
+            @user2 = create(:user)
+            @posting = @user2.postings.create(title: 'this is test', body: 'i am testing')
+          end
+          it 'creates a message with from_posting? == true' do
+            post :create, { reply: 'true', posting_id: @posting.id, message: { sender_id: @user.id,
+              receiver_id: @user2.id, reply: 'true', title: 'hello how are you',
+              body: 'i am a mess of a test'}}
+            expect(response.status).to eq 200
+            expect(json['message']['from_posting?']).to eq true
+          end
+        end
       end
       context 'two users are not friends' do
         it 'does not create a new message' do
