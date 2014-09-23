@@ -2,25 +2,31 @@
   <div class='col-sm-7'>
     <form novalidate ng-submit="submit(signup)" class='form-horizontal' name='signupForm'
     ng-init="signup['just_partner?'] = true">
-      <p>
-        <label>Username</label>
-        <input type="text" ng-model="signup.username" class='form-control' name='username'
-               require minlength='3' record-availability-validator="/api/v1/validations/username"
-               ng-model-options="{ debounce : { 'default' : 500, blur : 0 } }">
-      </p>
-      <div ng-messages="signupForm.username.$error">
-        <div ng-message="required">You did not enter a username</div>
-        <div ng-message="minlength">Username must be at least 4 characters</div>
-        <div ng-message="recordLoading">Checking database...</div>
-        <div ng-message="recordAvailable">The username is already in use...</div>
+
+      <div ng-class="{ 'has-error': signupForm.username.$invalid }">
+        <p>
+          <label>Username</label>
+          <input type="text" ng-model="signup.username" class='form-control' name='username'
+                 require minlength='4' record-availability-validator="/api/v1/validations/username"
+                 ng-model-options="{ debounce : { 'default' : 500, blur : 0 } }">
+        </p>
+        <div ng-messages="signupForm.username.$error">
+          <div ng-message="required">You did not enter a username</div>
+          <div ng-message="minlength">Username must be at least 4 characters</div>
+          <div ng-message="recordLoading">Checking database...</div>
+          <div ng-message="recordAvailable">The username is already in use...</div>
+        </div>
       </div>
 
-      <p>
-        <label>Email</label>
-        <input type="email" ng-model="signup.email" class='form-control' name='email'
-        record-availability-validator="/api/v1/validations/email"
-        ng-model-options="{ debounce : { 'default' : 500, blur : 0 } }">
-      </p>
+      <div ng-class="{ 'has-error': signupForm.email.$invalid }">
+        <p>
+          <label>Email</label>
+          <input type="email" ng-model="signup.email" class='form-control' name='email'
+          record-availability-validator="/api/v1/validations/email"
+          ng-model-options="{ debounce : { 'default' : 500, blur : 0 } }">
+        </p>
+      </div>
+
       <div ng-messages='signupForm.email.$error'>
         <div ng-message='required'>You did not enter an email</div>
         <div ng-message='email'>Email is not in the correct format</div>
@@ -53,7 +59,7 @@
         <label><input type='checkbox' ng-model="signup['student']" />Looking for a mentor?</label>
       </p>
       <p class='checkbox'>
-        <label><input type='checkbox' ng-checked="signup['just_partner']" ng-model="signup['just_partner?']" />Just want to hack with someone?</label>
+        <label><input type='checkbox' ng-checked="signup['just_partner?']" ng-model="signup['just_partner?']" />Just want to hack with someone?</label>
       </p>
       <p>
         <label>About:</label>

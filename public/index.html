@@ -3,41 +3,54 @@
 <head>
 	<meta charset="UTF-8">
 	<title>ngThing</title>
-	<link rel="stylesheet" href="./assets/combined-3bf0aaec.css"/>
+	<link rel="stylesheet" href="./assets/combined-a69b6b4d.css"/>
   <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
 
   <navbar></navbar>
-	<div class='container'>
 		<div class='growl-notifications' name='growl' growl-notifications></div>
 		<div ng-controller='authCtrl'>
-			<div ng-if='authUser' ng-cloak>
-		    <div class='row'>
-					<div class='col-sm-1 user-sidebar well'>
-						<ul class='nav nav-pills nav-stacked'>
+			<div class='container'>
 
-							<li name='postings-nav' class='spaced-li' ui-sref-active="active"><a ui-sref='postings'><i class='fa fa-newspaper-o fa-3x'></i>Postings</a></li>
-							<li name='messages-nav' class='spaced-li' ui-sref-active="active"><a ui-sref='messages.inbox'><i class='fa fa-envelope fa-3x'></i>Messages <span class='badge'>{{messages}}</span></a></li>
-							<li name='friends-nav' class='spaced-li' ui-sref-active="active"><a ui-sref='friends.all'><i class='fa fa-users fa-3x'></i>Friends</a></li>
-							<li name='finder-nav' class='spaced-li' ui-sref-active="active"><a ui-sref='friendfinder'><i class='fa fa-search fa-3x'></i>Friend Finder</a></li>
-						</ul>
-					</div>
-					<div class='col-sm-11'>
+				<div ng-if='authUser' ng-cloak>
+			    <div class='row'>
+						<div class='col-sm-1 user-sidebar well'>
+							<ul class='nav nav-pills nav-stacked'>
 
-						<div ui-view class='animate-view well'></div>
+								<li name='postings-nav' class='spaced-li' ui-sref-active="active"><a ui-sref='postings'><i class='fa fa-newspaper-o fa-3x'></i>Postings</a></li>
+								<li name='messages-nav' class='spaced-li' ui-sref-active="active"><a ui-sref='messages.inbox'><i class='fa fa-envelope fa-3x'></i>Messages <span class='badge'>{{messages}}</span></a></li>
+								<li name='friends-nav' class='spaced-li' ui-sref-active="active"><a ui-sref='friends.all'><i class='fa fa-users fa-3x'></i>Friends</a></li>
+								<li name='finder-nav' class='spaced-li' ui-sref-active="active"><a ui-sref='friendfinder'><i class='fa fa-search fa-3x'></i>Friend Finder</a></li>
+							</ul>
+						</div>
+						<div class='col-sm-11'>
+
+							<div ui-view class='animate-view well'></div>
+						</div>
 					</div>
-				</div>
-			</div><!--auth user-->
+				</div><!--auth user-->
+			</div><!-- container -->
+
 			<div ng-if='!authUser'>
-				<div ui-view class='animate-view well'></div>
+				<div ui-view class='animate-view'></div>
 			</div>
 
-		</div>
 
-  </div><!--container-->
+
+  </div><!--authCtrl-->
+  <div class="footer">
+	  <div class="container">
+			<ul class='list-inline center'>
+				<li><a ui-sref="about">About</a></li>
+				<li><a ui-sref="signup">Sign up</a></li>
+				<li><a ui-sref="contact">Contact</a></li>
+			</ul>
+	    <span class="text-muted">built by <a href="http://evanlloyd.me">evan</a></span>
+	  </div>
+  </div>
 	<script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
 
-	<script src="./assets/combined-c9d4fa54.js"></script>
+	<script src="./assets/combined-698fe216.js"></script>
 </body>
 </html>
