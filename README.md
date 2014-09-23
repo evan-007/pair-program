@@ -74,18 +74,6 @@ messages: parent state list is refreshed on message send, read, and DELETE
  -- requires refactoring inbox directive to not be in a directive?
  -- listener won't update scope that's passed into directive ?
 
-
-non-friends can reply to Postings messages!!!!
-
-  message field: from_post? if true, skip can_message on reply?
-  in controller after verifier
-  
-  @message = @user.sent_messages.build
-    if params[:reply] == 'true'
-      @message.from_post? = true
-      @message.save
-    end
-
 Fix broken CSS / make design not look like trash
 
 Fix broken maps - wait for 1.3 support
