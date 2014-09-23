@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140813044714) do
+ActiveRecord::Schema.define(version: 20140923125143) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(version: 20140813044714) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "workflow_state"
+    t.boolean  "from_posting?",  default: false
   end
 
   create_table "postings", force: true do |t|
