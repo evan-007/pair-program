@@ -52,7 +52,12 @@ task seed_data: :environment do
     User.find(n).sent_messages.create(receiver_id: User.first.id, title: "Message from #{User.find(n).username}", body: 'hellohello')
   end
 
-  (2..5).each do |n|
-    Posting.create(user: User.find(n), title: "Posting #{n}", body: "filler content #{n}")
+  (3..19).each do |n|
+    user = User.find(n)
+    language =
+      if user.languages.count > 0 then user.languages.first.name else 'my project' end
+    title = "Let's work on #{language} together!"
+    body = Faker::Lorem.paragraph
+    Posting.create(user: User.find(n), title: title, body: body)
   end
 end
