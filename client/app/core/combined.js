@@ -19,7 +19,7 @@ angular.module('ppApp', ['ngAnimate', 'ui.bootstrap', 'ngCookies', 'google-maps'
   public: 'public',
   registered: 'registered'
 })
-.run(function($rootScope, CookieHandler, $location){
+.run(function($rootScope, CookieHandler, $location, $state){
   $rootScope.$on('$stateChangeStart', function(event, next){
     // each route has data.authorizedRoles
     // set role from Cookie. If no user, role == 'public'
@@ -47,7 +47,7 @@ angular.module('ppApp', ['ngAnimate', 'ui.bootstrap', 'ngCookies', 'google-maps'
         else if (user == 'registered') {
           console.log('registered user on public route')
           event.preventDefault();
-          $location.path('/postings')
+          $state.go('postings')
         }
       }
       // is auth route?
@@ -753,22 +753,6 @@ angular.module('ppApp')
 })
 
 angular.module('ppApp')
-.config(function($stateProvider){
-  $stateProvider.state('friends.show', {
-    url: '/:id',
-    templateUrl: 'ui/friends/show/show.html',
-    resolve: { activeFriend : function($stateParams, Restangular){
-      return Restangular.one('friends', $stateParams.id).get();
-    }},
-    controller: 'friendsShowCtrl'
-  })
-})
-.controller('friendsShowCtrl', function(activeFriend, $scope){
-  $scope.activeUser = activeFriend;
-  console.log($scope.activeUser["just_partner?"])
-})
-
-angular.module('ppApp')
 .factory('FriendApproveService', function($http, $q){
   return function(friendId){
     var defer = $q.defer();
@@ -841,6 +825,22 @@ FriendRejectService){
       array.splice(index, 1)
     }
   }
+})
+
+angular.module('ppApp')
+.config(function($stateProvider){
+  $stateProvider.state('friends.show', {
+    url: '/:id',
+    templateUrl: 'ui/friends/show/show.html',
+    resolve: { activeFriend : function($stateParams, Restangular){
+      return Restangular.one('friends', $stateParams.id).get();
+    }},
+    controller: 'friendsShowCtrl'
+  })
+})
+.controller('friendsShowCtrl', function(activeFriend, $scope){
+  $scope.activeUser = activeFriend;
+  console.log($scope.activeUser["just_partner?"])
 })
 
 angular.module('ppApp')

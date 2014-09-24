@@ -19,7 +19,7 @@ angular.module('ppApp', ['ngAnimate', 'ui.bootstrap', 'ngCookies', 'google-maps'
   public: 'public',
   registered: 'registered'
 })
-.run(function($rootScope, CookieHandler, $location){
+.run(function($rootScope, CookieHandler, $location, $state){
   $rootScope.$on('$stateChangeStart', function(event, next){
     // each route has data.authorizedRoles
     // set role from Cookie. If no user, role == 'public'
@@ -47,7 +47,7 @@ angular.module('ppApp', ['ngAnimate', 'ui.bootstrap', 'ngCookies', 'google-maps'
         else if (user == 'registered') {
           console.log('registered user on public route')
           event.preventDefault();
-          $location.path('/postings')
+          $state.go('postings')
         }
       }
       // is auth route?
