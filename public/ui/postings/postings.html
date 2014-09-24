@@ -1,8 +1,10 @@
 <div class='row'>
-  <ul class='list-unstyled'>
+  <ul class='list-inline'>
     <li name='my-postings' class='btn btn-primary' ng-click='myPostings(); mine = !mine' ng-show='!mine'>My Postings</li>
     <li name='all-postings' class='btn btn-primary' ng-click='allPostings(); mine = !mine' ng-show='mine'>All Postings</li>
     <a name='new-posting' ui-sref='postings.new'><li class='btn btn-default'>New Posting</li></a>
+    <li><input type="text" class='form-control' placeholder='Search!' ng-model='search'></li>
+    <li ng-show='search !== undefined' class='btn btn-warning' ng-click='search = undefined'>Reset Search</li>
   </ul>
 </div>
 <div class='row'>

@@ -487,7 +487,7 @@ angular.module('ppApp')
     }}
   })
 })
-.controller('postingsCtrl', function($scope, Postings, Restangular, $rootScope){
+.controller('postingsCtrl', function($scope, Postings, Restangular, $rootScope, $filter){
   $scope.postings = Postings;
   $scope.totalPostings = Postings.length;
   $scope.currentPage = 1;
@@ -499,10 +499,16 @@ angular.module('ppApp')
     })
   })
 
-  $scope.$watchGroup(['currentPage','postings'], function(newValue, old){
+  // so many watches, probably a bad idea
+  //
+  // $scope.$watch('search', function(newValue, old){
+  // })
+
+  $scope.$watchGroup(['currentPage','postings', 'search'], function(newValue, old){
+    $scope.filteredPostings = $filter('filter')($scope.postings, $scope.search)
     var start = ($scope.currentPage - 1) * $scope.itemsPerPage
     var end = start + $scope.itemsPerPage
-    $scope.activePostings = $scope.postings.slice(start, end);
+    $scope.activePostings = $scope.filteredPostings.slice(start, end);
   });
 
   $scope.allPostings = function(){
