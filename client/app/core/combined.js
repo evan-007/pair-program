@@ -14,7 +14,12 @@ angular.module('ppApp', ['ngAnimate', 'ui.bootstrap', 'ngCookies', 'google-maps'
 .config(function(cfpLoadingBarProvider) {
   cfpLoadingBarProvider.includeSpinner = false;
 })
-.run(function($rootScope, CookieHandler){
+.constant('USER_ROLES', {
+  all: '*',
+  public: 'public',
+  registered: 'registered'
+})
+.run(function($rootScope, CookieHandler, $location){
   $rootScope.$on('$stateChangeStart', function(event, next){
     // each route has data.authorizedRoles
     // set role from Cookie. If no user, role == 'public'
@@ -22,8 +27,31 @@ angular.module('ppApp', ['ngAnimate', 'ui.bootstrap', 'ngCookies', 'google-maps'
     // else broadcast a message?
     // if public route (ie homepage), redirect someplace
     // var authorizedRole = next.data.authorizedRoles;
-    var user = CookieHandler.get()
-    console.log(user)
+
+    // only care if auth is actually defined
+    if (next.data !== undefined) {
+      // set user, should prob be in a service
+      if (CookieHandler.get() !== undefined) {
+        var user = 'registered'
+      }
+      else {
+        var user = 'public'
+      }
+      var authorizedRoles = next.data.authorizedRoles
+      console.log(authorizedRoles)
+      // is a public route?
+      if (authorizedRoles.indexOf('public') !== -1) {
+        if (user == 'public') {
+          console.log('public user on public route')
+        }
+        else if (user == 'registered') {
+          console.log('registered user on public route')
+          event.preventDefault();
+          $location.path('/postings')
+        }
+      }
+      // is auth route?
+    }
   })
 })
 
@@ -282,7 +310,7 @@ angular.module('ppApp')
   $scope.allFriends = FriendsData.friendships;
 })
 
-angular.module('ppApp').config(function($stateProvider){
+angular.module('ppApp').config(function($stateProvider, USER_ROLES){
   $stateProvider.state('home', {
     url: '/',
     templateUrl: 'ui/home/home.html',
@@ -295,6 +323,9 @@ angular.module('ppApp').config(function($stateProvider){
     Languages: function(LanguageService){
       return LanguageService.set();
       }
+    },
+    data: {
+      authorizedRoles: [USER_ROLES.public]
     }
   })
 }).controller('homeCtrl', function($scope, $filter, $interval, MapUsers, Languages){
@@ -722,6 +753,22 @@ angular.module('ppApp')
 })
 
 angular.module('ppApp')
+.config(function($stateProvider){
+  $stateProvider.state('friends.show', {
+    url: '/:id',
+    templateUrl: 'ui/friends/show/show.html',
+    resolve: { activeFriend : function($stateParams, Restangular){
+      return Restangular.one('friends', $stateParams.id).get();
+    }},
+    controller: 'friendsShowCtrl'
+  })
+})
+.controller('friendsShowCtrl', function(activeFriend, $scope){
+  $scope.activeUser = activeFriend;
+  console.log($scope.activeUser["just_partner?"])
+})
+
+angular.module('ppApp')
 .factory('FriendApproveService', function($http, $q){
   return function(friendId){
     var defer = $q.defer();
@@ -794,22 +841,6 @@ FriendRejectService){
       array.splice(index, 1)
     }
   }
-})
-
-angular.module('ppApp')
-.config(function($stateProvider){
-  $stateProvider.state('friends.show', {
-    url: '/:id',
-    templateUrl: 'ui/friends/show/show.html',
-    resolve: { activeFriend : function($stateParams, Restangular){
-      return Restangular.one('friends', $stateParams.id).get();
-    }},
-    controller: 'friendsShowCtrl'
-  })
-})
-.controller('friendsShowCtrl', function(activeFriend, $scope){
-  $scope.activeUser = activeFriend;
-  console.log($scope.activeUser["just_partner?"])
 })
 
 angular.module('ppApp')

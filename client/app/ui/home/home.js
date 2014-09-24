@@ -1,4 +1,4 @@
-angular.module('ppApp').config(function($stateProvider){
+angular.module('ppApp').config(function($stateProvider, USER_ROLES){
   $stateProvider.state('home', {
     url: '/',
     templateUrl: 'ui/home/home.html',
@@ -11,6 +11,9 @@ angular.module('ppApp').config(function($stateProvider){
     Languages: function(LanguageService){
       return LanguageService.set();
       }
+    },
+    data: {
+      authorizedRoles: [USER_ROLES.public]
     }
   })
 }).controller('homeCtrl', function($scope, $filter, $interval, MapUsers, Languages){
