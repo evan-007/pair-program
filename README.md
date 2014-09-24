@@ -66,12 +66,6 @@ change protractor tests to test for alerts! figure out how to not wait for $time
 remove old client services / refactor all to restangular
  -- put restangular in services! stop using it bare in resolves
 
-auth control:
-  if not logged in, can't access
-  if logged in, can't get to homepage (default to dashboard?)
-    prevent css mess on lander from being seen by auth users.
-
-
 add unit tests to client
 
 messages: parent state list is refreshed on message send, read, and DELETE
