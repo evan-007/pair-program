@@ -30,7 +30,7 @@ angular.module('ppApp', ['ngAnimate', 'ui.bootstrap', 'ngCookies', 'google-maps'
 
     // hack to stop reg users from seeing broken lander
 
-    
+
     // only care if auth is actually defined
     if (next.data !== undefined) {
       // set user, should prob be in a service
@@ -41,14 +41,11 @@ angular.module('ppApp', ['ngAnimate', 'ui.bootstrap', 'ngCookies', 'google-maps'
         var user = 'public'
       }
       var authorizedRoles = next.data.authorizedRoles
-      console.log(authorizedRoles)
       // is a public route?
       if (authorizedRoles.indexOf('public') !== -1) {
         if (user == 'public') {
-          console.log('public user on public route')
         }
         else if (user == 'registered') {
-          console.log('registered user on public route')
           event.preventDefault();
           $state.go('postings')
         }
@@ -366,117 +363,6 @@ angular.module('ppApp').config(function($stateProvider, USER_ROLES){
 })
 
 angular.module('ppApp')
-.directive('ppMailbox', function(OneMessageService, PostMessageService, $rootScope){
-  return {
-    restrict: 'E',
-    templateUrl: './ui/messages/mailbox.html',
-    scope: {
-      messages: '=',
-      type: '='
-    },
-    link: function(scope, element, attrs) {
-    },
-    controller: function($scope, $rootScope, PostMessageService,
-      Restangular, growlNotifications) {
-        $scope.currentPage = 1;
-        $scope.totalMessages = $scope.messages.length;
-        $scope.itemsPerPage = 10;
-        $scope.$watch('currentPage', function(newValue, oldValue){
-          var start = (($scope.currentPage -1) * $scope.itemsPerPage)
-          var end = start + $scope.itemsPerPage
-          $scope.showMessages = $scope.messages.slice(start, end);
-        });
-
-
-      $scope.readMessage = function(message) {
-        //set client read to true
-        //http request takes care of server side update
-        message.workflow_state = 'read';
-      }
-
-      $scope.reply = function(message){
-        $scope.newMessage = message;
-        $scope.activeMessage = '';
-      }
-      $scope.cancel = function(message){
-        $scope.activeMessage = message;
-        $scope.newMessage = '';
-      }
-      $scope.send = function(message){
-        PostMessageService(message);
-        //can't callback outside of restangular, assumes successful post
-        growlNotifications.add('Message sent to '+message.sender_name, 'success', 2000)
-        $scope.newMessage = '';
-        $scope.activeMessage = '';
-      }
-    }
-  }
-})
-
-angular.module('ppApp')
-.factory('MessageGetterService', function($http, $q){
-  return function(boxType){
-    var defer = $q.defer();
-    $http.get('/api/v1/messages?box='+boxType).then(function(data){
-      defer.resolve(data);
-    });
-    return defer.promise;
-  }
-})
-
-angular.module('ppApp')
-.config(function($stateProvider){
-  $stateProvider.state('messages', {
-    url: '/messages',
-    abstract: true,
-    templateUrl: 'ui/messages/index.html'
-  })
-  .state('messages.inbox', {
-    url: '',
-    templateUrl: 'ui/messages/inbox.html',
-    resolve: {Inbox: function(Restangular){
-      return Restangular.all('messages').getList();
-    }},
-    controller: 'inboxCtrl'
-  })
-})
-.controller('inboxCtrl', function($scope, Inbox){
-  $scope.messages = Inbox;
-  $scope.type = 'inbox';
-})
-
-angular.module('ppApp')
-.factory('OneMessageService', function($http, $q){
-  return function(id, boxType){
-    var defer = $q.defer();
-    $http.put('/api/v1/messages/'+id+'?box='+boxType).then(function(data){
-      defer.resolve(data.data.message);
-    });
-    return defer.promise;
-  }
-})
-
-angular.module('ppApp')
-.factory('PostMessageService', function(Restangular){
-  return function(message){
-    var newMessage = {message: {
-      receiver_id: message.sender_id,
-      body: message.response,
-      title: message.title
-    }}
-
-    Restangular.all('messages').post(newMessage).then(function(response){
-      console.log(response)
-    })
-    // var defer = $q.defer();
-    // $http.post('/api/v1/messages', newMessage).then(function(data){
-    //   defer.resolve(data);
-    // });
-    // return defer.promise;
-  }
-})
-
-angular.module('ppApp')
 .config(function($stateProvider){
   $stateProvider.state('postings', {
     url: '/postings',
@@ -696,6 +582,117 @@ angular.module('ppApp')
     }
   }
 });
+
+angular.module('ppApp')
+.directive('ppMailbox', function(OneMessageService, PostMessageService, $rootScope){
+  return {
+    restrict: 'E',
+    templateUrl: './ui/messages/mailbox.html',
+    scope: {
+      messages: '=',
+      type: '='
+    },
+    link: function(scope, element, attrs) {
+    },
+    controller: function($scope, $rootScope, PostMessageService,
+      Restangular, growlNotifications) {
+        $scope.currentPage = 1;
+        $scope.totalMessages = $scope.messages.length;
+        $scope.itemsPerPage = 10;
+        $scope.$watch('currentPage', function(newValue, oldValue){
+          var start = (($scope.currentPage -1) * $scope.itemsPerPage)
+          var end = start + $scope.itemsPerPage
+          $scope.showMessages = $scope.messages.slice(start, end);
+        });
+
+
+      $scope.readMessage = function(message) {
+        //set client read to true
+        //http request takes care of server side update
+        message.workflow_state = 'read';
+      }
+
+      $scope.reply = function(message){
+        $scope.newMessage = message;
+        $scope.activeMessage = '';
+      }
+      $scope.cancel = function(message){
+        $scope.activeMessage = message;
+        $scope.newMessage = '';
+      }
+      $scope.send = function(message){
+        PostMessageService(message);
+        //can't callback outside of restangular, assumes successful post
+        growlNotifications.add('Message sent to '+message.sender_name, 'success', 2000)
+        $scope.newMessage = '';
+        $scope.activeMessage = '';
+      }
+    }
+  }
+})
+
+angular.module('ppApp')
+.factory('MessageGetterService', function($http, $q){
+  return function(boxType){
+    var defer = $q.defer();
+    $http.get('/api/v1/messages?box='+boxType).then(function(data){
+      defer.resolve(data);
+    });
+    return defer.promise;
+  }
+})
+
+angular.module('ppApp')
+.config(function($stateProvider){
+  $stateProvider.state('messages', {
+    url: '/messages',
+    abstract: true,
+    templateUrl: 'ui/messages/index.html'
+  })
+  .state('messages.inbox', {
+    url: '',
+    templateUrl: 'ui/messages/inbox.html',
+    resolve: {Inbox: function(Restangular){
+      return Restangular.all('messages').getList();
+    }},
+    controller: 'inboxCtrl'
+  })
+})
+.controller('inboxCtrl', function($scope, Inbox){
+  $scope.messages = Inbox;
+  $scope.type = 'inbox';
+})
+
+angular.module('ppApp')
+.factory('OneMessageService', function($http, $q){
+  return function(id, boxType){
+    var defer = $q.defer();
+    $http.put('/api/v1/messages/'+id+'?box='+boxType).then(function(data){
+      defer.resolve(data.data.message);
+    });
+    return defer.promise;
+  }
+})
+
+angular.module('ppApp')
+.factory('PostMessageService', function(Restangular){
+  return function(message){
+    var newMessage = {message: {
+      receiver_id: message.sender_id,
+      body: message.response,
+      title: message.title
+    }}
+
+    Restangular.all('messages').post(newMessage).then(function(response){
+      console.log(response)
+    })
+    // var defer = $q.defer();
+    // $http.post('/api/v1/messages', newMessage).then(function(data){
+    //   defer.resolve(data);
+    // });
+    // return defer.promise;
+  }
+})
 
 angular.module('ppApp').config(function($stateProvider){
   $stateProvider.state('friends.pending', {

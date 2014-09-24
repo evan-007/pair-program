@@ -30,7 +30,7 @@ angular.module('ppApp', ['ngAnimate', 'ui.bootstrap', 'ngCookies', 'google-maps'
 
     // hack to stop reg users from seeing broken lander
 
-    
+
     // only care if auth is actually defined
     if (next.data !== undefined) {
       // set user, should prob be in a service
@@ -41,14 +41,11 @@ angular.module('ppApp', ['ngAnimate', 'ui.bootstrap', 'ngCookies', 'google-maps'
         var user = 'public'
       }
       var authorizedRoles = next.data.authorizedRoles
-      console.log(authorizedRoles)
       // is a public route?
       if (authorizedRoles.indexOf('public') !== -1) {
         if (user == 'public') {
-          console.log('public user on public route')
         }
         else if (user == 'registered') {
-          console.log('registered user on public route')
           event.preventDefault();
           $state.go('postings')
         }
