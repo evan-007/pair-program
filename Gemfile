@@ -35,6 +35,9 @@ gem 'sinatra', '>= 1.3.0', :require => nil
 #starts sidekiq with app
 # gem 'foreman'
 
+#required for seed task with hipster data
+gem 'httparty'
+
 #deploy
 gem 'capistrano'
 gem 'capistrano-rails'

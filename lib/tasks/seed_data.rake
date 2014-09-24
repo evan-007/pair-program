@@ -1,5 +1,5 @@
 task seed_data: :environment do
-  languages = %w[Java C C++ C# Python Javascript PHP Ruby Objective-C Scala Go Haskell Lisp]
+  languages = %w[Python Javascript PHP Ruby Scala Go Haskell Clojure Swift]
 
   languages.each do |l|
     Language.create(name: l)
@@ -9,10 +9,12 @@ task seed_data: :environment do
     password_confirmation: 'password', languages: [Language.first, Language.last])
 
   22.times do |n|
+    response = HTTParty.get('http://hipsterjesus.com/api/?paras=1&type=hipster-centric&html=false')
+    hipster_text = JSON.parse(response.body)
     username = Faker::Internet.user_name
     email = Faker::Internet.email
     pass = Faker::Internet.password
-    about = Faker::Lorem.sentence(4)
+    about = hipster_text['text']
     User.create(username: "#{username}#{n}", email: "#{username}#{n}@faker.com",
     password: pass, password_confirmation: pass, about: about, location: Faker::Address.country)
     #sleep to prevent API rate limit
