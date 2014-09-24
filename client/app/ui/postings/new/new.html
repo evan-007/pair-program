@@ -20,7 +20,9 @@
     <div ng-message='minlength'>Description is too short!</div>
   </div>
   <p>
-    <input type='submit' value='Submit' class='btn btn-primary' />
+    <input type='submit' value='Submit' ng-disabled='postingForm.$invalid' class='btn btn-primary' />
     <a ui-sref="postings"><button class='btn btn-danger'>Cancel</button></a>
   </p>
+  <p id='signupForm-invalid' ng-show='postingForm.$invalid'>Opps, please check the form again</p>
+
 </form>
