@@ -1,14 +1,24 @@
 <h2>New Posting</h2>
 <p>This will expire in 2 weeks, use it to request a pair for your project<p>
-<form nonvalidate ng-submit='submitPosting(posting)'>
-  <p>
+<form name='postingForm' nonvalidate ng-submit='submitPosting(posting)'>
+
+  <p ng-class="{ 'has-error': postingForm.title.$invalid }">
     <label>Title</label>
-    <input type='text' ng-model='posting.title' class='form-control' />
+    <input type='text' ng-model='posting.title' name='title' class='form-control' minlength='5' require />
   </p>
-  <p>
-    <label>Body</label>
-    <textarea ng-model='posting.body' class='form-control'></textarea>
+  <div ng-messages='postingForm.title.$error'>
+    <div ng-message='required'>You did not enter a title</div>
+    <div ng-message='minlength'>Your title is too short</div>
+  </div>
+
+  <p ng-class="{ 'has-error': postingForm.body.$invalid }">
+    <label>Description</label>
+    <textarea ng-model='posting.body' name='body' class='form-control' id='body' minlength='10'></textarea>
   </p>
+  <div ng-messages='postingForm.body.$error'>
+    <div ng-message='required'>You didn't fill out the form.</div>
+    <div ng-message='minlength'>Description is too short!</div>
+  </div>
   <p>
     <input type='submit' value='Submit' class='btn btn-primary' />
     <a ui-sref="postings"><button class='btn btn-danger'>Cancel</button></a>

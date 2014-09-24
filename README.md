@@ -79,7 +79,7 @@ Fix broken CSS / make design not look like trash
 
 Add validations + CSS error classes to new Posting Form
 
-Fix broken maps. Using `develop` branch of angular-google-maps. See weird `'angular-google-maps'.ng()` in `app.js`
+Using `develop` branch of angular-google-maps. See weird `'angular-google-maps'.ng()` in `app.js`
 Working on commit `e38208e60c0415d758`. So unstable. Careful until official 1.3 support role out.
 
 Finish setup on non-heroku server (create DB + add env variables)
