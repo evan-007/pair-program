@@ -17,8 +17,10 @@ class Message < ActiveRecord::Base
       event :request, transitions_to: :read
     end
     state :trashed do
-      #smell
+      # smell
+      # allow repeat events in case of client errors
       event :request, transitions_to: :trashed
+      event :trash, transitions_to: :trashed
     end
   end
 end
