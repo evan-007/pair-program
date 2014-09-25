@@ -2,7 +2,9 @@ development:
   GMAIL_USERNAME: myemail@gmail.com
   GMAIL_PASSWORD: monkey123
   REDISTOGO_URL: http://localhost:6379
+  CONTACT_EMAIL: contact@bla.com
 production:
   GMAIL_USERNAME: myemail@mydomain.com
   GMAIL_PASSWORD: myproductionpassword123
   REDISTOGO_URL: http://someurl:9999
+  CONTACT_EMAIL: contactme@bla.com
