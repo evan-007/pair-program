@@ -86,9 +86,11 @@ Setup CI for jasmine/protractor
 
 Firebase for realtime updates on message/friend stuff
 
-Add a dashboard view for user login with stats, random tips or something
-
 password resets
+
+onboarding
+
+avatar uploads
 
 ##Contributing
 
