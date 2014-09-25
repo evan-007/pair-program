@@ -12,6 +12,8 @@ Rails.application.routes.draw do
       get '/validations/username', to: 'validations#username'
       get '/validations/email', to: 'validations#email'
 
+      get '/dashboard', to: 'dashboard#index'
+
       resources :sessions, only: [:create, :destroy]
       resources :languages, only: [:index]
 
