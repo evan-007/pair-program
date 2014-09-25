@@ -8,7 +8,7 @@ angular.module('ppApp')
       type: '='
     },
     controller: function($scope, $rootScope, PostMessageService,
-      Restangular, growlNotifications, $location) {
+      Restangular, growlNotifications, $state) {
 
       $scope.reply = function(message){
         $scope.newMessage = message;
@@ -29,7 +29,8 @@ angular.module('ppApp')
         var params = {trash: 'true'}
         Restangular.one('messages', message.id).patch(params).then(function(){
           growlNotifications.add('Message moved to trash', 'success', 2000)
-          $location.path('/messages');
+          // need reload: true to refresh resolve!
+          $state.go('^', {}, { reload: true});
         })
       }
     }
