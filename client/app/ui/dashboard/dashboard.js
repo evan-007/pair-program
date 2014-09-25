@@ -8,12 +8,8 @@ angular.module('ppApp')
     },
     controller: 'dashboardCtrl as dashboard',
     // put in Service!
-    resolve: {DashboardData: function($http, $q){
-      var defer = $q.defer();
-      $http.get('/api/v1/dashboard').then(function(resp){
-        defer.resolve(resp.data)
-      })
-      return defer.promise
+    resolve: {DashboardData: function(DashboardService){
+      return DashboardService();
     }}
   })
 })
