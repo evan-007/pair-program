@@ -1,5 +1,5 @@
 class DashboardSerializer < ActiveModel::Serializer
-  attributes :messages, :new_friends, :postings
+  attributes :messages, :new_friends, :postings, :username
 
   def messages
     object.messages
@@ -11,5 +11,9 @@ class DashboardSerializer < ActiveModel::Serializer
 
   def postings
     object.postings
+  end
+
+  def username
+    object.username
   end
 end

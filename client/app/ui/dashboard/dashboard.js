@@ -7,6 +7,7 @@ angular.module('ppApp')
       authorizedRoles: [USER_ROLES.registered]
     },
     controller: 'dashboardCtrl as dashboard',
+    // put in Service!
     resolve: {DashboardData: function($http, $q){
       var defer = $q.defer();
       $http.get('/api/v1/dashboard').then(function(resp){
@@ -17,5 +18,5 @@ angular.module('ppApp')
   })
 })
 .controller('dashboardCtrl', function(DashboardData){
-  console.log(DashboardData)
+  this.data = DashboardData;
 })

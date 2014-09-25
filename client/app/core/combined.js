@@ -122,7 +122,7 @@ angular.module('ppApp')
     .success(function(data){
       CookieHandler.set(data.user);
       growlNotifications.add('Logged in as '+data.user.username, 'success', 2000);
-      $location.path('/postings')
+      $location.path('/dashboard')
     })
 		.error(function(){
       $location.path('/signin')
@@ -222,6 +222,7 @@ angular.module('ppApp')
       authorizedRoles: [USER_ROLES.registered]
     },
     controller: 'dashboardCtrl as dashboard',
+    // put in Service!
     resolve: {DashboardData: function($http, $q){
       var defer = $q.defer();
       $http.get('/api/v1/dashboard').then(function(resp){
@@ -232,7 +233,7 @@ angular.module('ppApp')
   })
 })
 .controller('dashboardCtrl', function(DashboardData){
-  console.log(DashboardData)
+  this.data = DashboardData;
 })
 
 angular.module('ppApp')

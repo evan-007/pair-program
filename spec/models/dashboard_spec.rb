@@ -9,6 +9,12 @@ RSpec.describe Dashboard, type: :model do
     expect(@dashboard).to be_a(Dashboard)
   end
 
+  describe '#username' do
+    it 'returns user\'s username' do
+      expect(@dashboard.username).to eq @user.username
+    end
+  end
+
   describe '#messages' do
     before do
       @message = create(:message, receiver_id: @user.id)

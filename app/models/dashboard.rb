@@ -14,4 +14,8 @@ class Dashboard
   def postings
     Posting.count
   end
+
+  def username
+    @user.username
+  end
 end
