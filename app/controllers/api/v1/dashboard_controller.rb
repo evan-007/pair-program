@@ -5,7 +5,7 @@ module Api
 
       def index
         @dashboard = Dashboard.new(current_user)
-        render json: @dashboard, status: 200, root: false
+        render json: @dashboard, status: 200, root: false, serializer: DashboardSerializer
       end
 
     end
