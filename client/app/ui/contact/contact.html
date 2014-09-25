@@ -5,12 +5,12 @@
       <form novalidate name='contactForm' ng-submit='sendMessage(contact)'>
         <p>
           <label>Your Email</label>
-          <input type="email" name='email' class='form-control' ng-model='contact.email' require>
+          <input type="email" name='email' class='form-control' ng-model='contact.from' require>
         </p>
         <p>
           <label>Message:</label>
           <textarea name="message"
-            class='form-control' ng-model='contact.message'
+            class='form-control' ng-model='contact.body'
             cols="30" rows="10" require></textarea>
         </p>
         <p><input type="submit" class='btn btn-primary'></p>

@@ -14,6 +14,8 @@ Rails.application.routes.draw do
 
       get '/dashboard', to: 'dashboard#index'
 
+      post '/contact_form', to: 'contact_form#create'
+
       resources :sessions, only: [:create, :destroy]
       resources :languages, only: [:index]
 
