@@ -33,7 +33,8 @@ animation: fadeIn 0.3s;
 }
 
 .user-sidebar {
-  border: 1px solid #000000;
+  /* border: 1px solid #000000; */
+  border-radius: 3px;
 }
 
 .spaced-li {

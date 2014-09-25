@@ -1,9 +1,8 @@
-this is the dashboard
 <h3>Hi {{dashboard.data.username}}</h3>
 
-Stats:
-<ul class='list-unstyled'>
-  <li>{{dashboard.data.messages}} unread messages</li>
-  <li>{{dashboard.data.new_friends}} friend requests</li>
-  <li>{{dashboard.data.postings}} posts on the site. Need a programing partner?</li>
-</ul>
+<h3>Stats</h3>
+<hr>
+<h4>{{dashboard.data.messages}} unread messages <small><a ui-sref="messages.inbox">inbox</a></small></h4>
+<h4>{{dashboard.data.new_friends}} friend requests <small><a ui-sref="friends.pending">view list</a></small></h4>
+<h4>{{dashboard.data.postings}} posts on the site <small><a ui-sref="postings">View</a></small></h4>
+<h4>Want to work with someone? <a ui-sref="postings.new">Put up a proposal</a></h4>
