@@ -82,7 +82,7 @@ Working on commit `e38208e60c0415d758`. So unstable. Careful until official 1.3 
 
 Finish setup on non-heroku server (create DB + add env variables)
 
-Finish contact page
+Emails: signup + contact aren't working on heroku. No worker dynos! :(
 
 Setup CI for jasmine/protractor
 
