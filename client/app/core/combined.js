@@ -45,12 +45,20 @@ angular.module('ppApp', ['ngAnimate', 'ui.bootstrap', 'ngCookies', 'google-maps'
       if (authorizedRoles.indexOf('public') !== -1) {
         if (user == 'public') {
         }
+        // prevent logged in users from viewing
         else if (user == 'registered') {
           event.preventDefault();
           $state.go('postings')
         }
       }
       // is auth route?
+      // redirect non reg to home
+      else if (authorizedRoles.indexOf('registered') !== -1) {
+        if (user !== 'registered') {
+          event.preventDefault();
+          $state.go('home');
+        }
+      }
     }
   })
 })
@@ -114,7 +122,7 @@ angular.module('ppApp')
     .success(function(data){
       CookieHandler.set(data.user);
       growlNotifications.add('Logged in as '+data.user.username, 'success', 2000);
-      $location.path('/postings')
+      $location.path('/dashboard')
     })
 		.error(function(){
       $location.path('/signin')
@@ -203,6 +211,36 @@ angular.module('ppApp').config(function($stateProvider){
     url: '/contact',
     templateUrl: 'ui/contact/contact.html'
   })
+})
+
+angular.module('ppApp')
+.config(function($stateProvider, USER_ROLES){
+  $stateProvider.state('dashboard', {
+    url: '/dashboard',
+    templateUrl: './ui/dashboard/dashboard.html',
+    data: {
+      authorizedRoles: [USER_ROLES.registered]
+    },
+    controller: 'dashboardCtrl as dashboard',
+    // put in Service!
+    resolve: {DashboardData: function(DashboardService){
+      return DashboardService();
+    }}
+  })
+})
+.controller('dashboardCtrl', function(DashboardData){
+  this.data = DashboardData;
+})
+
+angular.module('ppApp')
+.factory('DashboardService', function($http, $q){
+  return function(){
+    var defer = $q.defer();
+    $http.get('/api/v1/dashboard').then(function(resp){
+      defer.resolve(resp.data);
+    });
+    return defer.promise
+  }
 })
 
 angular.module('ppApp')
