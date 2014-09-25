@@ -261,75 +261,6 @@ angular.module('ppApp')
 
 angular.module('ppApp')
 .config(function($stateProvider){
-  $stateProvider.state('friendfinder', {
-    url: '/friendfinder',
-    templateUrl: 'ui/friendfinder/friendfinder.html',
-    controller: 'friendFinderCtrl',
-    resolve: { UserList: function(Restangular){
-      return Restangular.all('users').getList();
-    }}
-  });
-})
-.controller('friendFinderCtrl', function(UserList, $scope, FriendshipService, PublicUserData, growlNotifications){
-  $scope.users = UserList;
-  $scope.totalUsers = $scope.users.length;
-  $scope.currentPage = 1;
-  $scope.itemsPerPage = 12;
-  $scope.activeUsers = [];
-
-  $scope.add = function(user){
-    FriendshipService.request(user.id);
-    var array = $scope.users;
-    var index = array.indexOf(user);
-    if (index > -1) {
-      array.splice(index, 1);
-    }
-    //need to manually update totalUsers to get watch to run WTF
-    $scope.totalUsers = array.length
-    growlNotifications.add('Request sent to '+user.username, 'success', 2000)
-  }
-
-
-  $scope.$watchGroup(['currentPage', 'totalUsers'], function(newValue, oldValue){
-    console.log('running the watcher')
-    var start = (($scope.currentPage -1)) * $scope.itemsPerPage;
-    var end = start + $scope.itemsPerPage;
-    $scope.totalUsers = $scope.users.length;
-    $scope.activeUsers = $scope.users.slice(start, end);
-  });
-});
-
-angular.module('ppApp')
-.factory('FriendshipService', function($http, $q){
-  var FriendshipService = {
-    getAll: function(){
-      var defer = $q.defer();
-      $http.get('api/v1/friendships').success(function(data){
-        defer.resolve(data);
-      });
-      return defer.promise;
-    },
-    request: function(id){
-      var data = { friendship: {friend_id: id} }
-      $http.post('api/v1/friendships', data)
-    }
-  }
- return FriendshipService;
-});
-
-angular.module('ppApp')
-.factory('PublicUserData', function($http, $q){
-  return function(){
-    var defer = $q.defer();
-    $http.get('/api/v1/users/').then(function(data){
-      defer.resolve(data.data.users);
-    })
-    return defer.promise;
-  }
-})
-
-angular.module('ppApp')
-.config(function($stateProvider){
   $stateProvider.state('friends', {
     url: '/friends',
     abstract: true,
@@ -749,6 +680,75 @@ angular.module('ppApp')
   }
 });
 
+angular.module('ppApp')
+.config(function($stateProvider){
+  $stateProvider.state('friendfinder', {
+    url: '/friendfinder',
+    templateUrl: 'ui/friendfinder/friendfinder.html',
+    controller: 'friendFinderCtrl',
+    resolve: { UserList: function(Restangular){
+      return Restangular.all('users').getList();
+    }}
+  });
+})
+.controller('friendFinderCtrl', function(UserList, $scope, FriendshipService, PublicUserData, growlNotifications){
+  $scope.users = UserList;
+  $scope.totalUsers = $scope.users.length;
+  $scope.currentPage = 1;
+  $scope.itemsPerPage = 12;
+  $scope.activeUsers = [];
+
+  $scope.add = function(user){
+    FriendshipService.request(user.id);
+    var array = $scope.users;
+    var index = array.indexOf(user);
+    if (index > -1) {
+      array.splice(index, 1);
+    }
+    //need to manually update totalUsers to get watch to run WTF
+    $scope.totalUsers = array.length
+    growlNotifications.add('Request sent to '+user.username, 'success', 2000)
+  }
+
+
+  $scope.$watchGroup(['currentPage', 'totalUsers'], function(newValue, oldValue){
+    console.log('running the watcher')
+    var start = (($scope.currentPage -1)) * $scope.itemsPerPage;
+    var end = start + $scope.itemsPerPage;
+    $scope.totalUsers = $scope.users.length;
+    $scope.activeUsers = $scope.users.slice(start, end);
+  });
+});
+
+angular.module('ppApp')
+.factory('FriendshipService', function($http, $q){
+  var FriendshipService = {
+    getAll: function(){
+      var defer = $q.defer();
+      $http.get('api/v1/friendships').success(function(data){
+        defer.resolve(data);
+      });
+      return defer.promise;
+    },
+    request: function(id){
+      var data = { friendship: {friend_id: id} }
+      $http.post('api/v1/friendships', data)
+    }
+  }
+ return FriendshipService;
+});
+
+angular.module('ppApp')
+.factory('PublicUserData', function($http, $q){
+  return function(){
+    var defer = $q.defer();
+    $http.get('/api/v1/users/').then(function(data){
+      defer.resolve(data.data.users);
+    })
+    return defer.promise;
+  }
+})
+
 angular.module('ppApp').config(function($stateProvider){
   $stateProvider.state('friends.pending', {
     url: '/pending',
@@ -996,6 +996,7 @@ angular.module('ppApp')
       $scope.trash = function(message){
         var params = {trash: 'true'}
         Restangular.one('messages', message.id).patch(params).then(function(){
+          growlNotifications.add('Message moved to trash', 'success', 2000)
           $location.path('/messages');
         })
       }

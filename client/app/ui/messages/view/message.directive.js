@@ -28,6 +28,7 @@ angular.module('ppApp')
       $scope.trash = function(message){
         var params = {trash: 'true'}
         Restangular.one('messages', message.id).patch(params).then(function(){
+          growlNotifications.add('Message moved to trash', 'success', 2000)
           $location.path('/messages');
         })
       }
