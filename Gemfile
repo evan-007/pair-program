@@ -43,6 +43,7 @@ gem 'capistrano'
 gem 'capistrano-rails'
 gem 'capistrano-bundler'
 gem 'capistrano-rbenv'
+gem 'capistrano-sidekiq'
 
 group :development, :test do
   gem 'spring-commands-rspec'

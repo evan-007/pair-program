@@ -34,13 +34,18 @@ set(:config_files, %w(
   monit
   unicorn.rb
   unicorn_init.sh
+  sidekiq_init.sh
 ))
 
 # which config files should be made executable after copying
 # by deploy:setup_config
 set(:executable_config_files, %w(
   unicorn_init.sh
+  sidekiq_init.sh
 ))
+
+# sidekiq capistrano config for monit
+set :sidekiq_pid, "#{current_path}/tmp/pids/sidekiq.pid"
 
 
 # files which need to be symlinked to other parts of the
@@ -64,6 +69,10 @@ set(:symlinks, [
   {
     source: "monit",
     link: "/etc/monit/conf.d/{{full_app_name}}.conf"
+  },
+  {
+    source: "sidekiq_init.sh",
+    link: "/etc/init.d/sidekiq_{{full_app_name}}"
   }
 ])
 
