@@ -76,8 +76,8 @@ Fix broken CSS / make design not look like trash
 Using `develop` branch of angular-google-maps. See weird `'angular-google-maps'.ng()` in `app.js`
 Working on commit `e38208e60c0415d758`. So unstable. Careful until official 1.3 support role out.
 
-Emails: signup + contact aren't working on heroku. No worker dynos! :(
 server: redis/sidekiq/email issues?
+ jobs get enqueued, not run? will run with `bundle exec sidekiq -e production`
 
 Setup CI for jasmine/protractor
 
