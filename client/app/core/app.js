@@ -45,12 +45,20 @@ angular.module('ppApp', ['ngAnimate', 'ui.bootstrap', 'ngCookies', 'google-maps'
       if (authorizedRoles.indexOf('public') !== -1) {
         if (user == 'public') {
         }
+        // prevent logged in users from viewing
         else if (user == 'registered') {
           event.preventDefault();
           $state.go('postings')
         }
       }
       // is auth route?
+      // redirect non reg to home
+      else if (authorizedRoles.indexOf('registered') !== -1) {
+        if (user !== 'registered') {
+          event.preventDefault();
+          $state.go('home');
+        }
+      }
     }
   })
 })
