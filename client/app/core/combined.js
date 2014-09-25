@@ -48,7 +48,7 @@ angular.module('ppApp', ['ngAnimate', 'ui.bootstrap', 'ngCookies', 'google-maps'
         // prevent logged in users from viewing
         else if (user == 'registered') {
           event.preventDefault();
-          $state.go('postings')
+          $state.go('dashboard')
         }
       }
       // is auth route?
