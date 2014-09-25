@@ -3,17 +3,44 @@
     <div class='col-sm-7'>
       <h4>Let's talk!</h4>
       <form novalidate name='contactForm' ng-submit='sendMessage(contact)'>
-        <p>
-          <label>Your Email</label>
-          <input type="email" name='email' class='form-control' ng-model='contact.from' require>
-        </p>
-        <p>
-          <label>Message:</label>
-          <textarea name="message"
-            class='form-control' ng-model='contact.body'
-            cols="30" rows="10" require></textarea>
-        </p>
-        <p><input type="submit" class='btn btn-primary'></p>
+        <div ng-class="{ 'has-error': contactForm.email.$invalid }">
+          <p>
+            <label>Your Email</label>
+            <input type="email" name='email' class='form-control' ng-model='contact.from' require>
+          </p>
+        </div>
+        <div ng-messages="contactForm.email.$error">
+          <div ng-message="required">You did not enter a username</div>
+          <div ng-message='email'>Email is not in the correct format</div>
+        </div>
+
+        <div ng-class="{ 'has-error': contactForm.title.$invalid }">
+          <p>
+            <label>Message title</label>
+            <input type="text" name='title' minlength='5' class='form-control' ng-model='contact.title' require>
+          </p>
+        </div>
+        <div ng-messages="contactForm.title.$error">
+          <div ng-message="required">You did not enter a title</div>
+          <div ng-message='minlength'>Message is too short</div>
+        </div>
+
+        <div ng-class="{ 'has-error': contactForm.message.$invalid }">
+          <p>
+            <label>Message:</label>
+            <textarea name="message"
+              class='form-control' ng-model='contact.body'
+              cols="30" rows="10" minlength='10' require></textarea>
+          </p>
+        </div>
+        <div ng-messages="contactForm.message.$error">
+          <div ng-message="required">You did not enter a message</div>
+          <div ng-message='minlength'>Message too short</div>
+        </div>
+
+        <p><input type="submit" class='btn btn-primary' ng-disabled='contactForm.$invalid'></p>
+        <p ng-show='contactForm.$invalid'>Opps, please check the form again</p>
+
       </form>
     </div>
   </div>
