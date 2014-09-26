@@ -57,9 +57,6 @@ Don't forget `heroku run rake db:migrate db:seed` after deploying.
 
 ##To do
 
-change `app_config.yml` to use an env variable for `client/origin`
-update cors to use devise_token_auth approach
-
 Protractor refactor signin helper to be use signin instead of login for consistency
 change protractor tests to test for alerts! figure out how to not wait for $timeout
 
@@ -82,6 +79,8 @@ server: redis/sidekiq/email issues?
  jobs get enqueued, not run? will run with `bundle exec sidekiq -e production`
 
 Setup CI for jasmine/protractor
+
+WTF deploy task needs to be run twice sometimes?
 
 ##Wishlist
 
