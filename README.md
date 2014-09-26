@@ -64,6 +64,9 @@ remove old client services / refactor all to restangular
 
 add unit tests to client
 
+move seed data into rake task to stop it from autorunning on `rake db:setup`
+update gulp to use rake task to seed db
+
 Fix broken CSS / make design not look like trash
  -- uses bootstrap theme: `http://bootswatch.com/spacelab/`
  -- theme is committed to git and bootstrap is NOT a bower dependency
