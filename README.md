@@ -75,8 +75,9 @@ Working on commit `e38208e60c0415d758`. So unstable. Careful until official 1.3 
 
 Fix about page css issues!
 
-server: redis/sidekiq/email issues?
- jobs get enqueued, not run? will run with `bundle exec sidekiq -e production`
+Sidekiq: jobs get enqueued, deploy task doesn't actually start sidekiq?
+  can launch manually on server: `bundle exec sidekiq -d -L sidekiq.log -q mailer,5 -q default -e production`
+  WTF?
 
 Setup CI for jasmine/protractor
 
