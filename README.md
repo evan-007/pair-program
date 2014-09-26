@@ -93,6 +93,10 @@ onboarding
 
 avatar uploads
 
+change Postings to Proposals or something else
+
+cron job, check postings at midnight, drop when 2 weeks old? - whenever gem
+
 ##Contributing
 
 Do it!
