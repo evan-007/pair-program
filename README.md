@@ -68,22 +68,19 @@ add unit tests to client
 Fix broken CSS / make design not look like trash
  -- uses bootstrap theme: `http://bootswatch.com/spacelab/`
  -- theme is committed to git and bootstrap is NOT a bower dependency
- -- laptop-size menu button doesn't work on click
+ -- tablet-sized menu button doesn't work on click
 
 Using `develop` branch of angular-google-maps. See weird `'angular-google-maps'.ng()` in `app.js`
 Working on commit `e38208e60c0415d758`. So unstable. Careful until official 1.3 support role out.
 
 Sidekiq: jobs get enqueued, deploy task doesn't actually start sidekiq?
   can launch manually on server: `bundle exec sidekiq -d -L sidekiq.log -q mailer,5 -q default -e production`
-  WTF?
-
-Setup CI for jasmine/protractor
-
-WTF deploy task needs to be run twice sometimes?
 
 ##Wishlist
 
 Firebase for realtime updates on message/friend stuff
+
+Setup CI for jasmine/protractor
 
 password resets
 
