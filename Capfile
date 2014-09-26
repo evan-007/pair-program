@@ -19,7 +19,7 @@ require 'capistrano/deploy'
 require 'capistrano/rbenv'
 # require 'capistrano/chruby'
 require 'capistrano/bundler'
-require "sidekiq/capistrano"
+require 'capistrano/sidekiq'
 # require 'capistrano/rails/assets'
 require 'capistrano/rails/migrations'
 
