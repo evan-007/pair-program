@@ -105,8 +105,4 @@ namespace :deploy do
   # As of Capistrano 3.1, the `deploy:restart` task is not called
   # automatically.
   after 'deploy:publishing', 'deploy:restart'
-
-  after'deploy:starting','sidekiq:quiet'
-  after'deploy:updated','sidekiq:stop'
-  after'deploy:published','sidekiq:start'
 end
