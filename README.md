@@ -72,6 +72,8 @@ Fix broken CSS / make design not look like trash
  -- theme is committed to git and bootstrap is NOT a bower dependency
  -- tablet-sized menu button doesn't work on click
 
+Add page titles
+
 Using `develop` branch of angular-google-maps. See weird `'angular-google-maps'.ng()` in `app.js`
 Working on commit `e38208e60c0415d758`. So unstable. Careful until official 1.3 support role out.
 
