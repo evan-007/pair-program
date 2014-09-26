@@ -2,7 +2,7 @@ var helper = require('../helpers/signinHelper')
 
 describe('Postings', function(){
   beforeEach(function(){
-    helper.login();
+    helper.signin();
 
     postingsMain = element(by.name('postings-nav'));
 

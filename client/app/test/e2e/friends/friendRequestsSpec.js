@@ -3,7 +3,7 @@ var helper = require('../helpers/signinHelper')
 describe('Friend requests', function(){
 
   beforeEach(function(){
-    helper.login();
+    helper.signin();
     friendsNav = element(by.name('friends-nav'));
     friendsRequests = element(by.name('friends-requests'));
   });

@@ -3,7 +3,7 @@ var helper = require('../helpers/signinHelper')
 
 describe('Adding friends', function(){
   beforeEach(function(){
-    helper.login();
+    helper.signin();
   })
 
   afterEach(function(){

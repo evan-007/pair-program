@@ -57,7 +57,6 @@ Don't forget `heroku run rake db:migrate db:seed` after deploying.
 
 ##To do
 
-Protractor refactor signin helper to be use signin instead of login for consistency
 change protractor tests to test for alerts! figure out how to not wait for $timeout
 
 remove old client services / refactor all to restangular

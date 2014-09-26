@@ -1,5 +1,5 @@
 module.exports = {
-  login: function() {
+  signin: function() {
     emailInput = element(by.model('signin.email'));
     passwordInput = element(by.model('signin.password'));
     submitButton = element(by.name('SigninButton'));

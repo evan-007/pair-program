@@ -2,7 +2,7 @@ var helper = require('../helpers/signinHelper');
 
 describe('Viewing messages', function(){
   beforeEach(function(){
-    helper.login();
+    helper.signin();
 
     messagesNav = element(by.name('messages-nav'))
     messagesList = element.all(by.repeater('message in showMessages').

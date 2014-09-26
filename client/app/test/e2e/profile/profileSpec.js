@@ -2,7 +2,7 @@ var helper = require('../helpers/signinHelper')
 
 describe('User profiles', function(){
   beforeEach(function(){
-    helper.login();
+    helper.signin();
   });
 
   afterEach(function(){

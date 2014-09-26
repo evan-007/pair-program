@@ -2,7 +2,7 @@ var helper = require('../helpers/signinHelper')
 
 describe('New messages', function(){
   beforeEach(function(){
-    helper.login();
+    helper.signin();
   });
   afterEach(function(){
     browser.manage().deleteAllCookies();
