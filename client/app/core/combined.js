@@ -188,6 +188,25 @@ angular.module('ppApp')
 });
 
 angular.module('ppApp').config(function($stateProvider){
+  $stateProvider.state('about', {
+    url: '/about',
+    templateUrl: 'ui/about/about.html'
+  });
+})
+
+angular.module('ppApp')
+.directive('ppFaq', function(){
+  return {
+    restrict: 'E',
+    templateUrl: './ui/about/faq.html',
+    scope: {
+      question: '='
+    },
+    transclude: true
+  }
+})
+
+angular.module('ppApp').config(function($stateProvider){
   $stateProvider.state('contact', {
     url: '/contact',
     templateUrl: 'ui/contact/contact.html',
@@ -730,25 +749,6 @@ angular.module('ppApp')
 });
 
 angular.module('ppApp').config(function($stateProvider){
-  $stateProvider.state('about', {
-    url: '/about',
-    templateUrl: 'ui/about/about.html'
-  });
-})
-
-angular.module('ppApp')
-.directive('ppFaq', function(){
-  return {
-    restrict: 'E',
-    templateUrl: './ui/about/faq.html',
-    scope: {
-      question: '='
-    },
-    transclude: true
-  }
-})
-
-angular.module('ppApp').config(function($stateProvider){
   $stateProvider.state('friends.pending', {
     url: '/pending',
     templateUrl: 'ui/friends/pending/pending.html',
@@ -930,6 +930,26 @@ angular.module('ppApp')
 
 angular.module('ppApp')
 .config(function($stateProvider){
+  $stateProvider.state('messages.sent', {
+    url: '/sent',
+    templateUrl: 'ui/messages/sent/sent.html',
+    controller: 'sentCtrl',
+    resolve: {
+      Messages: function(Restangular, $stateParams){
+        var box = { box: 'sentbox'}
+        return Restangular.all('messages').getList(box);
+      }
+    }
+  })
+})
+.controller('sentCtrl', function($scope, Messages){
+  $scope.messages = Messages;
+  $scope.type = 'sentbox';
+
+})
+
+angular.module('ppApp')
+.config(function($stateProvider){
   $stateProvider.state('messages.trash',{
     url: '/trash',
     templateUrl: 'ui/messages/trash/trash.html',
@@ -1084,26 +1104,6 @@ angular.module('ppApp')
 })
 
 angular.module('ppApp')
-.config(function($stateProvider){
-  $stateProvider.state('messages.sent', {
-    url: '/sent',
-    templateUrl: 'ui/messages/sent/sent.html',
-    controller: 'sentCtrl',
-    resolve: {
-      Messages: function(Restangular, $stateParams){
-        var box = { box: 'sentbox'}
-        return Restangular.all('messages').getList(box);
-      }
-    }
-  })
-})
-.controller('sentCtrl', function($scope, Messages){
-  $scope.messages = Messages;
-  $scope.type = 'sentbox';
-
-})
-
-angular.module('ppApp')
 .directive('navbar', function(){
   return {
     restrict: 'E',
@@ -1184,23 +1184,6 @@ angular.module('ppApp')
 
 angular.module('ppApp')
 .config(function($stateProvider){
-  $stateProvider.state('messages.trash.show', {
-    url: '/:id',
-    resolve: { activeMessage: function(Restangular, $stateParams){
-      var id = $stateParams.id;
-      var box = {box: 'trash'}
-      return Restangular.one('messages', id).put(box);
-    }},
-    controller: 'messagesTrashShowCtrl',
-    templateUrl: 'ui/messages/trash/show/show.html'
-  })
-})
-.controller('messagesTrashShowCtrl', function(activeMessage, $scope){
-  $scope.activeMessage = activeMessage;
-})
-
-angular.module('ppApp')
-.config(function($stateProvider){
   $stateProvider.state('messages.sent.show', {
     url: '/:id',
     resolve: { activeMessage: function(Restangular, $stateParams){
@@ -1213,5 +1196,22 @@ angular.module('ppApp')
   })
 })
 .controller('messagesSentShowCtrl', function(activeMessage, $scope){
+  $scope.activeMessage = activeMessage;
+})
+
+angular.module('ppApp')
+.config(function($stateProvider){
+  $stateProvider.state('messages.trash.show', {
+    url: '/:id',
+    resolve: { activeMessage: function(Restangular, $stateParams){
+      var id = $stateParams.id;
+      var box = {box: 'trash'}
+      return Restangular.one('messages', id).put(box);
+    }},
+    controller: 'messagesTrashShowCtrl',
+    templateUrl: 'ui/messages/trash/show/show.html'
+  })
+})
+.controller('messagesTrashShowCtrl', function(activeMessage, $scope){
   $scope.activeMessage = activeMessage;
 })
