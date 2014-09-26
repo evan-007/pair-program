@@ -2,11 +2,11 @@ defaults: &defaults
   client:
     origin: http://localhost
 
-development: 
+development:
   <<: *defaults
-  
-test: 
+
+test:
   <<: *defaults
-  
-production: 
+
+production:
   <<: *defaults
