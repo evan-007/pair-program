@@ -3,40 +3,56 @@
   <h5>Click on a question, get answers</h5>
   <hr>
 
-  <pp-faq question="'What is this site?'">
-    <p>It's a place to find pair programming partners. Want
-    to build a project with someone else? Want to pay it forward and help someone out?
-    Need a mentor? We help you find like-minded developers.</p>
-  </pp-faq>
+    <pp-faq question="'What is this site?'">
+      <div class='row'>
+        <div class='col-md-8'>
+          <p>It's a place to find pair programming partners. </p>
+          <p>Want to build a project with someone else? Want to pay it forward and help someone out? Need a mentor?</p>
+          <p>We help you find like-minded developers.</p>
+        </div>
+      </div>
+    </pp-faq>
 
   <pp-faq question="'How do I use it?'">
-    <p>
-      <a ui-sref='signup'>Signup</a> for an account
-      and you'll be able to submit <a ui-sref='postings'>Posts</a> which are
-      mini-proposals telling people what you want to work on. Anyone who's interested
-      can message you directly and then you can organize from there.
-    </p>
-    <p>
-      You can also look around in the <a href="">Friend Finder</a> for people
-      who work on the same kind of stuff. You'll have to send them a friend request,
-      but after you'll be able to message each other and figure out what you wanna work on.
-    </p>
+    <div class='row'>
+      <div class='col-md-8'>
+        <p>
+          <a ui-sref='signup'>Signup</a> for an account
+          and you'll be able to submit <a ui-sref='postings'>Posts</a> which are
+          mini-proposals telling people what you want to work on. Anyone who's interested
+          can message you directly and then you can organize from there.
+        </p>
+        <p>
+          You can also look around in the <a href="">Friend Finder</a> for people
+          who work on the same kind of stuff. You'll have to send them a friend request,
+          but after you'll be able to message each other and figure out what you wanna work on.
+        </p>
+      </div>
+    </div>
   </pp-faq>
 
-  <pp-faq question="'What about my privacy?'">
-    <p>
-      You need to submit your email to signup, but other users, even friends,
-      will never have access to any of your personal information.
-    </p>
-    <p>
-      If you want to put your website/github/email address in your profile or posting,
-      go ahead! Just be aware that all registered members will be able to see it.
-    </p>
+  <pp-faq question="'What about privacy?'">
+    <div class='row'>
+      <div class='col-md-8'>
+        <p>
+          You need to submit your email to signup, but other users, even friends,
+          will never have access to any of your personal information.
+        </p>
+        <p>
+          If you want to put your website/github/email address in your profile or posting,
+          go ahead! Just be aware that all registered members will be able to see it.
+        </p>
+      </div>
+    </div>
   </pp-faq>
 
-  <pp-faq question="'You\'re missing a language from the list!'">
-    <p>
-      Sorry! Contact us and we'll add it.
-    </p>
+  <pp-faq question="'You\'re missing my favorite language!'">
+    <div class='row'>
+      <div class='col-md-8'>
+        <p>
+          Sorry! <a ui-sref="about">Contact us</a> and we'll add it.
+        </p>
+      </div>
+    </div>
   </pp-faq>
 </div>

@@ -81,6 +81,7 @@ animation: fadeIn 0.4s;
 .faq-answer {
   padding: 1em;
   margin: 0 2em;
+  font-size: 1.25em;
 }
 
 .huge {
