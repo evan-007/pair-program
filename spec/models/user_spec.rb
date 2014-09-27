@@ -83,7 +83,7 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe ':pending_frinds' do
+  describe ':pending_friends' do
     before do
       @user2 = create(:user)
       @user3 = create(:user)
@@ -92,8 +92,22 @@ RSpec.describe User, type: :model do
       @friendship = create(:friendship, user_id: @user.id, friend_id: @user2.id)
       @friendship2 = create(:friendship, user_id: @user5.id, friend_id: @user.id)
     end
+    #these are requests the user has made that are not approved
     it 'returns an array of pending friends' do
       expect(@user.pending_friends.sort).to eq [@user2.id]
+    end
+  end
+
+  describe ':friend_requests' do
+    before do
+      @user2 = create(:user)
+      @user3 = create(:user)
+      @friendship = create(:friendship, user_id: @user2.id, friend_id: @user.id)
+      @friendship = create(:friendship, user_id: @user3.id, friend_id: @user.id)
+    end
+    #these are requests TO the user that the user must approve/deny
+    it 'returns a count of friend requests' do
+      expect(@user.friend_requests).to eq 2
     end
   end
 

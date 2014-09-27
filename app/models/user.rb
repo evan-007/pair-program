@@ -75,6 +75,10 @@ class User < ActiveRecord::Base
     ids
   end
 
+  def friend_requests
+    self.inverse_friendships.where(workflow_state: 'unapproved').count
+  end
+
   def unread_messages
     #needs a counter cache?
     self.received_messages.where(workflow_state: 'unread').count
