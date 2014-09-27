@@ -106,13 +106,19 @@ angular.module('ppApp')
 });
 angular.module('ppApp')
 .factory('FirebaseService', function($firebase, CookieHandler){
-  var user = CookieHandler.get();
-  if (user !== undefined) {
-    var ref =  new Firebase("https://intense-torch-4584.firebaseio.com/" + user.id);
-    var sync = $firebase(ref);
-    var syncObject = sync.$asObject();
-    // returns firebaseobject, 
-    return syncObject;
+
+  return  function(){
+    var user = CookieHandler.get()
+    if (user == null ) {
+      return
+    } else {
+      // put me in a service!
+      var ref =  new Firebase("https://intense-torch-4584.firebaseio.com/data/" + user.id);
+      var sync = $firebase(ref);
+      var syncObject = sync.$asObject();
+      return syncObject;
+      
+    }
   }
 })
 
@@ -632,6 +638,11 @@ angular.module('ppApp')
 
 angular.module('ppApp')
 .controller('authCtrl', function($scope, CookieHandler, MessageStream, StreamHandler, FirebaseService, $firebase){
+  $scope.authUser = CookieHandler.get();
+  // handles reloading page
+  if ($scope.authUser !== undefined) {
+    FirebaseService().$bindTo($scope, "data");
+  }
 
   $scope.$watch(function(){
     var user = CookieHandler.get();
@@ -640,33 +651,11 @@ angular.module('ppApp')
   function(newValue, oldValue) {
     if( newValue !== oldValue) {
       $scope.authUser = CookieHandler.get();
-      getMessageCount();
-
+      if ($scope.authUser !== undefined) {
+        FirebaseService().$bindTo($scope, "data");
+      }
     }
   })
-
-  //handles data set on reload if logged in
-  //what a mess
-  var getMessageCount = function(){
-    var user = CookieHandler.get()
-    if (user == null ) {
-      return
-    } else {
-      // put me in a service!
-      var ref =  new Firebase("https://intense-torch-4584.firebaseio.com/data/" + $scope.authUser.id);
-      var sync = $firebase(ref);
-      var syncObject = sync.$asObject();
-      // $scope.data = syncObject
-      // $scope.data is a promise, can't console.log it
-      syncObject.$bindTo($scope, "data");
-
-    }
-  }
-  $scope.authUser = CookieHandler.get();
-  // handles reloading page
-  if ($scope.authUser !== undefined) {
-    getMessageCount();
-  }
 })
 
 angular.module('ppApp')
