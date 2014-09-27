@@ -25,7 +25,9 @@
     "ng-tags-input": "~2.0.1",
     "angular-growl-notifications": "~0.7.0",
     "restangular": "~1.4.0",
-    "angular-loading-bar": "~0.5.0"
+    "angular-loading-bar": "~0.5.0",
+    "firebase": "~1.0.24",
+    "angularfire": "~0.8.2"
   },
   "resolutions": {
     "angular": "1.3",

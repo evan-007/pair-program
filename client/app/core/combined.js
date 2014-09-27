@@ -1,6 +1,7 @@
 angular.module('ppApp', ['ngAnimate', 'ui.bootstrap', 'ngCookies', 'google-maps'.ns(),
                          'ui.router', 'restangular', 'ngMessages', 'ngTagsInput',
-                         'growlNotifications', 'ngSanitize', 'angular-loading-bar'])
+                         'growlNotifications', 'ngSanitize', 'angular-loading-bar',
+                         'firebase'])
 .config(function($httpProvider){
   $httpProvider.interceptors.push('SessionInjector');
   $httpProvider.interceptors.push('AuthInterceptor');
@@ -1184,23 +1185,6 @@ angular.module('ppApp')
 
 angular.module('ppApp')
 .config(function($stateProvider){
-  $stateProvider.state('messages.sent.show', {
-    url: '/:id',
-    resolve: { activeMessage: function(Restangular, $stateParams){
-      var id = $stateParams.id;
-      var box = {box: 'sentbox'}
-      return Restangular.one('messages', id).put(box);
-    }},
-    controller: 'messagesSentShowCtrl',
-    templateUrl: 'ui/messages/sent/show/show.html'
-  })
-})
-.controller('messagesSentShowCtrl', function(activeMessage, $scope){
-  $scope.activeMessage = activeMessage;
-})
-
-angular.module('ppApp')
-.config(function($stateProvider){
   $stateProvider.state('messages.trash.show', {
     url: '/:id',
     resolve: { activeMessage: function(Restangular, $stateParams){
@@ -1213,5 +1197,22 @@ angular.module('ppApp')
   })
 })
 .controller('messagesTrashShowCtrl', function(activeMessage, $scope){
+  $scope.activeMessage = activeMessage;
+})
+
+angular.module('ppApp')
+.config(function($stateProvider){
+  $stateProvider.state('messages.sent.show', {
+    url: '/:id',
+    resolve: { activeMessage: function(Restangular, $stateParams){
+      var id = $stateParams.id;
+      var box = {box: 'sentbox'}
+      return Restangular.one('messages', id).put(box);
+    }},
+    controller: 'messagesSentShowCtrl',
+    templateUrl: 'ui/messages/sent/show/show.html'
+  })
+})
+.controller('messagesSentShowCtrl', function(activeMessage, $scope){
   $scope.activeMessage = activeMessage;
 })
