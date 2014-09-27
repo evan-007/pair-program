@@ -18,6 +18,7 @@ module Api
           @message.trash!
         else
           @message.request!
+          FbHandler.new.decr_messages(current_user)
         end
         render json: @message, status: 200, serializer: MessageSerializer
       end

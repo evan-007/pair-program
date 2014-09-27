@@ -38,8 +38,14 @@ RSpec.describe FbHandler, type: :model do
     end
     it 'decreases messages count by 1' do
       @fb.incr_messages(@user)
+      @fb.decr_messages(@user)
       response = @fb.get(@user)
-      expect(response.body['messages'])
+      expect(response.body['messages']).to eq 0
+    end
+    it 'doesn\'t go below 0' do
+      3.times { @fb.decr_messages(@user) }
+      response = @fb.get(@user)
+      expect(response.body['messages']).to eq 0
     end
   end
 end
