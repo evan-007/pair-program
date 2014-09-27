@@ -206,6 +206,29 @@ angular.module('ppApp')
   }
 })
 
+angular.module('ppApp').config(function($stateProvider){
+  $stateProvider.state('contact', {
+    url: '/contact',
+    templateUrl: 'ui/contact/contact.html',
+    controller: 'contactCtrl'
+  })
+})
+.controller('contactCtrl', function(ContactService, $scope){
+  $scope.sendMessage = function(message){
+    return ContactService(message);
+  }
+})
+
+angular.module('ppApp')
+.factory('ContactService', function($http ,growlNotifications){
+  return function(data){
+    var contact = {contact: data}
+    $http.post('/api/v1/contact_form', contact).success(function(){
+      growlNotifications.add('Thanks for the message!', 'success');
+    });
+  }
+})
+
 angular.module('ppApp')
 .config(function($stateProvider, USER_ROLES){
   $stateProvider.state('dashboard', {
@@ -724,29 +747,6 @@ angular.module('ppApp')
     }
   }
 });
-
-angular.module('ppApp').config(function($stateProvider){
-  $stateProvider.state('contact', {
-    url: '/contact',
-    templateUrl: 'ui/contact/contact.html',
-    controller: 'contactCtrl'
-  })
-})
-.controller('contactCtrl', function(ContactService, $scope){
-  $scope.sendMessage = function(message){
-    return ContactService(message);
-  }
-})
-
-angular.module('ppApp')
-.factory('ContactService', function($http ,growlNotifications){
-  return function(data){
-    var contact = {contact: data}
-    $http.post('/api/v1/contact_form', contact).success(function(){
-      growlNotifications.add('Thanks for the message!', 'success');
-    });
-  }
-})
 
 angular.module('ppApp').config(function($stateProvider){
   $stateProvider.state('friends.pending', {
