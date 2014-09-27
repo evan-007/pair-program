@@ -1,5 +1,5 @@
 angular.module('ppApp')
-.controller('authCtrl', function($scope, CookieHandler, MessageStream, StreamHandler){
+.controller('authCtrl', function($scope, CookieHandler, MessageStream, StreamHandler, FirebaseService, $firebase){
   $scope.authUser = CookieHandler.get();
   $scope.$watch(function(){
     var user = CookieHandler.get();
@@ -8,12 +8,17 @@ angular.module('ppApp')
   function(newValue, oldValue) {
     if( newValue !== oldValue) {
       $scope.authUser = CookieHandler.get();
-    }
+      var ref =  new Firebase("https://intense-torch-4584.firebaseio.com/data/" + $scope.authUser.id);
+      var sync = $firebase(ref);
+      var syncObject = sync.$asObject();
+      // $scope.data = syncObject
+      // $scope.data is a promise, can't console.log it
+      syncObject.$bindTo($scope, "data");    }
   })
 
   //handles data set on reload if logged in
   //what a mess
-  $scope.getStream = function(){
+  var getStream = function(){
     var user = CookieHandler.get()
     if (user == null ) {
       return
