@@ -104,6 +104,15 @@ angular.module('ppApp')
 
 	return CookieHandler;
 });
+angular.module('ppApp')
+.factory('FirebaseService', function($firebase, CookieHandler){
+  var user = CookieHandler.get();
+  if (user !== undefined) {
+    var ref =  new Firebase("https://intense-torch-4584/" + user.id);
+    return ref;
+  }
+})
+
 angular.module('ppApp').factory('SessionInjector', function(CookieHandler){
   return {
     request: function(config) {
@@ -1185,23 +1194,6 @@ angular.module('ppApp')
 
 angular.module('ppApp')
 .config(function($stateProvider){
-  $stateProvider.state('messages.trash.show', {
-    url: '/:id',
-    resolve: { activeMessage: function(Restangular, $stateParams){
-      var id = $stateParams.id;
-      var box = {box: 'trash'}
-      return Restangular.one('messages', id).put(box);
-    }},
-    controller: 'messagesTrashShowCtrl',
-    templateUrl: 'ui/messages/trash/show/show.html'
-  })
-})
-.controller('messagesTrashShowCtrl', function(activeMessage, $scope){
-  $scope.activeMessage = activeMessage;
-})
-
-angular.module('ppApp')
-.config(function($stateProvider){
   $stateProvider.state('messages.sent.show', {
     url: '/:id',
     resolve: { activeMessage: function(Restangular, $stateParams){
@@ -1214,5 +1206,22 @@ angular.module('ppApp')
   })
 })
 .controller('messagesSentShowCtrl', function(activeMessage, $scope){
+  $scope.activeMessage = activeMessage;
+})
+
+angular.module('ppApp')
+.config(function($stateProvider){
+  $stateProvider.state('messages.trash.show', {
+    url: '/:id',
+    resolve: { activeMessage: function(Restangular, $stateParams){
+      var id = $stateParams.id;
+      var box = {box: 'trash'}
+      return Restangular.one('messages', id).put(box);
+    }},
+    controller: 'messagesTrashShowCtrl',
+    templateUrl: 'ui/messages/trash/show/show.html'
+  })
+})
+.controller('messagesTrashShowCtrl', function(activeMessage, $scope){
   $scope.activeMessage = activeMessage;
 })
