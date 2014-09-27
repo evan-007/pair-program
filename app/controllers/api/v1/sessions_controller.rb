@@ -5,7 +5,8 @@ module Api
     	def create
 	    	@user = User.find_by(email: params[:email])
 		    if @user && @user.authenticate(params[:password])
-          $firebase.set(@user.id, { count: @user.unread_messages})
+          $firebase.set(@user.id, { messages: @user.unread_messages,
+            requests: @user.friend_requests})
           render json: @user, status: 200
 		    else
           render nothing: true, status: 401
