@@ -81,6 +81,8 @@ Sidekiq: jobs get enqueued, deploy task doesn't actually start sidekiq?
   can launch manually on server: `bundle exec sidekiq -d -L sidekiq.log -q mailer,5 -q default -e production`
   Move sidekiq sinatra app to secure place!
 
+Pagination url params, `?page=1`. Pagination should happen on server and not client? 
+
 ##Wishlist
 
 Firebase for realtime updates on message/friend stuff
