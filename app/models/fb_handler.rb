@@ -11,12 +11,12 @@ class FbHandler
   def incr_messages(user)
     resp = $firebase.get(user.id)
     update = resp.body['messages'] + 1
-    $firebase.set(user.id, { messages: update})
+    $firebase.update(user.id, { messages: update})
   end
 
   def decr_messages(user)
     resp = $firebase.get(user.id)
     count = resp.body['messages'] -1
-    $firebase.set(user.id, { messages: count})
+    $firebase.update(user.id, { messages: count})
   end
 end
