@@ -88,6 +88,8 @@ Remove unused services from client: StreamHandler, MessageStream, etc
 ##Wishlist
 
 Firebase for realtime updates on message/friend stuff
+  how to handle updating counts on message creation?
+  errors out
 
 Setup CI for jasmine/protractor
 
