@@ -3,8 +3,10 @@ development:
   GMAIL_PASSWORD: monkey123
   REDISTOGO_URL: http://localhost:6379
   CONTACT_EMAIL: contact@bla.com
+  FIREBASE_URI: https://firebase.com/whatever
 production:
   GMAIL_USERNAME: myemail@mydomain.com
   GMAIL_PASSWORD: myproductionpassword123
   REDISTOGO_URL: http://someurl:9999
   CONTACT_EMAIL: contactme@bla.com
+  FIREBASE_URI: https://firebase.com/whatever
