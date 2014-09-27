@@ -3,7 +3,10 @@ angular.module('ppApp')
   $stateProvider.state('messages', {
     url: '/messages',
     abstract: true,
-    templateUrl: 'ui/messages/index.html'
+    templateUrl: 'ui/messages/index.html',
+    data: {
+      pageTitle: 'Messages'
+    }
   })
   .state('messages.inbox', {
     url: '',
@@ -11,7 +14,10 @@ angular.module('ppApp')
     resolve: {Inbox: function(Restangular){
       return Restangular.all('messages').getList();
     }},
-    controller: 'inboxCtrl'
+    controller: 'inboxCtrl',
+    data: {
+      pageTitle: 'Inbox'
+    }
   })
 })
 .controller('inboxCtrl', function($scope, Inbox){

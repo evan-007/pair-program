@@ -13,7 +13,8 @@ angular.module('ppApp').config(function($stateProvider, USER_ROLES){
       }
     },
     data: {
-      authorizedRoles: [USER_ROLES.public]
+      authorizedRoles: [USER_ROLES.public],
+      pageTitle: 'Home'
     }
   })
 }).controller('homeCtrl', function($scope, $filter, $interval, MapUsers, Languages){

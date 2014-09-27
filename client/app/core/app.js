@@ -33,7 +33,7 @@ angular.module('ppApp', ['ngAnimate', 'ui.bootstrap', 'ngCookies', 'google-maps'
 
 
     // only care if auth is actually defined
-    if (next.data !== undefined) {
+    if (next.data !== undefined && next.data.authorizedRoles !== undefined) {
       // set user, should prob be in a service
       if (CookieHandler.get() !== undefined) {
         var user = 'registered'

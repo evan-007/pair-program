@@ -3,7 +3,10 @@ angular.module('ppApp')
   $stateProvider.state('friends', {
     url: '/friends',
     abstract: true,
-    templateUrl: 'ui/friends/layout.html'
+    templateUrl: 'ui/friends/layout.html',
+    data: {
+      pageTitle: 'Friends'
+    }
   })
   .state('friends.all', {
     url: '',
@@ -11,7 +14,7 @@ angular.module('ppApp')
     controller: 'friendsCtrl',
     resolve: { FriendsData: function(FriendshipService){
       return FriendshipService.getAll();
-    }}
+    }},
   })
 })
 .directive('friendNavbar', function(){

@@ -4,7 +4,8 @@ angular.module('ppApp')
     url: '/dashboard',
     templateUrl: './ui/dashboard/dashboard.html',
     data: {
-      authorizedRoles: [USER_ROLES.registered]
+      authorizedRoles: [USER_ROLES.registered],
+      pageTitle: 'Dashboard'
     },
     controller: 'dashboardCtrl as dashboard',
     // put in Service!

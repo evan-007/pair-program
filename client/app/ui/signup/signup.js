@@ -6,7 +6,10 @@ angular.module('ppApp')
     controller: 'signupCtrl as signup',
     resolve: {Languages: function(LanguageService){
       return LanguageService.set();
-    }}
+    }},
+    data: {
+      pageTitle: 'Signup'
+    }
   });
 }).controller('signupCtrl', function($scope, $http, SignUpService, Languages, $q){
   $scope.submit = function(signup){

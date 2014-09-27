@@ -6,7 +6,10 @@ angular.module('ppApp')
     controller: 'postingsCtrl',
     resolve: { Postings: function(Restangular){
       return Restangular.all('postings').getList();
-    }}
+    }},
+    data: {
+      pageTitle: 'Postings'
+    }
   })
 })
 .controller('postingsCtrl', function($scope, Postings, Restangular, $rootScope, $filter){

@@ -3,7 +3,10 @@ angular.module('ppApp')
   $stateProvider.state('signin', {
     url: '/signin',
     templateUrl: 'ui/signin/signin.html',
-    controller: 'signinCtrl as signin'
+    controller: 'signinCtrl as signin',
+    data: {
+      pageTitle: 'Signin'
+    }
   });
 })
 .controller('signinCtrl', function($scope, SessionService, $http){

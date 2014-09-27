@@ -6,7 +6,7 @@ angular.module('ppApp')
     resolve: { activeFriend : function($stateParams, Restangular){
       return Restangular.one('friends', $stateParams.id).get();
     }},
-    controller: 'friendsShowCtrl'
+    controller: 'friendsShowCtrl',
   })
 })
 .controller('friendsShowCtrl', function(activeFriend, $scope){

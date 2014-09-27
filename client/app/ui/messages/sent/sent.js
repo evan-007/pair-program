@@ -9,6 +9,9 @@ angular.module('ppApp')
         var box = { box: 'sentbox'}
         return Restangular.all('messages').getList(box);
       }
+    },
+    data: {
+      pageTitle: 'Sent'
     }
   })
 })

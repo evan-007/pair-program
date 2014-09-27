@@ -8,7 +8,10 @@ angular.module('ppApp')
       var box = { box: 'trash'}
       return Restangular.all('messages').getList(box);
     }},
-    controller: 'trashMessagesCtrl'
+    controller: 'trashMessagesCtrl',
+    data: {
+      pageTitle: 'Trash'
+    }
   })
 })
 .controller('trashMessagesCtrl', function($scope, TrashMessages){

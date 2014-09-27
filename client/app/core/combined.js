@@ -33,7 +33,7 @@ angular.module('ppApp', ['ngAnimate', 'ui.bootstrap', 'ngCookies', 'google-maps'
 
 
     // only care if auth is actually defined
-    if (next.data !== undefined) {
+    if (next.data !== undefined && next.data.authorizedRoles !== undefined) {
       // set user, should prob be in a service
       if (CookieHandler.get() !== undefined) {
         var user = 'registered'
@@ -209,7 +209,10 @@ angular.module('ppApp')
 angular.module('ppApp').config(function($stateProvider){
   $stateProvider.state('about', {
     url: '/about',
-    templateUrl: 'ui/about/about.html'
+    templateUrl: 'ui/about/about.html',
+    data: {
+      pageTitle: 'About'
+    }
   });
 })
 
@@ -229,7 +232,10 @@ angular.module('ppApp').config(function($stateProvider){
   $stateProvider.state('contact', {
     url: '/contact',
     templateUrl: 'ui/contact/contact.html',
-    controller: 'contactCtrl'
+    controller: 'contactCtrl',
+    data: {
+      pageTitle: 'Contact'
+    }
   })
 })
 .controller('contactCtrl', function(ContactService, $scope){
@@ -254,7 +260,8 @@ angular.module('ppApp')
     url: '/dashboard',
     templateUrl: './ui/dashboard/dashboard.html',
     data: {
-      authorizedRoles: [USER_ROLES.registered]
+      authorizedRoles: [USER_ROLES.registered],
+      pageTitle: 'Dashboard'
     },
     controller: 'dashboardCtrl as dashboard',
     // put in Service!
@@ -286,7 +293,10 @@ angular.module('ppApp')
     controller: 'friendFinderCtrl',
     resolve: { UserList: function(Restangular){
       return Restangular.all('users').getList();
-    }}
+    }},
+    data: {
+      pageTitle: 'Friend Finder'
+    }
   });
 })
 .controller('friendFinderCtrl', function(UserList, $scope, FriendshipService, PublicUserData, growlNotifications){
@@ -352,7 +362,10 @@ angular.module('ppApp')
   $stateProvider.state('friends', {
     url: '/friends',
     abstract: true,
-    templateUrl: 'ui/friends/layout.html'
+    templateUrl: 'ui/friends/layout.html',
+    data: {
+      pageTitle: 'Friends'
+    }
   })
   .state('friends.all', {
     url: '',
@@ -360,7 +373,7 @@ angular.module('ppApp')
     controller: 'friendsCtrl',
     resolve: { FriendsData: function(FriendshipService){
       return FriendshipService.getAll();
-    }}
+    }},
   })
 })
 .directive('friendNavbar', function(){
@@ -398,7 +411,8 @@ angular.module('ppApp').config(function($stateProvider, USER_ROLES){
       }
     },
     data: {
-      authorizedRoles: [USER_ROLES.public]
+      authorizedRoles: [USER_ROLES.public],
+      pageTitle: 'Home'
     }
   })
 }).controller('homeCtrl', function($scope, $filter, $interval, MapUsers, Languages){
@@ -499,7 +513,10 @@ angular.module('ppApp')
   $stateProvider.state('messages', {
     url: '/messages',
     abstract: true,
-    templateUrl: 'ui/messages/index.html'
+    templateUrl: 'ui/messages/index.html',
+    data: {
+      pageTitle: 'Messages'
+    }
   })
   .state('messages.inbox', {
     url: '',
@@ -507,7 +524,10 @@ angular.module('ppApp')
     resolve: {Inbox: function(Restangular){
       return Restangular.all('messages').getList();
     }},
-    controller: 'inboxCtrl'
+    controller: 'inboxCtrl',
+    data: {
+      pageTitle: 'Inbox'
+    }
   })
 })
 .controller('inboxCtrl', function($scope, Inbox){
@@ -554,7 +574,10 @@ angular.module('ppApp')
     controller: 'postingsCtrl',
     resolve: { Postings: function(Restangular){
       return Restangular.all('postings').getList();
-    }}
+    }},
+    data: {
+      pageTitle: 'Postings'
+    }
   })
 })
 .controller('postingsCtrl', function($scope, Postings, Restangular, $rootScope, $filter){
@@ -659,11 +682,35 @@ angular.module('ppApp')
 })
 
 angular.module('ppApp')
+// http://stackoverflow.com/questions/23813599/set-page-title-using-ui-router
+// so slick!
+.directive('updateTitle', function($rootScope, $timeout) {
+  return {
+    link: function(scope, element) {
+
+      var listener = function(event, toState, toParams, fromState, fromParams) {
+        var title = 'ngThing';
+        if (toState.data && toState.data.pageTitle) title = toState.data.pageTitle + ' | ngThing';
+        // Set asynchronously so page changes before title does
+        $timeout(function() {
+          element.text(title);
+        });
+      };
+
+      $rootScope.$on('$stateChangeStart', listener);
+    }
+  }
+});
+
+angular.module('ppApp')
 .config(function($stateProvider){
   $stateProvider.state('signin', {
     url: '/signin',
     templateUrl: 'ui/signin/signin.html',
-    controller: 'signinCtrl as signin'
+    controller: 'signinCtrl as signin',
+    data: {
+      pageTitle: 'Signin'
+    }
   });
 })
 .controller('signinCtrl', function($scope, SessionService, $http){
@@ -685,7 +732,10 @@ angular.module('ppApp')
     controller: 'signupCtrl as signup',
     resolve: {Languages: function(LanguageService){
       return LanguageService.set();
-    }}
+    }},
+    data: {
+      pageTitle: 'Signup'
+    }
   });
 }).controller('signupCtrl', function($scope, $http, SignUpService, Languages, $q){
   $scope.submit = function(signup){
@@ -888,7 +938,7 @@ angular.module('ppApp')
     resolve: { activeFriend : function($stateParams, Restangular){
       return Restangular.one('friends', $stateParams.id).get();
     }},
-    controller: 'friendsShowCtrl'
+    controller: 'friendsShowCtrl',
   })
 })
 .controller('friendsShowCtrl', function(activeFriend, $scope){
@@ -932,6 +982,9 @@ angular.module('ppApp')
         var box = { box: 'sentbox'}
         return Restangular.all('messages').getList(box);
       }
+    },
+    data: {
+      pageTitle: 'Sent'
     }
   })
 })
@@ -951,7 +1004,10 @@ angular.module('ppApp')
       var box = { box: 'trash'}
       return Restangular.all('messages').getList(box);
     }},
-    controller: 'trashMessagesCtrl'
+    controller: 'trashMessagesCtrl',
+    data: {
+      pageTitle: 'Trash'
+    }
   })
 })
 .controller('trashMessagesCtrl', function($scope, TrashMessages){

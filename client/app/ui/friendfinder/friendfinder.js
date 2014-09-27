@@ -6,7 +6,10 @@ angular.module('ppApp')
     controller: 'friendFinderCtrl',
     resolve: { UserList: function(Restangular){
       return Restangular.all('users').getList();
-    }}
+    }},
+    data: {
+      pageTitle: 'Friend Finder'
+    }
   });
 })
 .controller('friendFinderCtrl', function(UserList, $scope, FriendshipService, PublicUserData, growlNotifications){
