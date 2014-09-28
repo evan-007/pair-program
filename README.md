@@ -82,6 +82,8 @@ Sidekiq: jobs get enqueued, deploy task doesn't actually start sidekiq?
 
 Pagination url params, `?page=1`. Pagination should happen on server and not client?
 
+Friends List in client is buggy: some profile links return 404???
+
 put in linode
 
 ##Wishlist
