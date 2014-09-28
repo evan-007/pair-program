@@ -82,13 +82,9 @@ Sidekiq: jobs get enqueued, deploy task doesn't actually start sidekiq?
 
 Pagination url params, `?page=1`. Pagination should happen on server and not client?
 
+put in linode
+
 ##Wishlist
-
-Firebase for realtime updates on message/friend stuff
-  how to handle updating counts on message creation?
-  errors out
-
-  handle requests#count updating on approval/deletion
 
 Setup CI for jasmine/protractor
 
