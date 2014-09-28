@@ -1,9 +1,11 @@
 angular.module('ppApp')
-.controller('authCtrl', function($scope, CookieHandler, MessageStream, StreamHandler, FirebaseService, $firebase){
+.controller('authCtrl', function($scope, CookieHandler, DashboardUpdateService, FirebaseService, $firebase){
   $scope.authUser = CookieHandler.get();
   // handles reloading page
   if ($scope.authUser !== undefined) {
-    FirebaseService().$bindTo($scope, "data");
+    DashboardUpdateService().then(function(){
+      FirebaseService().$bindTo($scope, "data");
+    })
   }
 
   $scope.$watch(function(){

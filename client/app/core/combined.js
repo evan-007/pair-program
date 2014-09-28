@@ -105,6 +105,18 @@ angular.module('ppApp')
 	return CookieHandler;
 });
 angular.module('ppApp')
+.factory('DashboardUpdateService', function($http, $q, CookieHandler){
+  return function(){
+    var defer = $q.defer()
+    var id = CookieHandler.get().id;
+    $http.get('/api/v1/dashboard/update').then(function(data){
+      defer.resolve(data)
+    });
+    return defer.promise
+  }
+})
+
+angular.module('ppApp')
 .factory('FirebaseService', function($firebase, CookieHandler){
 
   return  function(){
@@ -669,11 +681,13 @@ angular.module('ppApp')
 });
 
 angular.module('ppApp')
-.controller('authCtrl', function($scope, CookieHandler, MessageStream, StreamHandler, FirebaseService, $firebase){
+.controller('authCtrl', function($scope, CookieHandler, DashboardUpdateService, FirebaseService, $firebase){
   $scope.authUser = CookieHandler.get();
   // handles reloading page
   if ($scope.authUser !== undefined) {
-    FirebaseService().$bindTo($scope, "data");
+    DashboardUpdateService().then(function(){
+      FirebaseService().$bindTo($scope, "data");
+    })
   }
 
   $scope.$watch(function(){

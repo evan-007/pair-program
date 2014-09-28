@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       get '/validations/email', to: 'validations#email'
 
       get '/dashboard', to: 'dashboard#index'
+      get '/dashboard/update', to: 'dashboard#update'
 
       post '/contact_form', to: 'contact_form#create'
 

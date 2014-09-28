@@ -8,6 +8,11 @@ module Api
         render json: @dashboard, status: 200, root: false, serializer: DashboardSerializer
       end
 
+      def update
+        FbHandler.new.set(current_user)
+        render nothing: true, status: 200
+      end
+
     end
   end
 end
