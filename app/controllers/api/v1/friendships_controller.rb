@@ -25,6 +25,7 @@ module Api
       def create
         @friendship = current_user.friendships.build(friendship_params)
         if @friendship.save
+          FbUpdater.perform_async(params[:friendship][:friend_id])
           render json: @friendship, status: 200, serializer: FriendSerializer
         else
           render nothing: true, status: 422
