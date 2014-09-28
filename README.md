@@ -78,6 +78,7 @@ Working on commit `e38208e60c0415d758`. So unstable. Careful until official 1.3 
 Sidekiq: jobs get enqueued, deploy task doesn't actually start sidekiq?
   can launch manually on server: `bundle exec sidekiq -d -L sidekiq.log -q mailer,5 -q default -e production`
   Move sidekiq sinatra app to secure place!
+  https://github.com/seuros/capistrano-sidekiq/wiki !!!!
 
 Pagination url params, `?page=1`. Pagination should happen on server and not client?
 

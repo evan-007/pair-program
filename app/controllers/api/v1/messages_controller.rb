@@ -29,7 +29,8 @@ module Api
         end
         if @message.save
           #put me in background job!
-          FbHandler.new.set(User.find(params[:message][:receiver_id]))
+          FbUpdater.perform_async(params[:message][:receiver_id])
+          # FbHandler.new.set(User.find(params[:message][:receiver_id]))
           render json: @message, status: 200, serializer: MessageSerializer
         else
           render json: @message.errors, status: 400
