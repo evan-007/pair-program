@@ -7,7 +7,7 @@ angular.module('ppApp')
   }
 })
 //toDo: refactor into directive controller!
-.controller('navCtrl', function(CookieHandler, $location, $scope, StreamHandler){
+.controller('navCtrl', function(CookieHandler, $location, $scope){
   $scope.user = CookieHandler.get();
 
   $scope.$watch(
