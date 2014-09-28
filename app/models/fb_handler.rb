@@ -16,8 +16,12 @@ class FbHandler
 
   def decr_messages(user)
     resp = $firebase.get(user.id)
-    unless resp.body['messages'] == 0
-      count = resp.body['messages'] -1
+    if resp.body != nil
+      unless resp.body['messages'] == 0
+        count = resp.body['messages'] -1
+      else
+        count = 0
+      end
     else
       count = 0
     end
