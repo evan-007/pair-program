@@ -11,7 +11,7 @@ set :server_name, "www.example.com example.com"
 # at filepaths
 set :full_app_name, "#{fetch(:application)}_#{fetch(:stage)}"
 
-server '104.131.213.100', user: 'deploy', roles: %w{web app db}, primary: true
+server '50.116.26.200', user: 'deploy', roles: %w{web app db}, primary: true
 
 set :deploy_to, "/home/#{fetch(:deploy_user)}/apps/#{fetch(:full_app_name)}"
 
@@ -21,7 +21,7 @@ set :rails_env, :production
 
 # number of unicorn workers, this will be reflected in
 # the unicorn.rb and the monit configs
-set :unicorn_worker_count, 5
+set :unicorn_worker_count, 2
 
 # whether we're using ssl or not, used for building nginx
 # config file
