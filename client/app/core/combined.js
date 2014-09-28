@@ -461,7 +461,7 @@ angular.module('ppApp')
     link: function(scope, element, attrs) {
     },
     controller: function($scope, $rootScope, PostMessageService,
-      Restangular, growlNotifications) {
+      Restangular, growlNotifications, CookieHandler, $firebase) {
         $scope.currentPage = 1;
         $scope.totalMessages = $scope.messages.length;
         $scope.itemsPerPage = 10;
@@ -475,7 +475,16 @@ angular.module('ppApp')
       $scope.readMessage = function(message) {
         //set client read to true
         //http request takes care of server side update
-        message.workflow_state = 'read';
+        if (message.workflow_state == 'unread') {
+          message.workflow_state = 'read';
+          var id = CookieHandler.get().id
+          var userMessage = new Firebase('https://intense-torch-4584.firebaseio.com/data/'+id+'/messages');
+          userMessage.transaction(function(currentMessages){
+            if (currentMessages > 0) {
+              return currentMessages - 1
+            }
+          })
+        }
       }
 
       $scope.reply = function(message){
@@ -857,22 +866,6 @@ angular.module('ppApp')
 })
 
 angular.module('ppApp')
-.config(function($stateProvider){
-  $stateProvider.state('friends.show', {
-    url: '/:id',
-    templateUrl: 'ui/friends/show/show.html',
-    resolve: { activeFriend : function($stateParams, Restangular){
-      return Restangular.one('friends', $stateParams.id).get();
-    }},
-    controller: 'friendsShowCtrl',
-  })
-})
-.controller('friendsShowCtrl', function(activeFriend, $scope){
-  $scope.activeUser = activeFriend;
-  console.log($scope.activeUser["just_partner?"])
-})
-
-angular.module('ppApp')
 .factory('FriendApproveService', function($http, $q){
   return function(friendId){
     var defer = $q.defer();
@@ -948,6 +941,22 @@ FriendRejectService){
 
 angular.module('ppApp')
 .config(function($stateProvider){
+  $stateProvider.state('friends.show', {
+    url: '/:id',
+    templateUrl: 'ui/friends/show/show.html',
+    resolve: { activeFriend : function($stateParams, Restangular){
+      return Restangular.one('friends', $stateParams.id).get();
+    }},
+    controller: 'friendsShowCtrl',
+  })
+})
+.controller('friendsShowCtrl', function(activeFriend, $scope){
+  $scope.activeUser = activeFriend;
+  console.log($scope.activeUser["just_partner?"])
+})
+
+angular.module('ppApp')
+.config(function($stateProvider){
   $stateProvider.state('messages.new', {
     url: '/new',
     templateUrl: 'ui/messages/new/new.html',
@@ -992,6 +1001,26 @@ angular.module('ppApp')
   $scope.messages = Messages;
   $scope.type = 'sentbox';
 
+})
+
+angular.module('ppApp')
+.config(function($stateProvider){
+  $stateProvider.state('messages.trash',{
+    url: '/trash',
+    templateUrl: 'ui/messages/trash/trash.html',
+    resolve: {
+      TrashMessages: function(Restangular){
+      var box = { box: 'trash'}
+      return Restangular.all('messages').getList(box);
+    }},
+    controller: 'trashMessagesCtrl',
+    data: {
+      pageTitle: 'Trash'
+    }
+  })
+})
+.controller('trashMessagesCtrl', function($scope, TrashMessages){
+  $scope.messages = TrashMessages;
 })
 
 angular.module('ppApp')
@@ -1047,26 +1076,6 @@ angular.module('ppApp')
 })
 .controller('messagesShowCtrl', function(activeMessage, $scope){
   $scope.activeMessage = activeMessage.message;
-})
-
-angular.module('ppApp')
-.config(function($stateProvider){
-  $stateProvider.state('messages.trash',{
-    url: '/trash',
-    templateUrl: 'ui/messages/trash/trash.html',
-    resolve: {
-      TrashMessages: function(Restangular){
-      var box = { box: 'trash'}
-      return Restangular.all('messages').getList(box);
-    }},
-    controller: 'trashMessagesCtrl',
-    data: {
-      pageTitle: 'Trash'
-    }
-  })
-})
-.controller('trashMessagesCtrl', function($scope, TrashMessages){
-  $scope.messages = TrashMessages;
 })
 
 angular.module('ppApp')
