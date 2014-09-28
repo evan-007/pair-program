@@ -80,9 +80,11 @@ Sidekiq: jobs get enqueued, deploy task doesn't actually start sidekiq?
   Move sidekiq sinatra app to secure place!
   https://github.com/seuros/capistrano-sidekiq/wiki !!!!
 
+Don't let users create new languages on signup form!
+
 Pagination url params, `?page=1`. Pagination should happen on server and not client?
 
-Friends List in client is buggy: some profile links return 404???
+Friends List in client is buggy: some profile links return 404??
 
 put in linode
 

@@ -1,0 +1,10 @@
+## config for capistrano
+:concurrency: 5
+:pidfile: tmp/pids/sidekiq.pid
+:queues:
+    - default
+    - [mailer, 2]
+staging:
+  :concurrency: 10
+production:
+  :concurrency: 20
