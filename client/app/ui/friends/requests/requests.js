@@ -9,10 +9,12 @@ angular.module('ppApp').config(function($stateProvider){
   })
 })
 .controller('requestsCtrl', function(RequestData, $scope, FriendApproveService,
-FriendRejectService){
+FriendRejectService, FirebaseService){
   $scope.requests = RequestData;
   $scope.approve = function(friend){
     FriendApproveService(friend.id);
+    FirebaseService.decr_resource('requests')
+
     //cleaner way to rm one value from array???
     //doing it here assumes success from server
     //avoids extra http.GET to refresh data
@@ -24,6 +26,7 @@ FriendRejectService){
   }
   $scope.reject = function(friend){
     FriendRejectService(friend.id);
+    FirebaseService.decr_resource('requests')
     var array = $scope.requests.friendships
     var index = array.indexOf(friend)
     if (index > -1) {

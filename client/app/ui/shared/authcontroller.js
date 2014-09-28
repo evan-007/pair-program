@@ -4,7 +4,7 @@ angular.module('ppApp')
   // handles reloading page
   if ($scope.authUser !== undefined) {
     DashboardUpdateService().then(function(){
-      FirebaseService().$bindTo($scope, "data");
+      FirebaseService.get().$bindTo($scope, "data");
     })
   }
 
@@ -16,7 +16,7 @@ angular.module('ppApp')
     if( newValue !== oldValue) {
       $scope.authUser = CookieHandler.get();
       if ($scope.authUser !== undefined) {
-        FirebaseService().$bindTo($scope, "data");
+        FirebaseService.get().$bindTo($scope, "data");
       }
     }
   })

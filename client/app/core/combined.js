@@ -118,20 +118,32 @@ angular.module('ppApp')
 
 angular.module('ppApp')
 .factory('FirebaseService', function($firebase, CookieHandler){
+  var FirebaseService = {
+    get: function(){
+      var user = CookieHandler.get()
+      if (user == null ) {
+        return
+      } else {
+        // put me in a service!
+        var ref =  new Firebase("https://intense-torch-4584.firebaseio.com/data/" + user.id);
+        var sync = $firebase(ref);
+        var syncObject = sync.$asObject();
+        return syncObject;
 
-  return  function(){
-    var user = CookieHandler.get()
-    if (user == null ) {
-      return
-    } else {
-      // put me in a service!
-      var ref =  new Firebase("https://intense-torch-4584.firebaseio.com/data/" + user.id);
-      var sync = $firebase(ref);
-      var syncObject = sync.$asObject();
-      return syncObject;
-      
+      }
+    },
+
+    decr_resource: function(resource) {
+      var id = CookieHandler.get().id
+      var userMessage = new Firebase('https://intense-torch-4584.firebaseio.com/data/'+id+'/'+resource);
+      userMessage.transaction(function(currentResource){
+        if (currentResource > 0) {
+          return currentResource - 1
+        }
+      })
     }
   }
+  return FirebaseService
 })
 
 angular.module('ppApp').factory('SessionInjector', function(CookieHandler){
@@ -435,7 +447,7 @@ angular.module('ppApp')
     link: function(scope, element, attrs) {
     },
     controller: function($scope, $rootScope, PostMessageService,
-      Restangular, growlNotifications, CookieHandler, $firebase) {
+      Restangular, growlNotifications, CookieHandler, FirebaseService) {
         $scope.currentPage = 1;
         $scope.totalMessages = $scope.messages.length;
         $scope.itemsPerPage = 10;
@@ -451,13 +463,7 @@ angular.module('ppApp')
         //http request takes care of server side update
         if (message.workflow_state == 'unread') {
           message.workflow_state = 'read';
-          var id = CookieHandler.get().id
-          var userMessage = new Firebase('https://intense-torch-4584.firebaseio.com/data/'+id+'/messages');
-          userMessage.transaction(function(currentMessages){
-            if (currentMessages > 0) {
-              return currentMessages - 1
-            }
-          })
+          FirebaseService.decr_resource('messages')
         }
       }
 
@@ -648,7 +654,7 @@ angular.module('ppApp')
   // handles reloading page
   if ($scope.authUser !== undefined) {
     DashboardUpdateService().then(function(){
-      FirebaseService().$bindTo($scope, "data");
+      FirebaseService.get().$bindTo($scope, "data");
     })
   }
 
@@ -660,7 +666,7 @@ angular.module('ppApp')
     if( newValue !== oldValue) {
       $scope.authUser = CookieHandler.get();
       if ($scope.authUser !== undefined) {
-        FirebaseService().$bindTo($scope, "data");
+        FirebaseService.get().$bindTo($scope, "data");
       }
     }
   })
@@ -892,10 +898,12 @@ angular.module('ppApp').config(function($stateProvider){
   })
 })
 .controller('requestsCtrl', function(RequestData, $scope, FriendApproveService,
-FriendRejectService){
+FriendRejectService, FirebaseService){
   $scope.requests = RequestData;
   $scope.approve = function(friend){
     FriendApproveService(friend.id);
+    FirebaseService.decr_resource('requests')
+
     //cleaner way to rm one value from array???
     //doing it here assumes success from server
     //avoids extra http.GET to refresh data
@@ -907,6 +915,7 @@ FriendRejectService){
   }
   $scope.reject = function(friend){
     FriendRejectService(friend.id);
+    FirebaseService.decr_resource('requests')
     var array = $scope.requests.friendships
     var index = array.indexOf(friend)
     if (index > -1) {

@@ -10,7 +10,7 @@ angular.module('ppApp')
     link: function(scope, element, attrs) {
     },
     controller: function($scope, $rootScope, PostMessageService,
-      Restangular, growlNotifications, CookieHandler, $firebase) {
+      Restangular, growlNotifications, CookieHandler, FirebaseService) {
         $scope.currentPage = 1;
         $scope.totalMessages = $scope.messages.length;
         $scope.itemsPerPage = 10;
@@ -26,13 +26,7 @@ angular.module('ppApp')
         //http request takes care of server side update
         if (message.workflow_state == 'unread') {
           message.workflow_state = 'read';
-          var id = CookieHandler.get().id
-          var userMessage = new Firebase('https://intense-torch-4584.firebaseio.com/data/'+id+'/messages');
-          userMessage.transaction(function(currentMessages){
-            if (currentMessages > 0) {
-              return currentMessages - 1
-            }
-          })
+          FirebaseService.decr_resource('messages')
         }
       }
 
