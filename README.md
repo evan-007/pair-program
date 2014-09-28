@@ -91,6 +91,13 @@ Firebase for realtime updates on message/friend stuff
   how to handle updating counts on message creation?
   errors out
 
+Firebase - set updated message count on user page refresh. currently messages#unread
+  is only pushed to firebase by server on sessions#create. create some server action
+  that ONLY updates firebase counts that's called when logged in user refreshes the page?
+  add it to Dashboard controller?
+
+  handle requests#count updating on approval/deletion
+
 Setup CI for jasmine/protractor
 
 password resets
