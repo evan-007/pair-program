@@ -85,6 +85,8 @@ Pagination url params, `?page=1`. Pagination should happen on server and not cli
 
 Friends List in client is buggy: some profile links return 404??
 
+Setup mailer to use mandrill
+
 Fix deploy to stop deleting my assets after push.
 
 ##Wishlist
