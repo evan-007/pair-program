@@ -1,6 +1,6 @@
 class ContactFormMailer < ActionMailer::Base
   default from: "from@example.com"
-  @admin = ENV['CONTACT_EMAIL'] 
+  @admin = CONTACT_EMAIL
 
   def contact_email(args)
     @from = args[:from]
