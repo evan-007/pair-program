@@ -23,3 +23,6 @@
 
 #redis logs
 dump.rdb
+
+#notes
+notes.md

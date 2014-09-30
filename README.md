@@ -55,54 +55,6 @@ If deploy does not show `index.html` and returns `status 404`, set
 
 Don't forget `heroku run rake db:migrate db:seed` after deploying.
 
-##To do
-
-change protractor tests to test for alerts! figure out how to not wait for $timeout
-
-remove old client services / refactor all to restangular
- -- put restangular in services! stop using it bare in resolves
-
-add unit tests to client
-
-move seed data into rake task to stop it from autorunning on `rake db:setup`
-update gulp to use rake task to seed db
-
-Fix broken CSS / make design not look like trash
- -- uses bootstrap theme: `http://bootswatch.com/spacelab/`
- -- theme is committed to git and bootstrap is NOT a bower dependency
- -- tablet-sized menu button doesn't work on click
-
-Using `develop` branch of angular-google-maps. See weird `'angular-google-maps'.ng()` in `app.js`
-Working on commit `e38208e60c0415d758`. So unstable. Careful until official 1.3 support role out.
-
-Sidekiq: jobs get enqueued, deploy task doesn't actually start sidekiq?
-  can launch manually on server: `bundle exec sidekiq -d -L sidekiq.log -q mailer,5 -q default -e production`
-  Move sidekiq sinatra app to secure place!
-  https://github.com/seuros/capistrano-sidekiq/wiki !!!!
-  Seems to be fixed now that `sidekiq.yml` is set?
-
-Pagination url params, `?page=1`. Pagination should happen on server and not client?
-
-Friends List in client is buggy: some profile links return 404??
-
-Setup mailer to use mandrill
-
-Fix deploy to stop deleting my assets after push.
-
-##Wishlist
-
-Setup CI for jasmine/protractor
-
-password resets
-
-onboarding
-
-avatar uploads
-
-change Postings to Proposals or something else
-
-cron job, check postings at midnight, drop when 2 weeks old? - whenever gem
-
 ##Contributing
 
 Do it!
