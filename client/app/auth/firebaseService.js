@@ -1,5 +1,5 @@
 angular.module('ppApp')
-.factory('FirebaseService', function($firebase, CookieHandler){
+.factory('FirebaseService', function($firebase, CookieHandler, FIREBASE_URL){
   var FirebaseService = {
     get: function(){
       var user = CookieHandler.get()
@@ -7,7 +7,7 @@ angular.module('ppApp')
         return
       } else {
         // put me in a service!
-        var ref =  new Firebase("https://intense-torch-4584.firebaseio.com/data/" + user.id);
+        var ref =  new Firebase(FIREBASE_URL + user.id);
         var sync = $firebase(ref);
         var syncObject = sync.$asObject();
         return syncObject;
@@ -17,7 +17,7 @@ angular.module('ppApp')
 
     decr_resource: function(resource) {
       var id = CookieHandler.get().id
-      var userMessage = new Firebase('https://intense-torch-4584.firebaseio.com/data/'+id+'/'+resource);
+      var userMessage = new Firebase(FIREBASE_URL+id+'/'+resource);
       userMessage.transaction(function(currentResource){
         if (currentResource > 0) {
           return currentResource - 1

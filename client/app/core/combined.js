@@ -2,6 +2,7 @@ angular.module('ppApp', ['ngAnimate', 'ui.bootstrap', 'ngCookies', 'google-maps'
                          'ui.router', 'restangular', 'ngMessages', 'ngTagsInput',
                          'growlNotifications', 'ngSanitize', 'angular-loading-bar',
                          'firebase'])
+.constant('FIREBASE_URL', 'https://intense-torch-4584.firebaseio.com/data/')
 .config(function($httpProvider){
   $httpProvider.interceptors.push('SessionInjector');
   $httpProvider.interceptors.push('AuthInterceptor');
@@ -117,7 +118,7 @@ angular.module('ppApp')
 })
 
 angular.module('ppApp')
-.factory('FirebaseService', function($firebase, CookieHandler){
+.factory('FirebaseService', function($firebase, CookieHandler, FIREBASE_URL){
   var FirebaseService = {
     get: function(){
       var user = CookieHandler.get()
@@ -125,7 +126,7 @@ angular.module('ppApp')
         return
       } else {
         // put me in a service!
-        var ref =  new Firebase("https://intense-torch-4584.firebaseio.com/data/" + user.id);
+        var ref =  new Firebase(FIREBASE_URL + user.id);
         var sync = $firebase(ref);
         var syncObject = sync.$asObject();
         return syncObject;
@@ -135,7 +136,7 @@ angular.module('ppApp')
 
     decr_resource: function(resource) {
       var id = CookieHandler.get().id
-      var userMessage = new Firebase('https://intense-torch-4584.firebaseio.com/data/'+id+'/'+resource);
+      var userMessage = new Firebase(FIREBASE_URL+id+'/'+resource);
       userMessage.transaction(function(currentResource){
         if (currentResource > 0) {
           return currentResource - 1
@@ -942,129 +943,6 @@ angular.module('ppApp')
 
 angular.module('ppApp')
 .config(function($stateProvider){
-  $stateProvider.state('messages.new', {
-    url: '/new',
-    templateUrl: 'ui/messages/new/new.html',
-    controller: 'newMessageCtrl',
-    resolve: { Friends: function(FriendshipService) {
-      return FriendshipService.getAll();
-    }}
-  })
-})
-.controller('newMessageCtrl', function(Friends, $scope, Restangular, $location, growlNotifications){
-  $scope.friends = Friends.friendships
-
-  $scope.sendMessage = function(message){
-    var data = {message: message}
-
-    Restangular.all('messages').post(data).then(function(response){
-      console.log(response.message)
-      growlNotifications.add("Message sent!", 'success', 2000);
-      $location.path('/messages');
-    })
-  }
-})
-
-angular.module('ppApp')
-.config(function($stateProvider){
-  $stateProvider.state('messages.sent', {
-    url: '/sent',
-    templateUrl: 'ui/messages/sent/sent.html',
-    controller: 'sentCtrl',
-    resolve: {
-      Messages: function(Restangular, $stateParams){
-        var box = { box: 'sentbox'}
-        return Restangular.all('messages').getList(box);
-      }
-    },
-    data: {
-      pageTitle: 'Sent'
-    }
-  })
-})
-.controller('sentCtrl', function($scope, Messages){
-  $scope.messages = Messages;
-  $scope.type = 'sentbox';
-
-})
-
-angular.module('ppApp')
-.config(function($stateProvider){
-  $stateProvider.state('messages.trash',{
-    url: '/trash',
-    templateUrl: 'ui/messages/trash/trash.html',
-    resolve: {
-      TrashMessages: function(Restangular){
-      var box = { box: 'trash'}
-      return Restangular.all('messages').getList(box);
-    }},
-    controller: 'trashMessagesCtrl',
-    data: {
-      pageTitle: 'Trash'
-    }
-  })
-})
-.controller('trashMessagesCtrl', function($scope, TrashMessages){
-  $scope.messages = TrashMessages;
-})
-
-angular.module('ppApp')
-.directive('ppMessageView', function(){
-  return {
-    restrict: 'E',
-    templateUrl: 'ui/messages/view/message.directive.html',
-    scope: {
-      message: '=',
-      type: '='
-    },
-    controller: function($scope, $rootScope, PostMessageService,
-      Restangular, growlNotifications, $state) {
-
-      $scope.reply = function(message){
-        $scope.newMessage = message;
-        $scope.activeMessage = '';
-      }
-      $scope.cancel = function(message){
-        $scope.activeMessage = message;
-        $scope.newMessage = '';
-      }
-      $scope.send = function(message){
-        PostMessageService(message);
-        //can't callback outside of restangular, assumes successful post
-        growlNotifications.add('Message sent to '+message.sender_name, 'success', 2000)
-        $scope.newMessage = '';
-        $scope.activeMessage = '';
-      }
-      $scope.trash = function(message){
-        var params = {trash: 'true'}
-        Restangular.one('messages', message.id).patch(params).then(function(){
-          growlNotifications.add('Message moved to trash', 'success', 2000)
-          // need reload: true to refresh resolve!
-          $state.go('^', {}, { reload: true});
-        })
-      }
-    }
-  }
-})
-
-angular.module('ppApp')
-.config(function($stateProvider){
-  $stateProvider.state('messages.inbox.show', {
-    url: '/:id',
-    resolve: {activeMessage: function(Restangular, $stateParams){
-      var id = $stateParams.id
-      return Restangular.one('messages', id).patch()
-    }},
-    controller: 'messagesShowCtrl',
-    templateUrl: 'ui/messages/view/view.html'
-  })
-})
-.controller('messagesShowCtrl', function(activeMessage, $scope){
-  $scope.activeMessage = activeMessage.message;
-})
-
-angular.module('ppApp')
-.config(function($stateProvider){
   $stateProvider.state('postings.new', {
     url: '/new',
     controller: 'newPostingCtrl',
@@ -1210,6 +1088,129 @@ angular.module('ppApp')
     }
   }
 })
+angular.module('ppApp')
+.config(function($stateProvider){
+  $stateProvider.state('messages.new', {
+    url: '/new',
+    templateUrl: 'ui/messages/new/new.html',
+    controller: 'newMessageCtrl',
+    resolve: { Friends: function(FriendshipService) {
+      return FriendshipService.getAll();
+    }}
+  })
+})
+.controller('newMessageCtrl', function(Friends, $scope, Restangular, $location, growlNotifications){
+  $scope.friends = Friends.friendships
+
+  $scope.sendMessage = function(message){
+    var data = {message: message}
+
+    Restangular.all('messages').post(data).then(function(response){
+      console.log(response.message)
+      growlNotifications.add("Message sent!", 'success', 2000);
+      $location.path('/messages');
+    })
+  }
+})
+
+angular.module('ppApp')
+.config(function($stateProvider){
+  $stateProvider.state('messages.sent', {
+    url: '/sent',
+    templateUrl: 'ui/messages/sent/sent.html',
+    controller: 'sentCtrl',
+    resolve: {
+      Messages: function(Restangular, $stateParams){
+        var box = { box: 'sentbox'}
+        return Restangular.all('messages').getList(box);
+      }
+    },
+    data: {
+      pageTitle: 'Sent'
+    }
+  })
+})
+.controller('sentCtrl', function($scope, Messages){
+  $scope.messages = Messages;
+  $scope.type = 'sentbox';
+
+})
+
+angular.module('ppApp')
+.config(function($stateProvider){
+  $stateProvider.state('messages.trash',{
+    url: '/trash',
+    templateUrl: 'ui/messages/trash/trash.html',
+    resolve: {
+      TrashMessages: function(Restangular){
+      var box = { box: 'trash'}
+      return Restangular.all('messages').getList(box);
+    }},
+    controller: 'trashMessagesCtrl',
+    data: {
+      pageTitle: 'Trash'
+    }
+  })
+})
+.controller('trashMessagesCtrl', function($scope, TrashMessages){
+  $scope.messages = TrashMessages;
+})
+
+angular.module('ppApp')
+.directive('ppMessageView', function(){
+  return {
+    restrict: 'E',
+    templateUrl: 'ui/messages/view/message.directive.html',
+    scope: {
+      message: '=',
+      type: '='
+    },
+    controller: function($scope, $rootScope, PostMessageService,
+      Restangular, growlNotifications, $state) {
+
+      $scope.reply = function(message){
+        $scope.newMessage = message;
+        $scope.activeMessage = '';
+      }
+      $scope.cancel = function(message){
+        $scope.activeMessage = message;
+        $scope.newMessage = '';
+      }
+      $scope.send = function(message){
+        PostMessageService(message);
+        //can't callback outside of restangular, assumes successful post
+        growlNotifications.add('Message sent to '+message.sender_name, 'success', 2000)
+        $scope.newMessage = '';
+        $scope.activeMessage = '';
+      }
+      $scope.trash = function(message){
+        var params = {trash: 'true'}
+        Restangular.one('messages', message.id).patch(params).then(function(){
+          growlNotifications.add('Message moved to trash', 'success', 2000)
+          // need reload: true to refresh resolve!
+          $state.go('^', {}, { reload: true});
+        })
+      }
+    }
+  }
+})
+
+angular.module('ppApp')
+.config(function($stateProvider){
+  $stateProvider.state('messages.inbox.show', {
+    url: '/:id',
+    resolve: {activeMessage: function(Restangular, $stateParams){
+      var id = $stateParams.id
+      return Restangular.one('messages', id).patch()
+    }},
+    controller: 'messagesShowCtrl',
+    templateUrl: 'ui/messages/view/view.html'
+  })
+})
+.controller('messagesShowCtrl', function(activeMessage, $scope){
+  $scope.activeMessage = activeMessage.message;
+})
+
 angular.module('ppApp')
 .config(function($stateProvider){
   $stateProvider.state('publicprofile', {

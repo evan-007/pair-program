@@ -2,6 +2,7 @@ angular.module('ppApp', ['ngAnimate', 'ui.bootstrap', 'ngCookies', 'google-maps'
                          'ui.router', 'restangular', 'ngMessages', 'ngTagsInput',
                          'growlNotifications', 'ngSanitize', 'angular-loading-bar',
                          'firebase'])
+.constant('FIREBASE_URL', 'https://intense-torch-4584.firebaseio.com/data/')
 .config(function($httpProvider){
   $httpProvider.interceptors.push('SessionInjector');
   $httpProvider.interceptors.push('AuthInterceptor');
